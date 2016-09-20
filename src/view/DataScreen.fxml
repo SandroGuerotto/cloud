@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import java.net.URL?>
-<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="1040.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="handler.EventhandlerDataScreen">
+<?import javafx.scene.layout.GridPane?>
+<GridPane prefHeight="1040.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="handler.EventhandlerDataScreen">
 
   <stylesheets>
     <URL value="@application.css" />
   </stylesheets>
-</AnchorPane>
+</GridPane>
