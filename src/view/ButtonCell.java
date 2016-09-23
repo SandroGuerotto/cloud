@@ -23,7 +23,7 @@ public class ButtonCell extends TableCell<Disposer.Record, Boolean> {
     private ImageView iv_download;
 
     public ButtonCell() {
-        img_download = new Image("File:@../icons/white/png/upload.png");
+        img_download = new Image("File:@../icons/white/PNG/upload.png");
         iv_download = new ImageView(img_download);
         iv_download.setFitHeight(30);
         cellButton.setGraphic(iv_download);
