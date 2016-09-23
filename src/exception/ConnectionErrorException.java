@@ -1,7 +1,7 @@
 package exception;
 
 /*
- * Name			: I_EventhandlerDataScreen.java
+ * Name			: ConnectionErrorException.java
  * Author		: Sandro Guerotto
  * Describtion	: Exception class for errors with the internet connection/ cloud services
  * Create on 	: 23.09.2016

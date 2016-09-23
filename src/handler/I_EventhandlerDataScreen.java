@@ -1,5 +1,6 @@
 package handler;
 
+import exception.DownloadException;
 import exception.ConnectionErrorException;
 import exception.DeleteException;
 import exception.UploadException;
@@ -7,6 +8,7 @@ import javafx.collections.ObservableList;
 import model.Data;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -23,5 +25,7 @@ public interface I_EventhandlerDataScreen {
     void delete_data(ObservableList<Data> deletelist) throws DeleteException, ConnectionErrorException;
 
     void upload_data(List<File> uploadlist) throws UploadException, ConnectionErrorException;
+
+    void download_data(ArrayList<Data> downloadlist) throws DownloadException, ConnectionErrorException;
 
 }

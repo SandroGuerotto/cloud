@@ -1,7 +1,7 @@
 package exception;
 
 /*
- * Name			: I_EventhandlerDataScreen.java
+ * Name			: UploadException.java
  * Author		: Sandro Guerotto
  * Describtion	: Excetion for general upload errors
  * Create on 	: 23.09.2016
