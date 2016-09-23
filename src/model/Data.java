@@ -7,7 +7,7 @@ import javafx.beans.property.StringProperty;
  * Name			: Data.java
  * Author		: Sandro Guerotto
  * Describtion	: Class for all data object. Used for GUI
- * Create on 	: 20.09.2016
+ * Create on 	: 23.09.2016
  * Last modify  : dd.mm.yyyy name reason
  */
 public class Data {

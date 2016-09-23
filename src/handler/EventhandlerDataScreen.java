@@ -12,19 +12,12 @@ package handler;
 import com.sun.prism.impl.Disposer.Record;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.util.Callback;
-import javafx.event.EventHandler;
 import model.Data;
-import view.ButtonCell;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class EventhandlerDataScreen {
 
@@ -63,10 +56,10 @@ public class EventhandlerDataScreen {
         col_type.setCellValueFactory(new PropertyValueFactory("data_type"));
         col_create.setCellValueFactory(new PropertyValueFactory("data_create"));
         col_last.setCellValueFactory(new PropertyValueFactory("data_last"));
-        TableColumn col_action = new TableColumn<>("Action");
-        col_action.setSortable(false);
+//        TableColumn col_action = new TableColumn<>("Action");
+        col_download.setSortable(false);
 
-        col_action.setCellValueFactory(
+        col_download.setCellValueFactory(
                 new Callback<TableColumn.CellDataFeatures<Record, Boolean>, ObservableValue<Boolean>>() {
 
                     @Override
@@ -75,7 +68,7 @@ public class EventhandlerDataScreen {
                     }
                 });
 
-        col_action.setCellFactory(new Callback<TableColumn<Record, Boolean>, TableCell<Record, Boolean>>() {
+        col_download.setCellFactory(new Callback<TableColumn<Record, Boolean>, TableCell<Record, Boolean>>() {
 
             @Override
             public TableCell<Record, Boolean> call(TableColumn<Record, Boolean> p) {
@@ -83,10 +76,7 @@ public class EventhandlerDataScreen {
             }
 
         });
-        tv_data.getColumns().add(col_action);
-
-
-
+//        tv_data.getColumns().add(col_action);
     }
 
 }

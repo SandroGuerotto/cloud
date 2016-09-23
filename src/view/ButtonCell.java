@@ -7,12 +7,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import model.Data;
 
-/**
- * Created by Sandro on 23.09.2016.
+/*
+ * Name			: ButtonCell.java
+ * Author		: Sandro Guerotto
+ * Describtion	: Custom Cell Factory for Download button
+ * Create on 	: 23.09.2016
+ * Last modify  : dd.mm.yyyy name reason
  */
 public class ButtonCell extends TableCell<Disposer.Record, Boolean> {
 
-    final Button cellButton = new Button("Download");
+    private final Button cellButton = new Button("Download");
 
     public ButtonCell() {
         this.cellButton.setOnAction(t -> {
