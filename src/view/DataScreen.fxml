@@ -4,6 +4,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
@@ -51,9 +53,33 @@
       </VBox>
       <FlowPane alignment="CENTER_RIGHT" hgap="30.0" prefHeight="200.0" prefWidth="200.0" vgap="20.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
          <children>
-            <Button fx:id="btn_upload" defaultButton="true" mnemonicParsing="false" prefHeight="45.0" prefWidth="95.0" text="Upload" />
-            <Button fx:id="btn_delete" disable="true" mnemonicParsing="false" prefHeight="45.0" prefWidth="95.0" text="Delete" visible="false" />
-            <Button fx:id="btn_logout" cancelButton="true" mnemonicParsing="false" prefHeight="45.0" prefWidth="95.0" text="Log out" />
+            <Button fx:id="btn_upload" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" maxHeight="45.0" maxWidth="45.0" minHeight="45.0" minWidth="45.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="45.0">
+               <graphic>
+                  <ImageView fitHeight="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/white/png/upload.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btn_delete" alignment="CENTER" contentDisplay="CENTER" disable="true" maxHeight="45.0" maxWidth="45.0" minHeight="45.0" minWidth="45.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="45.0" visible="false">
+               <graphic>
+                  <ImageView fitHeight="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/white/png/bin.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btn_logout" cancelButton="true" maxHeight="45.0" maxWidth="45.0" minHeight="45.0" minWidth="45.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="45.0">
+               <graphic>
+                  <ImageView fitHeight="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/white/png/exit.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
          </children>
       </FlowPane>
    </children>

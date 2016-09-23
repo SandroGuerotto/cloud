@@ -12,6 +12,8 @@ package handler;
 import com.sun.prism.impl.Disposer.Record;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -52,11 +54,15 @@ public class EventhandlerDataScreen {
     @FXML
     private void initialize() {
 
+        ObservableList<Data> user_data = getdata();
+        tv_data.setItems(user_data);
+        tv_data.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
         col_name.setCellValueFactory(new PropertyValueFactory("data_name"));
         col_type.setCellValueFactory(new PropertyValueFactory("data_type"));
         col_create.setCellValueFactory(new PropertyValueFactory("data_create"));
         col_last.setCellValueFactory(new PropertyValueFactory("data_last"));
-//        TableColumn col_action = new TableColumn<>("Action");
+
         col_download.setSortable(false);
 
         col_download.setCellValueFactory(
@@ -77,6 +83,25 @@ public class EventhandlerDataScreen {
 
         });
 //        tv_data.getColumns().add(col_action);
+    }
+
+    public ObservableList<Data> getdata() {
+        ObservableList<Data> list = FXCollections.observableArrayList();
+
+        Data dummy = new Data();
+        dummy.setdata_type("docx");
+        dummy.setDataCreate("23.09.2016");
+        dummy.setFirstName("test");
+        list.add(dummy);
+
+        dummy = new Data();
+        dummy.setdata_type("txt");
+        dummy.setDataCreate("20.09.2016");
+        dummy.setFirstName("file");
+        list.add(dummy);
+
+        return list;
+
     }
 
 }
