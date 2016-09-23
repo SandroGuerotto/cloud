@@ -1,10 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import java.net.URL?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
-<GridPane prefHeight="1040.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="handler.EventhandlerDataScreen">
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-  <stylesheets>
-    <URL value="@application.css" />
-  </stylesheets>
+<GridPane fx:id="pane_data" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.60" fx:controller="handler.EventhandlerDataScreen">
+  <columnConstraints>
+      <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1219.0" minWidth="10.0" prefWidth="883.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="881.0" minWidth="10.0" prefWidth="877.0" />
+      <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints fillHeight="false" maxHeight="80.0" minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
+    <RowConstraints fillHeight="false" maxHeight="100.0" minHeight="100.0" prefHeight="100.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="785.0" minHeight="10.0" prefHeight="769.0" vgrow="SOMETIMES" />
+      <RowConstraints fillHeight="false" maxHeight="100.0" minHeight="100.0" prefHeight="100.0" vgrow="SOMETIMES" />
+      <RowConstraints fillHeight="false" maxHeight="80.0" minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <TableView fx:id="tv_data" prefHeight="720.0" prefWidth="1501.0" tableMenuButtonVisible="true" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2">
+        <columns>
+          <TableColumn fx:id="col_name" prefWidth="948.3332748413086" text="Name" />
+          <TableColumn fx:id="col_type" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Typ" />
+            <TableColumn fx:id="col_create" prefWidth="175.0" text="Erstelldatum" />
+            <TableColumn fx:id="col_last" prefWidth="272.6666259765625" text="Zuletzt Aktualisiert" />
+            <TableColumn fx:id="col_download" editable="false" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" sortable="false" />
+        </columns>
+      </TableView>
+      <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <children>
+            <Label fx:id="lbl_title" text="Dropbox">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_path" prefHeight="35.0" prefWidth="753.0" text="Dropbox/User/Ordner">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <FlowPane alignment="CENTER_RIGHT" hgap="30.0" prefHeight="200.0" prefWidth="200.0" vgap="20.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+         <children>
+            <Button fx:id="btn_upload" defaultButton="true" mnemonicParsing="false" prefHeight="45.0" prefWidth="95.0" text="Upload" />
+            <Button fx:id="btn_delete" disable="true" mnemonicParsing="false" prefHeight="45.0" prefWidth="95.0" text="Delete" visible="false" />
+            <Button fx:id="btn_logout" cancelButton="true" mnemonicParsing="false" prefHeight="45.0" prefWidth="95.0" text="Log out" />
+         </children>
+      </FlowPane>
+   </children>
 </GridPane>

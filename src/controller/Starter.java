@@ -8,16 +8,28 @@ package controller;
  */
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Starter extends Application {
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+	public void start(Stage stage) {
+		try {
+			FXMLLoader e = new FXMLLoader(this.getClass().getResource("DataScreen.fxml"));
+			Parent root = (Parent) e.load();
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(this.getClass().getResource("application.css").toExternalForm());
+			stage.setScene(scene);
+			stage.show();
+		} catch (Exception var5) {
+			var5.printStackTrace();
+		}
 
-    @Override
-    public void start(Stage primaryStage) {
+	}
 
-    }
+	public static void main(String[] args) {
+		launch(args);
+	}
 }
