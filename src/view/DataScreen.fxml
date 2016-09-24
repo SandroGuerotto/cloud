@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="pane_data" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="handler.EventhandlerDataScreen">
+<GridPane fx:id="pane_data" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="handler.EventhandlerDataScreen">
   <columnConstraints>
       <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="1219.0" minWidth="10.0" prefWidth="883.0" />
@@ -39,12 +39,12 @@
       </TableView>
       <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
-            <Label fx:id="lbl_title" text="Dropbox">
+            <Label fx:id="lbl_title" styleClass="title" text="Dropbox">
                <font>
                   <Font size="36.0" />
                </font>
             </Label>
-            <Label fx:id="lbl_path" prefHeight="35.0" prefWidth="753.0" text="Dropbox/User/Ordner">
+            <Label fx:id="lbl_path" prefHeight="35.0" prefWidth="753.0" styleClass="subtitle" text="Dropbox/User/Ordner">
                <font>
                   <Font size="24.0" />
                </font>

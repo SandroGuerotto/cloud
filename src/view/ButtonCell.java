@@ -1,12 +1,8 @@
 package view;
 
 import com.sun.prism.impl.Disposer;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import model.Data;
 
 /*

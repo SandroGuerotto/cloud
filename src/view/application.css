@@ -6,6 +6,21 @@
  * Last modify  : dd.mm.yyyy name reason
  */
 
+.text{
+    -fx-font-family: "Dosis";
+}
+.TableColumn{
+    -fx-font-weight: bold;
+}
+.title{
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+}
+
+.subtitle{
+    -fx-font-size: 24px;
+}
+
 #download-cell{
     -fx-background-image: url("../icons/black/PNG/download.png");
     -fx-background-repeat: no-repeat;
