@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="pane_data" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.60" fx:controller="handler.EventhandlerDataScreen">
+<GridPane fx:id="pane_data" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="handler.EventhandlerDataScreen">
   <columnConstraints>
       <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="1219.0" minWidth="10.0" prefWidth="883.0" />
@@ -28,12 +28,12 @@
       <RowConstraints fillHeight="false" maxHeight="80.0" minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <TableView fx:id="tv_data" prefHeight="720.0" prefWidth="1501.0" tableMenuButtonVisible="true" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2">
+      <TableView fx:id="tv_data" prefHeight="720.0" prefWidth="1500.0" tableMenuButtonVisible="true" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2">
         <columns>
-          <TableColumn fx:id="col_name" prefWidth="948.3332748413086" text="Name" />
-          <TableColumn fx:id="col_type" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Typ" />
-            <TableColumn fx:id="col_create" prefWidth="175.0" text="Erstelldatum" />
-            <TableColumn fx:id="col_last" prefWidth="272.6666259765625" text="Zuletzt Aktualisiert" />
+          <TableColumn fx:id="col_name" minWidth="500.0" prefWidth="1155.0" text="Name" />
+          <TableColumn fx:id="col_type" maxWidth="100.0" minWidth="0.0" prefWidth="100.0" text="Typ" />
+            <TableColumn fx:id="col_create" maxWidth="250.0" minWidth="150.0" prefWidth="220.0" text="Erstellt" />
+            <TableColumn fx:id="col_last" maxWidth="220.0" minWidth="150.0" prefWidth="220.0" text="Geändert" />
             <TableColumn fx:id="col_download" editable="false" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" sortable="false" />
         </columns>
       </TableView>
@@ -53,7 +53,16 @@
       </VBox>
       <FlowPane alignment="CENTER_RIGHT" hgap="30.0" prefHeight="200.0" prefWidth="200.0" vgap="20.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
          <children>
-            <Button fx:id="btn_upload" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" maxHeight="45.0" maxWidth="45.0" minHeight="45.0" minWidth="45.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="45.0">
+            <Button fx:id="btn_download" alignment="CENTER" contentDisplay="CENTER" maxHeight="45.0" maxWidth="45.0" minHeight="45.0" minWidth="45.0" mnemonicParsing="false" onAction="#download" prefHeight="45.0" prefWidth="45.0">
+               <graphic>
+                  <ImageView fitHeight="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/white/PNG/download.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btn_upload" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" maxHeight="45.0" maxWidth="45.0" minHeight="45.0" minWidth="45.0" mnemonicParsing="false" onAction="#upload" prefHeight="45.0" prefWidth="45.0">
                <graphic>
                   <ImageView fitHeight="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -62,7 +71,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="btn_delete" alignment="CENTER" contentDisplay="CENTER" disable="true" maxHeight="45.0" maxWidth="45.0" minHeight="45.0" minWidth="45.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="45.0" visible="false">
+            <Button fx:id="btn_delete" alignment="CENTER" contentDisplay="CENTER" maxHeight="45.0" maxWidth="45.0" minHeight="45.0" minWidth="45.0" mnemonicParsing="false" onAction="#delete" prefHeight="45.0" prefWidth="45.0">
                <graphic>
                   <ImageView fitHeight="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -71,7 +80,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="btn_logout" cancelButton="true" maxHeight="45.0" maxWidth="45.0" minHeight="45.0" minWidth="45.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="45.0">
+            <Button fx:id="btn_logout" cancelButton="true" maxHeight="45.0" maxWidth="45.0" minHeight="45.0" minWidth="45.0" mnemonicParsing="false" onAction="#logout" prefHeight="45.0" prefWidth="45.0">
                <graphic>
                   <ImageView fitHeight="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>

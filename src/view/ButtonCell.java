@@ -18,15 +18,9 @@ import model.Data;
  */
 public class ButtonCell extends TableCell<Disposer.Record, Boolean> {
 
-    private Image img_download;
     private Button cellButton = new Button();
-    private ImageView iv_download;
 
     public ButtonCell() {
-        img_download = new Image("File:@../icons/white/PNG/upload.png");
-        iv_download = new ImageView(img_download);
-        iv_download.setFitHeight(30);
-        cellButton.setGraphic(iv_download);
 
         // set dimensions
         cellButton.setMaxWidth(45);
@@ -35,12 +29,12 @@ public class ButtonCell extends TableCell<Disposer.Record, Boolean> {
         cellButton.setMaxHeight(45);
         cellButton.setMinHeight(45);
         cellButton.setPrefHeight(45);
-
+        cellButton.setId("download-cell");
         // Action Handler
         this.cellButton.setOnAction(t -> {
             Data data = (Data) ButtonCell.this.getTableView().getItems().get(ButtonCell.this.getIndex());
             //Handle download
-//                System.out.println("herunterladen " + person.getdata_name() + "." + person.getdata_type());
+                System.out.println("herunterladen " + data.getdata_name() + "." + data.getdata_type());
         });
     }
 

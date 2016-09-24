@@ -5,3 +5,13 @@
  * Create on 	: 20.09.2016
  * Last modify  : dd.mm.yyyy name reason
  */
+
+#download-cell{
+    -fx-background-image: url("../icons/black/PNG/download.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 65%;
+    -fx-background-position: center ;
+}
+#col_name, #col_create, #col_type, #col_last{
+    -fx-font-size: 24.0;
+}
