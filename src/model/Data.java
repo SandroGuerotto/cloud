@@ -14,9 +14,10 @@ public class Data {
 
     private StringProperty data_name;
     private StringProperty data_type;
+    private StringProperty data_size;
     private StringProperty data_create;
     private StringProperty data_last;
-    private StringProperty data_size;
+
 
     public Data() {
     }
@@ -56,7 +57,7 @@ public class Data {
     }
 
     //Create
-    public void setDataCreate(String value) {
+    public void setdatacreate(String value) {
         this.data_createProperty().set(value);
     }
 
@@ -74,11 +75,11 @@ public class Data {
 
     //last
     public void setdata_last(String value) {
-        this.data_createProperty().set(value);
+        this.data_lastProperty().set(value);
     }
 
     public String getdata_last() {
-        return (String) this.data_createProperty().get();
+        return (String) this.data_lastProperty().get();
     }
 
     public StringProperty data_lastProperty() {
@@ -91,11 +92,11 @@ public class Data {
 
     //size
     public void setdata_size(String value) {
-        this.data_createProperty().set(value);
+        this.data_sizeProperty().set(value);
     }
 
     public String getdata_size() {
-        return (String) this.data_createProperty().get();
+        return (String) this.data_sizeProperty().get();
     }
 
     public StringProperty data_sizeProperty() {

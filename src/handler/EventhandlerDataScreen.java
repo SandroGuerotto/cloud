@@ -59,14 +59,14 @@ public class EventhandlerDataScreen {
     private Button btn_upload, btn_delete, btn_logout, btn_download;
 
 
-    private FileChooser go_mediaChooser;
-    private Stage go_stage;
+    private FileChooser mediaChooser;
+    private Stage stage;
     private static final String DEFAULT_DIR = "../";
 
     @FXML
     private void initialize() {
 
-        go_mediaChooser = new FileChooser();
+        mediaChooser = new FileChooser();
 
         btn_delete.setDisable(true);
         btn_delete.setVisible(false);
@@ -107,7 +107,7 @@ public class EventhandlerDataScreen {
 
         Data dummy = new Data();
         dummy.setdata_type("docx");
-        dummy.setDataCreate("23.09.2016 02:50");
+        dummy.setdatacreate("23.09.2016 02:50");
         dummy.setdata_last("26.09.2016 03:00");
         dummy.setdata_name("test");
         dummy.setdata_size("5 Gb");
@@ -115,7 +115,7 @@ public class EventhandlerDataScreen {
 
         dummy = new Data();
         dummy.setdata_type("txt");
-        dummy.setDataCreate("20.09.2016 12:15");
+        dummy.setdatacreate("20.09.2016 12:15");
         dummy.setdata_last("30.09.2016 08:00");
         dummy.setdata_name("file");
         dummy.setdata_size("1.2 Mb");
@@ -160,17 +160,17 @@ public class EventhandlerDataScreen {
 
     @FXML
     private void upload(){
-        go_mediaChooser.setTitle("choose Cover");
-        go_mediaChooser.setInitialDirectory(new File(DEFAULT_DIR));
-        List<File> ll_upload = go_mediaChooser.showOpenMultipleDialog(go_stage);
-        if (ll_upload != null){
+        mediaChooser.setTitle("choose Cover");
+        mediaChooser.setInitialDirectory(new File(DEFAULT_DIR));
+        List<File> upload_list = mediaChooser.showOpenMultipleDialog(stage);
+        if (upload_list != null){
             //übergabe nach controller
         }
 
     }
     @FXML
     private void delete(){
-        ObservableList<Data> ll_delete = tv_data.getSelectionModel().getSelectedItems();
+        ObservableList<Data> delete_list = tv_data.getSelectionModel().getSelectedItems();
         //überagabe nach controller
     }
     @FXML
@@ -180,7 +180,7 @@ public class EventhandlerDataScreen {
 
     @FXML
     private void download(){
-        ObservableList<Data> ll_download = tv_data.getSelectionModel().getSelectedItems();
+        ObservableList<Data> download_list = tv_data.getSelectionModel().getSelectedItems();
         //übergabe nach controller!
     }
 
@@ -189,6 +189,6 @@ public class EventhandlerDataScreen {
      * @param stage wird für Popups genutzt
      */
     public void setStage(Stage stage) {
-        this.go_stage = stage;
+        this.stage = stage;
     }
 }

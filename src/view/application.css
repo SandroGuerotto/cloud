@@ -30,3 +30,6 @@
 #col_name, #col_create, #col_type, #col_last, #col_size{
     -fx-font-size: 24.0;
 }
+#col_create, #col_last{
+    -fx-text-alignment: justify;
+}
