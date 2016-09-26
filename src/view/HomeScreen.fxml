@@ -25,18 +25,20 @@
             </Label>
             <GridPane prefHeight="208.0" prefWidth="640.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
               <children>
-                <Label prefHeight="152.0" prefWidth="629.0" text="Guten Morgen/Tag/Abend [Username]" textFill="WHITE" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                <Label prefHeight="152.0" prefWidth="629.0" styleClass="home-title" text="[Username]" textFill="WHITE" GridPane.columnIndex="0" GridPane.rowIndex="2">
                   <font>
-                    <Font size="30.0" />
+                    <Font size="36.0" fx:id="x1" />
                   </font>
                 </Label>
+                <Label font="$x1" prefHeight="152.0" prefWidth="629.0" styleClass="home-title" text="Guten Morgen/Tag/Abend" textFill="WHITE" GridPane.columnIndex="0" GridPane.rowIndex="1" />
               </children>
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints maxHeight="120.0" minHeight="10.0" prefHeight="48.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="137.0" minHeight="10.0" prefHeight="137.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="120.0" minHeight="10.0" prefHeight="84.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="120.0" minHeight="10.0" prefHeight="90.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="137.0" minHeight="10.0" prefHeight="86.0" vgrow="SOMETIMES" />
               </rowConstraints>
             </GridPane>
             <GridPane alignment="CENTER" prefHeight="376.0" prefWidth="860.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
