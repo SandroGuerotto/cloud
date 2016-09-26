@@ -37,7 +37,8 @@ public class Starter extends Application {
 //			Font.loadFont(getClass().getResourceAsStream("../font/Dosis-Light.ttf"), 14);
 			Font.loadFont(getClass().getResourceAsStream("../font/Dosis-Bold.ttf"), 14);
 			Font.loadFont(getClass().getResourceAsStream("../font/Dosis-Medium.ttf"), 14);
-
+			
+			
 			stage.getIcons().add(new Image("@/../icons/logo/logo.png"));
 			stage.setTitle("Secure Cloud"); // Titel
 			stage.setScene(scene);

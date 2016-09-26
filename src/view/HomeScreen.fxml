@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
 <?import java.net.URL?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane prefHeight="1040.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="handler.EventhandlerHomeScreen">
-
-  <stylesheets>
-    <URL value="@application.css" />
-  </stylesheets>
-</StackPane>
+<AnchorPane prefHeight="1040.0" prefWidth="1920.0" style="-fx-background-image: url('TokyoTower.jpg')" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="handler.EventhandlerHomeScreen">
+  <children>
+    <StackPane layoutX="0.0" layoutY="0.0" prefHeight="1040.0" prefWidth="1920.0" />
+  </children>
+</AnchorPane>
