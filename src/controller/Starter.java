@@ -8,6 +8,7 @@ package controller;
  */
 
 import handler.EventhandlerDataScreen;
+import handler.EventhandlerHomeScreen;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,11 +27,13 @@ public class Starter extends Application {
 		final double width = Screen.getPrimary().getVisualBounds().getWidth();
 		final double height = Screen.getPrimary().getVisualBounds().getHeight();
 		try {
-			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/DataScreen.fxml"));
+//			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/DataScreen.fxml"));  // Sandro
+			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/HomeScreen.fxml"));  //Toshiki
 			Parent root = (Parent) loader.load();
 			//setzen der Stage für die popup und mediachooser
-			EventhandlerDataScreen eventhandlerDataScreen = (EventhandlerDataScreen) loader.getController();
-			eventhandlerDataScreen.setStage(stage);
+//			EventhandlerDataScreen eventhandlerDataScreen = (EventhandlerDataScreen) loader.getController(); //Sandro
+			EventhandlerHomeScreen eventhandlerHomeScreen = (EventhandlerHomeScreen) loader.getController(); //Toshiki
+//			eventhandlerDataScreen.setStage(stage);// Sandro
 
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(this.getClass().getResource("../view/application.css").toExternalForm());
