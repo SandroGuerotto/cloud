@@ -27,6 +27,6 @@
     -fx-background-size: 65%;
     -fx-background-position: center ;
 }
-#col_name, #col_create, #col_type, #col_last{
+#col_name, #col_create, #col_type, #col_last, #col_size{
     -fx-font-size: 24.0;
 }

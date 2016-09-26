@@ -41,6 +41,9 @@ public class EventhandlerDataScreen {
     private TableColumn<Data, String> col_type;
 
     @FXML
+    private TableColumn<Data, String> col_size;
+
+    @FXML
     private TableColumn<Data, String> col_create;
 
     @FXML
@@ -105,13 +108,17 @@ public class EventhandlerDataScreen {
         Data dummy = new Data();
         dummy.setdata_type("docx");
         dummy.setDataCreate("23.09.2016 02:50");
-        dummy.setFirstName("test");
+        dummy.setdata_last("26.09.2016 03:00");
+        dummy.setdata_name("test");
+        dummy.setdata_size("5 Gb");
         list.add(dummy);
 
         dummy = new Data();
         dummy.setdata_type("txt");
         dummy.setDataCreate("20.09.2016 12:15");
-        dummy.setFirstName("file");
+        dummy.setdata_last("30.09.2016 08:00");
+        dummy.setdata_name("file");
+        dummy.setdata_size("1.2 Mb");
         list.add(dummy);
 
         return list;
@@ -125,6 +132,7 @@ public class EventhandlerDataScreen {
 
         col_name.setCellValueFactory(new PropertyValueFactory("data_name"));
         col_type.setCellValueFactory(new PropertyValueFactory("data_type"));
+        col_size.setCellValueFactory(new PropertyValueFactory("data_size"));
         col_create.setCellValueFactory(new PropertyValueFactory("data_create"));
         col_last.setCellValueFactory(new PropertyValueFactory("data_last"));
 

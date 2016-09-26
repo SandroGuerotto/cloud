@@ -15,12 +15,14 @@ public class Data {
     private StringProperty data_name;
     private StringProperty data_type;
     private StringProperty data_create;
+    private StringProperty data_last;
+    private StringProperty data_size;
 
     public Data() {
     }
 
-
-    public void setFirstName(String value) {
+    //name
+    public void setdata_name(String value) {
         this.data_nameProperty().set(value);
     }
 
@@ -36,6 +38,7 @@ public class Data {
         return this.data_name;
     }
 
+    //type
     public void setdata_type(String value) {
         this.data_typeProperty().set(value);
     }
@@ -52,6 +55,7 @@ public class Data {
         return this.data_type;
     }
 
+    //Create
     public void setDataCreate(String value) {
         this.data_createProperty().set(value);
     }
@@ -66,6 +70,40 @@ public class Data {
         }
 
         return this.data_create;
+    }
+
+    //last
+    public void setdata_last(String value) {
+        this.data_createProperty().set(value);
+    }
+
+    public String getdata_last() {
+        return (String) this.data_createProperty().get();
+    }
+
+    public StringProperty data_lastProperty() {
+        if (this.data_last == null) {
+            this.data_last = new SimpleStringProperty(this, "data_last");
+        }
+
+        return this.data_last;
+    }
+
+    //size
+    public void setdata_size(String value) {
+        this.data_createProperty().set(value);
+    }
+
+    public String getdata_size() {
+        return (String) this.data_createProperty().get();
+    }
+
+    public StringProperty data_sizeProperty() {
+        if (this.data_size == null) {
+            this.data_size = new SimpleStringProperty(this, "data_size");
+        }
+
+        return this.data_size;
     }
 
 }
