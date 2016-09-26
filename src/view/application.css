@@ -16,14 +16,28 @@
     -fx-font-size: 36px;
     -fx-font-weight: bold;
 }
-
+.home-color{
+    -fx-text-fill: #ffffffe5;
+}
+.home-time{
+    -fx-font-size: 64px;
+    -fx-font-weight: bold;
+}
 .home-title{
-    -fx-font-size: 50px;
+    -fx-font-size: 48px;
     -fx-font-weight: bold;
 }
 
 .subtitle{
     -fx-font-size: 24px;
+}
+
+.btn-home{
+    -fx-background-color: transparent;
+}
+.btn-home:hover{
+    -fx-background-color: #ffffff4d;
+    -fx-cursor: hand;
 }
 
 #download-cell{
