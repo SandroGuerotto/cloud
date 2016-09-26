@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1040.0" prefWidth="1920.0" style="-fx-background-image: url('images/herbst.jpg'); -fx-background-repeat: no-repeat;" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="handler.EventhandlerHomeScreen">
+<AnchorPane prefHeight="1040.0" prefWidth="1920.0" styleClass="home-wallpaper" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="handler.EventhandlerHomeScreen">
   <children>
     <StackPane layoutX="0.0" layoutY="0.0" prefHeight="1040.0" prefWidth="1920.0">
       <children>
@@ -87,7 +87,7 @@
                   </FlowPane>
                   <HBox alignment="BOTTOM_LEFT" prefHeight="284.0" prefWidth="478.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <children>
-                        <Hyperlink fx:id="btn_logout" styleClass="title" text="Logout" underline="true">
+                        <Hyperlink fx:id="btn_logout" styleClass="btn-cancel-whtie" text="Logout">
                            <font>
                               <Font size="36.0" />
                            </font>

@@ -16,6 +16,10 @@
     -fx-font-size: 36px;
     -fx-font-weight: bold;
 }
+.home-wallpaper{
+    -fx-background-image: url('../images/herbst.jpg');
+    -fx-background-repeat: no-repeat;
+}
 .home-color{
     -fx-text-fill: #ffffffe5;
 }
@@ -39,7 +43,13 @@
     -fx-background-color: #ffffff4d;
     -fx-cursor: hand;
 }
-
+.btn-cancel-whtie{
+    -fx-font-size: 36px;
+    -fx-text-fill: #ffffffe5;
+}
+.btn-cancel-whtie:hover{
+    -fx-underline: true;
+}
 #download-cell{
     -fx-background-image: url("../icons/black/PNG/download.png");
     -fx-background-repeat: no-repeat;
