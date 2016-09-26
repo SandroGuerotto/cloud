@@ -17,6 +17,11 @@
     -fx-font-weight: bold;
 }
 
+.home-title{
+    -fx-font-size: 50px;
+    -fx-font-weight: bold;
+}
+
 .subtitle{
     -fx-font-size: 24px;
 }
