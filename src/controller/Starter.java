@@ -26,27 +26,27 @@ public class Starter extends Application {
 		final double width = Screen.getPrimary().getVisualBounds().getWidth();
 		final double height = Screen.getPrimary().getVisualBounds().getHeight();
 		try {
-			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/HomeScreen.fxml"));
+			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/DataScreen.fxml"));
 			Parent root = (Parent) loader.load();
 			//setzen der Stage für die popup und mediachooser
-//			EventhandlerDataScreen eventhandlerDataScreen = (EventhandlerDataScreen) loader.getController();
-//			eventhandlerDataScreen.setStage(stage);
+			EventhandlerDataScreen eventhandlerDataScreen = (EventhandlerDataScreen) loader.getController();
+			eventhandlerDataScreen.setStage(stage);
 
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(this.getClass().getResource("../view/application.css").toExternalForm());
 //			Font.loadFont(getClass().getResourceAsStream("../font/Dosis-Light.ttf"), 14);
-//			Font.loadFont(getClass().getResourceAsStream("../font/Dosis-Bold.ttf"), 14);
-//			Font.loadFont(getClass().getResourceAsStream("../font/Dosis-Medium.ttf"), 14);
-//			
+			Font.loadFont(getClass().getResourceAsStream("../font/Dosis-Bold.ttf"), 14);
+			Font.loadFont(getClass().getResourceAsStream("../font/Dosis-Medium.ttf"), 14);
 			
-			//stage.getIcons().add(new Image("@/../icons/logo/logo.png"));
+			
+			stage.getIcons().add(new Image("@/../icons/logo/logo.png"));
 			stage.setTitle("Secure Cloud"); // Titel
 			stage.setScene(scene);
 			// Set position and size
-			//stage.setX(xpos);
-			//stage.setY(ypos);
-			//stage.setWidth(width);
-			//stage.setHeight(height);
+			stage.setX(xpos);
+			stage.setY(ypos);
+			stage.setWidth(width);
+			stage.setHeight(height);
 			stage.setMaximized(true);;
 			stage.setResizable(true);
 			stage.show();
