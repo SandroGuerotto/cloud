@@ -1,4 +1,6 @@
 package handler;
+import controller.StarterData;
+import controller.StarterHome;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.animation.SequentialTransition;
@@ -12,6 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /*
@@ -39,7 +42,7 @@ public class EventhandlerHomeScreen {
     @FXML
     private StackPane pane_login;
     
-   
+   private Stage stage;
     
     @FXML
     private Hyperlink btn_cancel;
@@ -64,10 +67,15 @@ public class EventhandlerHomeScreen {
     
     @FXML
     private void setLoginVisible(){
-    	pane_login.setVisible(true);
-      	fadeIn.play();
-        WebEngine webEngine = wv_dropbox.getEngine();
-     	webEngine.load("https://www.dropbox.com/");
+
+        stage.close();
+        StarterData starterData = new StarterData();
+        starterData.start(new Stage());
+
+//    	pane_login.setVisible(true);
+//      	fadeIn.play();
+//        WebEngine webEngine = wv_dropbox.getEngine();
+//     	webEngine.load("https://www.dropbox.com/login");
     	
     	
     }
@@ -77,6 +85,10 @@ public class EventhandlerHomeScreen {
        	pane_login.setVisible(false);
     	fadeIn.play();
     	
+    }
+
+    public void setStage(Stage stage){
+        this.stage = stage;
     }
 
 }
