@@ -10,6 +10,7 @@ import javafx.scene.control.HyperlinkBuilder;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.util.Duration;
 
@@ -43,9 +44,11 @@ public class EventhandlerHomeScreen {
     @FXML
     private Hyperlink btn_cancel;
     private FadeTransition fadeIn = new FadeTransition(
-    	    Duration.millis(1000)
+    	    Duration.millis(700)
  
     );
+    
+  
     
    
     public void initialize(){
@@ -63,6 +66,8 @@ public class EventhandlerHomeScreen {
     private void setLoginVisible(){
     	pane_login.setVisible(true);
       	fadeIn.play();
+        WebEngine webEngine = wv_dropbox.getEngine();
+     	webEngine.load("https://www.dropbox.com/");
     	
     	
     }
