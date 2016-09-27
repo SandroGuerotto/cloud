@@ -43,7 +43,7 @@ public class EventhandlerHomeScreen {
     @FXML
     private Hyperlink btn_cancel;
     private FadeTransition fadeIn = new FadeTransition(
-    	    Duration.millis(1000)
+    	    Duration.millis(700)
  
     );
     
