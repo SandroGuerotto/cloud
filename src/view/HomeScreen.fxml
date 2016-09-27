@@ -16,11 +16,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1040.0" prefWidth="1920.0" styleClass="home-wallpaper" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="handler.EventhandlerHomeScreen">
+<AnchorPane prefHeight="1040.0" prefWidth="1920.0"  xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="handler.EventhandlerHomeScreen">
   <children>
     <StackPane layoutX="0.0" layoutY="0.0" prefHeight="1040.0" prefWidth="1920.0">
       <children>
-        <GridPane>
+        <GridPane styleClass="home-wallpaper">
           <columnConstraints>
                   <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="100.0" />
             <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="518.0" minWidth="80.0" prefWidth="422.0" />

@@ -160,7 +160,7 @@ public class EventhandlerDataScreen {
 
     @FXML
     private void upload(){
-        mediaChooser.setTitle("choose Cover");
+        mediaChooser.setTitle("Datei hochladen");
         mediaChooser.setInitialDirectory(new File(DEFAULT_DIR));
         List<File> upload_list = mediaChooser.showOpenMultipleDialog(stage);
         if (upload_list != null){
