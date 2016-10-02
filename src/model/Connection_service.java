@@ -1,17 +1,16 @@
 package model;
 
 /**
+ * @author 			:   Burim Cakolli
  * Turns coffee & pizza into Software
- *
- * @author :   Burim
- *         Created          :   01.10.2016
- *         Project          :   cloud
- *         Package          :   model
- * @version :   1.0
- *          LastUpdated      :   01.10.2016
- *          Description      :
- *          Contents all User-Informations that we need in our application.
- *          The informations comes from a Microsoft Server
+ * Created          :   01.10.2016
+ * Project          :   cloud
+ * Package          :   model
+ * @version 		:   1.0
+ * LastUpdated      :   01.10.2016
+ * Description      :
+ * @todo
+ * 
  */
 public class Connection_service {
 
@@ -20,14 +19,15 @@ public class Connection_service {
     private String token;
     private Service service;
 
-    public Connection_service(int id, String name, String token, Service service) {
-        this.id = id;
-        this.name = name;
-        this.token = token;
-        this.service = service;
-    }//-Standard Constructor
-
     /* Methods for Database-oriented things */
+    public void save(){
+        //@todo
+    }//-save
+
+    public void update(){
+        //@todo
+    }//-update
+
 
     /* Getter/Setter #Standard */
     public int getId() {

@@ -1,17 +1,15 @@
 package model;
 
 /**
+ * @author :   Burim Cakolli
  * Turns coffee & pizza into Software
- *
- * @author :   Burim
- *         Created          :   01.10.2016
- *         Project          :   cloud
- *         Package          :   model
- * @version :   1.0
- *          LastUpdated      :   01.10.2016
- *          Description      :
- *          Contents all User-Informations that we need in our application.
- *          The informations comes from a Microsoft Server
+ * Created          :   01.10.2016
+ * Project          :   cloud
+ * Package          :   model
+ * @version 		:   1.0
+ * LastUpdated      :   01.10.2016
+ * Description      :
+ * 
  */
 public class Service {
 

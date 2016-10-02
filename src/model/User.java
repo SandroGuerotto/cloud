@@ -1,14 +1,13 @@
 package model;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
+ * @author          :   Burim Cakolli
  * Turns coffee & pizza into Software
- * @author          :   Burim
  * Created          :   01.10.2016
  * Project          :   cloud
- * Package          :   ${PACKAGE_NAME}
+ * Package          :   model
  * @version         :   1.0
  * LastUpdated      :   01.10.2016
  * Description      :
