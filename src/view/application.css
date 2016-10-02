@@ -8,14 +8,21 @@
 
 .text{
     -fx-font-family: "Dosis";
+    -fx-text-fill: #38424b;
 }
 .TableColumn{
     -fx-font-weight: bold;
+    -fx-text-fill: #38424b;
 }
-.title{
+.data-title{
     -fx-font-size: 36px;
     -fx-font-weight: bold;
+    -fx-text-fill: #38424b;
 }
+.data-subtitle{
+    -fx-font-size: 24px;
+}
+
 .home-wallpaper{
     -fx-background-image: url('../images/herbst.jpg');
     -fx-background-repeat: no-repeat;
@@ -32,9 +39,7 @@
     -fx-font-weight: bold;
 }
 
-.subtitle{
-    -fx-font-size: 24px;
-}
+
 
 .btn-home{
     -fx-background-color: transparent;
@@ -51,14 +56,91 @@
     -fx-underline: true;
 }
 #download-cell{
-    -fx-background-image: url("../icons/black/PNG/download.png");
+    -fx-background-image: url("../icons/dark-blue/download.png");
+    -fx-background-color:transparent;
     -fx-background-repeat: no-repeat;
     -fx-background-size: 65%;
     -fx-background-position: center ;
+}
+#download-cell:hover{
+    -fx-cursor: hand;
 }
 #col_name, #col_create, #col_type, #col_last, #col_size{
     -fx-font-size: 24.0;
 }
 #col_create, #col_last{
     -fx-text-alignment: justify;
+}
+
+/* btn */
+.dark-blue {
+    -fx-background-color:
+            #090a0c,
+            linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),
+            linear-gradient(#20262b, #191d22),
+            radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
+    -fx-background-radius: 5,4,3,5;
+    -fx-background-insets: 0,1,2,0;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+    -fx-text-fill: linear-gradient(white, #d0d0d0);
+    -fx-font-size: 12px;
+    -fx-padding: 10 20 10 20;
+
+}
+.dark-blue:hover, .dark-blue:focused {
+    -fx-cursor: hand;
+}
+.dark-blue Text {
+    -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.9) , 1, 0.0 , 0 , 1 );
+}
+
+#btn_delete:hover{
+
+    -fx-background-color:
+            #aa2709,
+            linear-gradient(#912709 0%, #721c09 20%, #551507 100%),
+            linear-gradient(#621707, #551507),
+            radial-gradient(center 50% 0%, radius 100%, rgba(200, 9, 6, 0.9), rgba(255,255,255,0));
+}
+
+
+#btn_download:hover{
+
+    -fx-background-color:
+            #00529B,
+            linear-gradient(#003a77 0%, #003265 20%, #002347 100%),
+            linear-gradient(#003164, #002347),
+            radial-gradient(center 50% 0%, radius 100%, rgba(189, 229, 248, 0.9), rgba(255,255,255,0));
+}
+
+
+/* Message */
+.msg_info, .msg_success, .msg_warning, .msg_error {
+    -fx-padding: 12px 12px 12px 12px;
+    -fx-font-size: 24px;
+    -fx-border-radius: 10 10 10 10;
+    -fx-background-radius: 10 10 10 10;
+
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 10, 0, 0, 0);
+}
+.msg_info {
+    -fx-text-fill: #00529B;
+    -fx-background-color: #BDE5F8;
+    -fx-border-color: #00529B;
+}
+.msg_success {
+    -fx-text-fill: #4F8A10;
+    -fx-background-color: #DFF2BF;
+    -fx-border-color: #4F8A10;
+}
+.msg_warning {
+    -fx-text-fill: #9F6000;
+    -fx-background-color: #FEEFB3;
+    -fx-border-color: #9F6000;
+}
+.msg_error {
+    -fx-text-fill: #D8000C;
+    -fx-background-color: #FFBABA;
+    -fx-border-color: #D8000C;
 }
