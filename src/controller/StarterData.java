@@ -47,9 +47,11 @@ public class StarterData extends Application {
                 public void handle(DragEvent event) {
                     Dragboard db = event.getDragboard();
                     if (db.hasFiles()) {
+
                         event.acceptTransferModes(TransferMode.COPY);
                     } else {
                         event.consume();
+
                     }
                 }
             });

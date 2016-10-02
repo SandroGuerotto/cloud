@@ -196,6 +196,11 @@ public class EventhandlerDataScreen {
         lbl_msg.setVisible(false);
         lbl_msg.setDisable(true);
     }
+    @FXML
+    private void setFocus(){
+        pane_data.requestFocus();
+        tv_data.getSelectionModel().clearSelection();
+    }
 
     /**
      * Methode zum Setzen der Stage -> Popup. Aufgerufen von

@@ -11,18 +11,12 @@
  */
 package model;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.*;
+import java.net.URL;
+import java.nio.charset.Charset;
 
 public class JsonReader {
 
@@ -36,7 +30,7 @@ public class JsonReader {
     return sb.toString();
   }
 
-  //Liest alle Inhate von der API ein und gibt sie als JSON Objekt zurück
+  //Liest alle Inhate von der API ein und gibt sie als JSON Objekt zurï¿½ck
   public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
     InputStream is = new URL(url).openStream();
     try {
