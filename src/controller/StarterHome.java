@@ -8,22 +8,15 @@ package controller;
  * Last modify  :
  */
 
-import handler.EventhandlerDataScreen;
 import handler.EventhandlerHomeScreen;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-
-import java.io.File;
 
 public class StarterHome extends Application {
 

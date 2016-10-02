@@ -8,13 +8,18 @@
 
 .text{
     -fx-font-family: "Dosis";
+    -fx-text-fill: #404040;
 }
 .TableColumn{
     -fx-font-weight: bold;
 }
-.title{
+.data-title{
     -fx-font-size: 36px;
     -fx-font-weight: bold;
+    -fx-text-fill: #404040;
+}
+.data-msg{
+    -fx-font-size: 24px;
 }
 .home-wallpaper{
     -fx-background-image: url('../images/herbst.jpg');
@@ -32,7 +37,7 @@
     -fx-font-weight: bold;
 }
 
-.subtitle{
+.data-subtitle{
     -fx-font-size: 24px;
 }
 
@@ -61,4 +66,36 @@
 }
 #col_create, #col_last{
     -fx-text-alignment: justify;
+}
+
+
+
+/* Message */
+.msg_info, .msg_success, .msg_warning, .msg_error {
+    -fx-padding: 12px 12px 12px 12px;
+    -fx-font-size: 24px;
+    -fx-border-radius: 10 10 10 10;
+    -fx-background-radius: 10 10 10 10;
+
+    /*-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 10, 0, 0, 0);*/
+}
+.msg_info {
+    -fx-text-fill: #00529B;
+    -fx-background-color: #BDE5F8;
+    -fx-border-color: #00529B;
+}
+.msg_success {
+    -fx-text-fill: #4F8A10;
+    -fx-background-color: #DFF2BF;
+    -fx-border-color: #4F8A10;
+}
+.msg_warning {
+    -fx-text-fill: #9F6000;
+    -fx-background-color: #FEEFB3;
+    -fx-border-color: #9F6000;
+}
+.msg_error {
+    -fx-text-fill: #D8000C;
+    -fx-background-color: #FFBABA;
+    -fx-border-color: #D8000C;
 }

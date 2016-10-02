@@ -18,9 +18,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import message.Message;
 import model.Data;
 
 import java.io.File;
@@ -30,6 +32,9 @@ public class EventhandlerDataScreen {
 
     @FXML
     private GridPane pane_data;
+
+    @FXML
+    private StackPane pane_msg;
 
     @FXML
     private TableView<Data> tv_data;
@@ -53,7 +58,7 @@ public class EventhandlerDataScreen {
     private TableColumn col_download;
 
     @FXML
-    private Label lbl_title, lbl_path;
+    private Label lbl_title, lbl_path, lbl_msg;
 
     @FXML
     private Button btn_upload, btn_delete, btn_logout, btn_download;
@@ -95,6 +100,8 @@ public class EventhandlerDataScreen {
                 btn_download.setDisable(true);
             }
         });
+
+        Message message = new Message();
 
     }
 
@@ -182,6 +189,12 @@ public class EventhandlerDataScreen {
     private void download(){
         ObservableList<Data> download_list = tv_data.getSelectionModel().getSelectedItems();
         //übergabe nach controller!
+    }
+
+    @FXML
+    private void deletemsg(){
+        lbl_msg.setVisible(false);
+        lbl_msg.setDisable(true);
     }
 
     /**
