@@ -11,16 +11,12 @@
  */
 package model;
 
-import java.io.UnsupportedEncodingException;
 import java.rmi.RemoteException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.User;
 
 import javax.xml.rpc.ServiceException;
 import org.tempuri.*;
 import exception.*;
-import message.Message;
 
 public class ServerConnecter {
 	
@@ -28,10 +24,12 @@ public class ServerConnecter {
 	private BasicHttpsBinding_ILoginServiceStub service;
 	private User user; //logged in User
 	
+	/* Standard Constructor with no parameters*/
 	public ServerConnecter() throws ConnectionErrorException, ServiceException{
 		this.start_service();
 	}//-Standart Constructor
 	
+	/* Starts the service to communicate with the server */
 	private void start_service() throws ConnectionErrorException{
 		this.serviceLocator = new LoginServiceLocator();
 		try {
@@ -41,46 +39,45 @@ public class ServerConnecter {
 		}//-catch
 	}//-start_service
 	
-	public User loginApp(String username, String password){
-		try {
-			this.user = this.service.login(username, password);
-			return this.user;
-		} catch (RemoteException e) {
-			// TODO THROW FOR COULD NOT LOGIN
-			e.printStackTrace();
-			return null;
-		}//-catch 
+	/*
+	 * Tries to log in the user into the application and set him as applicationUser
+	 * @param username the name that the users identify himself
+	 * @param password the password from the user in clear-text
+	 * @return User This returns a object of user if the login function had success
+	 */
+	public User loginApp(String username, String password) throws LoginFailedException{
+			try {
+				this.user = this.service.login(username, password);
+				return this.user;
+			} catch (RemoteException e) {
+				throw new LoginFailedException('e');
+			}	
 	}//-loginApp
 	
-	public User registerApp(String username, String email, String password) throws RemoteException, ConnectionErrorException{
-		if(this.service.usernameUnique(username) == true && this.service.emailUnique(email) == true){
-			this.service.register(username, email, password);
-			this.user = this.service.login(username, password);
-			return user;
+	/*
+	 * Register a new user into the application if the username and email is unique
+	 * @param username the name that the users identify himself
+	 * @param email the email adress of a user to contact him
+	 * @param password the password from the user in clear-text
+	 * @return User This returns a object of user if the register and login functions had success
+	 */
+	public User registerApp(String username, String email, String password) throws UserExistException, RemoteException, EmailExistException {
+		if(this.service.usernameUnique(username) == true){
+			if(this.service.emailUnique(email) == true){
+				this.service.register(username, email, password);
+				this.user = this.service.login(username, password);
+				return this.user;
+			}//-if
+			else{
+				throw new EmailExistException('e');
+			}//-else
 		}//-if
 		else{
-			throw new ConnectionErrorException('e');
+			throw new UserExistException('e');
 		}//-else
 	}//-registerApp
 	
-	/* public static void main(String args[]) throws Exception {
-		
-		 
-		 String username = "Burim";
-		 String email = "Burim.cakolli@hotmail.com";
-		 boolean usernameUnique = service.usernameUnique(username);
-		 boolean emailUnique = service.emailUnique(email);
-		 
-		 System.out.println("Username Unique "+usernameUnique);
-		 System.out.println("Email Unique "+emailUnique);
-		 
-		 if(usernameUnique == true && emailUnique == true){
-			 service.register(username, email, "TESTPASSWORD");
-		 }//-if
-		 else{
-			System.out.println("Username or Email already exists"); 
-		 } 
-		 
-	 } */
-
+	
+	
+	
 }//-ServerConnecter
