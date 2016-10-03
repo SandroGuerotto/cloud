@@ -12,7 +12,6 @@ package handler;
 
 
 import com.sun.prism.impl.Disposer.Record;
-import com.sun.xml.internal.bind.annotation.XmlLocation;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
