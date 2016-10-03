@@ -102,7 +102,7 @@ public class EventhandlerDataScreen {
                 btn_download.setDisable(true);
             }
         });
-        tv_data.getSelectionModel().getSelectedItems().clear();
+//        tv_data.getSelectionModel().getSelectedItems().clear();
 
         Message message = new Message();
 

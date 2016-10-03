@@ -32,10 +32,10 @@
    <children>
       <TableView fx:id="tv_data" prefHeight="720.0" prefWidth="1500.0" tableMenuButtonVisible="true" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2">
         <columns>
-          <TableColumn fx:id="col_name" minWidth="500.0" prefWidth="1056.0" text="Name" />
+          <TableColumn fx:id="col_name" minWidth="200.0" prefWidth="1056.0" text="Name" />
           <TableColumn fx:id="col_type" maxWidth="100.0" minWidth="0.0" prefWidth="100.0" text="Typ" />
             <TableColumn fx:id="col_size" maxWidth="100.0" minWidth="-1.0" prefWidth="100.0" text="Grösse" />
-            <TableColumn fx:id="col_create" maxWidth="250.0" minWidth="150.0" prefWidth="220.0" text="Erstellt" />
+            <TableColumn fx:id="col_create" maxWidth="250.0" minWidth="0.0" prefWidth="220.0" text="Erstellt" />
             <TableColumn fx:id="col_last" maxWidth="220.0" minWidth="150.0" prefWidth="220.0" text="Geändert" />
             <TableColumn fx:id="col_download" editable="false" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" sortable="false" />
         </columns>
