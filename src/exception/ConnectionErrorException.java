@@ -1,5 +1,7 @@
 package exception;
 
+import message.Message;
+
 /**
  * @author          :   Sandro Guerotto
  * Created          :   20.09.2016
@@ -12,6 +14,6 @@ package exception;
 
 public class ConnectionErrorException extends  Exception {
     public ConnectionErrorException(){
-
+    	
     }
 }
