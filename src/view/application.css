@@ -1,11 +1,12 @@
-/*
- * Name			: application.css
- * Author		: Sandro Guerotto
- * Describtion	: CSS File with style properties for  all Gui Components
- * Create on 	: 20.09.2016
- * Last modify  : dd.mm.yyyy name reason
+/**
+ * @author          :   Sandro Guerotto
+ * Created          :   20.09.2016
+ * Project          :   cloud
+ * Package          :   view
+ * @version         :   1.0
+ * LastUpdated      :
+ * Description      :   CSS File with style properties for  all Gui Components
  */
-
 .text{
     -fx-font-family: "Dosis";
     -fx-text-fill: #38424b;

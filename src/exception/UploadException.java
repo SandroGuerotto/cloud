@@ -1,11 +1,14 @@
 package exception;
 
-/*
- * Name			: UploadException.java
- * Author		: Sandro Guerotto
- * Describtion	: Excetion for general upload errors
- * Create on 	: 23.09.2016
- * Last modify  : dd.mm.yyyy name reason
+
+/**
+ * @author          :   Sandro Guerotto
+ * Created          :   23.09.2016
+ * Project          :   cloud
+ * Package          :   exception
+ * @version         :   1.0
+ * LastUpdated      :
+ * Description      :   Excetion for general upload errors
  */
 public class UploadException extends Exception{
     public UploadException(){

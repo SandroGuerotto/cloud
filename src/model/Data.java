@@ -3,13 +3,16 @@ package model;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-/*
- * Name			: Data.java
- * Author		: Sandro Guerotto
- * Describtion	: Class for all data object. Used for GUI
- * Create on 	: 23.09.2016
- * Last modify  : dd.mm.yyyy name reason
+/**
+ * @author          :   Sandro Guerotto
+ * Created          :   23.09.2016
+ * Project          :   cloud
+ * Package          :   model
+ * @version         :   1.0
+ * LastUpdated      :
+ * Description      :   Class for all data object. Used for GUI
  */
+
 public class Data {
 
     private StringProperty data_name;

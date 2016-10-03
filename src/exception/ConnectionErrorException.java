@@ -1,12 +1,15 @@
 package exception;
 
-/*
- * Name			: ConnectionErrorException.java
- * Author		: Sandro Guerotto
- * Describtion	: Exception class for errors with the internet connection/ cloud services
- * Create on 	: 23.09.2016
- * Last modify  : dd.mm.yyyy name reason
+/**
+ * @author          :   Sandro Guerotto
+ * Created          :   20.09.2016
+ * Project          :   cloud
+ * Package          :   exception
+ * @version         :   1.0
+ * LastUpdated      :
+ * Description      :   Exception class for errors with the internet connection/ cloud services
  */
+
 public class ConnectionErrorException extends  Exception {
     public ConnectionErrorException(){
 

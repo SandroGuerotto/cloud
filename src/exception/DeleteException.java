@@ -1,11 +1,13 @@
 package exception;
 
-/*
- * Name			: DeleteException.java
- * Author		: Sandro Guerotto
- * Describtion	: Exception class for error while deleting files
- * Create on 	: 23.09.2016
- * Last modify  : dd.mm.yyyy name reason
+/**
+ * @author          :   Sandro Guerotto
+ * Created          :   23.09.2016
+ * Project          :   cloud
+ * Package          :   exception
+ * @version         :   1.0
+ * LastUpdated      :
+ * Description      :   Exception class for error while deleting files
  */
 public class DeleteException extends Exception {
 
