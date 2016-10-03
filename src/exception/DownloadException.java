@@ -15,7 +15,7 @@ public class DownloadException extends Exception {
     private final String msg = "Ein Fehler während dem Herunterladen ist aufgetreten!";
     private char type;
 
-    public DownloadException(char type;) {
+    public DownloadException(char type) {
         this.type = type;
     }
 

@@ -15,7 +15,7 @@ public class UploadException extends Exception{
     private final String msg = "Ein Fehler während dem Hochladen ist aufgetreten!";
     private char type;
 
-    public UploadException(char type;) {
+    public UploadException(char type) {
         this.type = type;
     }
 
