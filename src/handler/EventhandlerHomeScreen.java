@@ -1,6 +1,7 @@
 package handler;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -27,9 +28,12 @@ import javafx.util.Duration;
 
 public class EventhandlerHomeScreen {
 
+	Calendar cal;
     @FXML
     private Label lbl_title, lbl_username, lbl_time;
 
+    LocalTime midnight = LocalTime.MIDNIGHT;
+    
     @FXML
     private Button btn_dropbox;
 
@@ -66,15 +70,11 @@ public class EventhandlerHomeScreen {
          @Override
          public void run() {
         	 Platform.runLater(()->  { 
-        		 Calendar cal = Calendar.getInstance();
+        		cal = Calendar.getInstance();
         	 lbl_time.setText("" + sdf.format(cal.getTime()) );   });
-        	// System.out.println("" + sdf.format(cal.getTime()));
-//        	 if(cal.getTime().before(mittag)){
-     		 lbl_title.setText("Guten Tag ");
-//        	 }
-        	
-         }
-     }, 0, 2000);
+        
+     }
+         }, 0, 2000);
       
        
     }
