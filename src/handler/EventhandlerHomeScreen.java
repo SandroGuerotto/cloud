@@ -1,7 +1,13 @@
 package handler;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import controller.StarterData;
 import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -38,6 +44,7 @@ public class EventhandlerHomeScreen {
     
    private Stage stage;
     
+   SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
     @FXML
     private Hyperlink btn_cancel;
     private FadeTransition fadeIn = new FadeTransition(
@@ -45,7 +52,7 @@ public class EventhandlerHomeScreen {
  
     );
     
-  
+    Timer timer = new Timer();
     
    
     public void initialize(){
@@ -55,6 +62,19 @@ public class EventhandlerHomeScreen {
    	    fadeIn.setToValue(1.0);
    	    fadeIn.setCycleCount(1);
    	    fadeIn.setAutoReverse(true);
+   	 timer.scheduleAtFixedRate(new TimerTask() {
+         @Override
+         public void run() {
+        	 Platform.runLater(()->  { 
+        		 Calendar cal = Calendar.getInstance();
+        	 lbl_time.setText("" + sdf.format(cal.getTime()) );   });
+        	// System.out.println("" + sdf.format(cal.getTime()));
+//        	 if(cal.getTime().before(mittag)){
+     		 lbl_title.setText("Guten Tag ");
+//        	 }
+        	
+         }
+     }, 0, 2000);
       
        
     }
