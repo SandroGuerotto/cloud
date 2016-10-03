@@ -37,7 +37,7 @@ public class ServerConnecter {
 		try {
 			this.service = (BasicHttpsBinding_ILoginServiceStub) serviceLocator.getBasicHttpsBinding_ILoginService();
 		} catch (ServiceException e) {
-			throw new ConnectionErrorException();
+			throw new ConnectionErrorException('e');
 		}//-catch
 	}//-start_service
 	
@@ -59,7 +59,7 @@ public class ServerConnecter {
 			return user;
 		}//-if
 		else{
-			throw new ConnectionErrorException();
+			throw new ConnectionErrorException('e');
 		}//-else
 	}//-registerApp
 	
