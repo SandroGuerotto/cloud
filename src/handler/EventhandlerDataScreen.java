@@ -12,13 +12,16 @@ package handler;
 
 
 import com.sun.prism.impl.Disposer.Record;
+import com.sun.xml.internal.bind.annotation.XmlLocation;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
@@ -65,6 +68,18 @@ public class EventhandlerDataScreen {
     @FXML
     private Button btn_upload, btn_delete, btn_logout, btn_download;
 
+    @FXML
+    private FlowPane pane_flowcontroll;
+    @FXML
+    private StackPane pane_controlls;
+
+    @FXML
+    private SplitMenuButton itm_upload;
+
+    @FXML
+    private MenuItem itm_download, itm_delete, itm_logout;
+
+
 
     private FileChooser mediaChooser;
     private Stage stage;
@@ -74,11 +89,10 @@ public class EventhandlerDataScreen {
     private void initialize() {
 
         mediaChooser = new FileChooser();
+        itm_upload.setDisable(true);
+        itm_upload.setVisible(false);
+        hideButton();
 
-        btn_delete.setDisable(true);
-        btn_delete.setVisible(false);
-        btn_download.setDisable(true);
-        btn_download.setVisible(false);
 
         //Cell factory
         initCell();
@@ -91,23 +105,61 @@ public class EventhandlerDataScreen {
         tv_data.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
 
-                btn_delete.setVisible(true);
-                btn_delete.setDisable(false);
-                btn_download.setVisible(true);
-                btn_download.setDisable(false);
+                showButton();
             } else {
-                btn_delete.setVisible(false);
-                btn_delete.setDisable(true);
-                btn_download.setVisible(false);
-                btn_download.setDisable(true);
+                hideButton();
             }
         });
-        tv_data.getSelectionModel().getSelectedItems().clear();
+//        tv_data.getSelectionModel().getSelectedItems().clear();
 
         Message message = new Message();
 
+        pane_data.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
+//                if ( (100 / 1920) * newSceneWidth.intValue() <= 75){
+                if ( (100 * newSceneWidth.intValue() / 1920)  <= 75){
+                    System.out.println("Width: " + newSceneWidth.intValue());
+                    pane_flowcontroll.setVisible(false);
+                    pane_flowcontroll.setDisable(true);
+                    itm_upload.setDisable(false);
+                    itm_upload.setVisible(true);
+                }else{
+                    pane_flowcontroll.setVisible(true);
+                    pane_flowcontroll.setDisable(false);
+                    itm_upload.setDisable(true);
+                    itm_upload.setVisible(false);
+                }
+            }
+        });
+        pane_data.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
+                System.out.println("Height: " + newSceneHeight);
+            }
+        });
+
     }
 
+    private void hideButton() {
+        itm_download.setDisable(true);
+        itm_download.setVisible(false);
+        itm_delete.setDisable(true);
+        itm_delete.setVisible(false);
+        btn_delete.setDisable(true);
+        btn_delete.setVisible(false);
+        btn_download.setDisable(true);
+        btn_download.setVisible(false);
+    }
+
+    private void showButton(){
+        btn_delete.setVisible(true);
+        btn_delete.setDisable(false);
+        btn_download.setVisible(true);
+        btn_download.setDisable(false);
+        itm_download.setDisable(false);
+        itm_download.setVisible(true);
+        itm_delete.setDisable(false);
+        itm_delete.setVisible(true);
+    }
     /**
      *  Temporäre Methode zum füllen der Tabelle
      * @return ObservableList<Data>

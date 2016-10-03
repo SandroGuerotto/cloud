@@ -11,7 +11,13 @@ package exception;
  */
 public class DeleteException extends Exception {
 
-    public DeleteException(){
+    private final String msg = "Ein Fehler während dem Löschen ist aufgetreten!";
+    private char   type;
+    public DeleteException(char type){
+        this.type = type;
+    }
 
+    public String getMsg(){
+        return this.msg;
     }
 }
