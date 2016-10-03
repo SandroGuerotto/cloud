@@ -12,7 +12,7 @@ package exception;
  */
 
 public class ConnectionErrorException extends  Exception {
-    public ConnectionErrorException(){
+
 
     private final String msg = "Ein Fehler mit der Verbindung ist aufgetreten!";
     private char   type;
