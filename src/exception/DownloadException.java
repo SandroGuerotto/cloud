@@ -10,7 +10,16 @@ package exception;
  * Description      :   Excetion for general download errors
  */
 public class DownloadException extends Exception {
-    public DownloadException(){
 
+
+    private final String msg = "Ein Fehler während dem Herunterladen ist aufgetreten!";
+    private char type;
+
+    public DownloadException(char type;) {
+        this.type = type;
+    }
+
+    public String getMsg() {
+        return this.msg;
     }
 }

@@ -11,7 +11,15 @@ package exception;
  * Description      :   Excetion for general upload errors
  */
 public class UploadException extends Exception{
-    public UploadException(){
 
+    private final String msg = "Ein Fehler während dem Hochladen ist aufgetreten!";
+    private char type;
+
+    public UploadException(char type;) {
+        this.type = type;
+    }
+
+    public String getMsg() {
+        return this.msg;
     }
 }
