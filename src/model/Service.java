@@ -26,7 +26,7 @@ public class Service {
     }//-Standard Constructor
 
     /* Methods for Database-oriented things */
-    public void save(){
+    public void insert(){
         //@todo
     }//-save
 

@@ -33,8 +33,8 @@ public class User {
         this.user_services = user_services;
     }//-Standard-Constructor
 
-    /* Methods for Database-oriented things */
-    public void save(){
+    /* Methods for Database-oriented things */   
+    public void insert(){
         //@todo
     }//-save
 

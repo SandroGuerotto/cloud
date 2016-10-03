@@ -20,7 +20,7 @@ public class Connection_service {
     private Service service;
 
     /* Methods for Database-oriented things */
-    public void save(){
+    public void insert(){
         //@todo
     }//-save
 
