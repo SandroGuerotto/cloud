@@ -1,5 +1,6 @@
 package handler;
 
+import javafx.concurrent.Worker.State;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.Calendar;
@@ -10,11 +11,15 @@ import view.Time;
 import controller.StarterData;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
+import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -32,6 +37,9 @@ public class EventhandlerHomeScreen {
     @FXML
     private Label lbl_title, lbl_username, lbl_time;
 
+    @FXML
+    private ProgressIndicator progress;
+    Time clock = new Time();
     
     @FXML
     private Button btn_dropbox;
@@ -57,12 +65,12 @@ public class EventhandlerHomeScreen {
 
     Timer timer = new Timer();
 
-    Time clock = new Time();
+   
     
    
 
     public void initialize() {
-
+    	progress.setVisible(false);
         fadeIn.setNode(pane_login);
         fadeIn.setFromValue(0.0);
         fadeIn.setToValue(1.0);
@@ -73,21 +81,11 @@ public class EventhandlerHomeScreen {
             public void run() {
                 Platform.runLater(() -> {
                     
-                    if (clock.getTimeOfDay() >= 4 && clock.getTimeOfDay()  < 12) {
-                        lbl_title.setText("Guten Morgen, ");
-                    } else if (clock.getTimeOfDay() >= 12 && clock.getTimeOfDay() < 16) {
-                        lbl_title.setText("Guten Tag, ");
-                    } else if (clock.getTimeOfDay() >= 17 && clock.getTimeOfDay() < 21) {
-                        lbl_title.setText("Guten Abend, ");
-                    } else if (clock.getTimeOfDay() >= 21 && clock.getTimeOfDay() < 24  && clock.getTimeOfDay() >= 0  && clock.getTimeOfDay() > 2) {
-                        lbl_title.setText("Gute Nacht, ");
-                    }
+                    lbl_title.setText(clock.getText());
                     lbl_time.setText(clock.getTime());
 
                 });
 
-
-//        	 }
 
             }
         }, 0, 2000);
@@ -98,14 +96,32 @@ public class EventhandlerHomeScreen {
     @FXML
     private void setLoginVisible() {
 
-        stage.close();
-        StarterData starterData = new StarterData();
-        starterData.start(new Stage());
-
-//    	pane_login.setVisible(true);
-//      	fadeIn.play();
-//        WebEngine webEngine = wv_dropbox.getEngine();
-//     	webEngine.load("https://www.dropbox.com/login");
+  
+    	
+      	WebEngine webEngine = wv_dropbox.getEngine();
+      	webEngine.load("https://www.dropbox.com/login");
+     	progress.setVisible(true);
+      	progress.setStyle(" -fx-progress-color: white;");
+      	
+      	webEngine.getLoadWorker().stateProperty().addListener(
+      	        new ChangeListener<State>() {
+      	            public void changed(ObservableValue ov, State oldState, State newState) {
+      	                if (newState == State.SUCCEEDED) {
+      	                	pane_login.setVisible(true);
+      	                	fadeIn.play();
+      	                	progress.setVisible(false);
+      	                	
+      	                }
+      	            }
+      	        });
+    
+      	
+      	
+//        stage.close();
+//        StarterData starterData = new StarterData();
+//        starterData.start(new Stage());
+      	
+      
 
 
     }

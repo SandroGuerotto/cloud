@@ -4,7 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class Time {
-
+	String text;
+	
 	SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 	Calendar cal = Calendar.getInstance();
     String time = sdf.format(cal.getTime());
@@ -32,6 +33,21 @@ public class Time {
 	}
 	public void setTimeOfDay(int timeOfDay) {
 		this.timeOfDay = timeOfDay;
+	}
+	public String getText() {
+		if (getTimeOfDay() >= 4 && getTimeOfDay()  < 12) {
+			setText("Guten Morgen, ");
+        } else if (getTimeOfDay() >= 12 && getTimeOfDay() < 16) {
+        	setText("Guten Tag, ");
+        } else if (getTimeOfDay() >= 17 && getTimeOfDay() < 21) {
+            setText("Guten Abend, ");
+        } else if (getTimeOfDay() >= 21 && getTimeOfDay() < 24  && getTimeOfDay() >= 0  && getTimeOfDay() > 2) {
+        	setText("Guten Nacht, ");
+        }
+		return text;
+	}
+	public void setText(String text) {
+		this.text = text;
 	}
     
     
