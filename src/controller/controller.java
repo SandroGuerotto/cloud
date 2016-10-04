@@ -29,9 +29,9 @@ import java.util.List;
  * LastUpdated      :
  * Description      :   Allgemeiner Kontroller für das Programm
  */
-public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeScreen, ILoginService {
+public class controller implements I_EventhandlerDataScreen, I_EventhandlerHomeScreen, ILoginService {
 
-    public Controller(){
+    public controller(){
 
     }
 
