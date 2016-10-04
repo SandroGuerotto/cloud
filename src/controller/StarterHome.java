@@ -1,11 +1,13 @@
 package controller;
 
-/*
- * Name			: StarterHome.java
- * Author		: Sandro Guerotto
- * Describtion	: Starter class für das Home GUI
- * Create on 	: 27.09.2016
- * Last modify  :
+/**
+ * @author          :   Sandro Guerotto
+ * Created          :   27.09.2016
+ * Project          :   cloud
+ * Package          :   controller
+ * @version         :   1.0
+ * LastUpdated      :
+ * Description      :   Starter class für das Home GUI
  */
 
 import handler.EventhandlerHomeScreen;
