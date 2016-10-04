@@ -2,6 +2,8 @@ package handler;
 
 public interface I_EventhandlerHomeScreen {
 	
- void getLogin(String Username);
+ void getLogin(String username);
+ 
+ void getDropboxAPI(String api);
 
 }

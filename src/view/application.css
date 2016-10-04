@@ -102,6 +102,9 @@
     -fx-font-weight: bold;
 }
 
+.home-btn-cancel{
+	-fx-font-size: 20px;
+}
 
 
 .btn-home{
