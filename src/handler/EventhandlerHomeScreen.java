@@ -8,6 +8,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import view.Time;
+import controller.Controller;
 import controller.StarterData;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
@@ -54,6 +55,7 @@ public class EventhandlerHomeScreen {
     private StackPane pane_login;
 
     private Stage stage;
+    private Controller controller;
 
     
     @FXML
@@ -96,7 +98,8 @@ public class EventhandlerHomeScreen {
     @FXML
     private void setLoginVisible() {
 
-  
+    	 controller.gotoData(stage);
+    	 
     	
       	WebEngine webEngine = wv_dropbox.getEngine();
       	webEngine.load("https://www.dropbox.com/login");
@@ -114,14 +117,6 @@ public class EventhandlerHomeScreen {
       	                }
       	            }
       	        });
-    
-      	
-      	
-//        stage.close();
-//        StarterData starterData = new StarterData();
-//        starterData.start(new Stage());
-      	
-      
 
 
     }
@@ -135,6 +130,9 @@ public class EventhandlerHomeScreen {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+    public void setController(Controller controller){
+    	this.controller = controller;
     }
 
 }

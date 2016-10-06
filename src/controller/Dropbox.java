@@ -74,8 +74,7 @@ public class Dropbox {
 				dummy.setdata_last(convertDateToString(file.asFile().lastModified));
 				list.add(dummy);
 				dummy = null;
-			}
-			else{
+			} else{
 				Data dummy = new Data();
 				dummy.setdata_type("Folder");
 				dummy.setdata_size("");

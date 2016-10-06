@@ -12,6 +12,9 @@ package handler;
 
 
 import com.sun.prism.impl.Disposer.Record;
+
+import controller.Controller;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -83,6 +86,7 @@ public class EventhandlerDataScreen {
     private FileChooser mediaChooser;
     private Stage stage;
     private static final String DEFAULT_DIR = "../";
+    private Controller controller;
 
     @FXML
     private void initialize() {
@@ -98,7 +102,14 @@ public class EventhandlerDataScreen {
 
         // Tabelle einrichten
         ObservableList<Data> user_data = getdata();
-        tv_data.setItems(user_data);
+//        tv_data.setItems(user_data);
+
+        Platform.runLater(() -> {
+            
+        	 tv_data.setItems(controller.getAllData());
+
+        });
+       
         tv_data.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         tv_data.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -236,7 +247,7 @@ public class EventhandlerDataScreen {
     }
     @FXML
     private void logout(){
-        //zurück zu home screen
+        controller.gotoHome(stage);
     }
 
     @FXML
@@ -262,5 +273,9 @@ public class EventhandlerDataScreen {
      */
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+    public void setController(Controller controller){
+    	System.out.println(controller);
+    	this.controller = controller;
     }
 }

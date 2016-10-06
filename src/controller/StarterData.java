@@ -23,23 +23,28 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.File;
 
 public class StarterData extends Application {
 
+	protected static Controller controller;
+	
     public void start(Stage stage) {
         final double ypos = Screen.getPrimary().getVisualBounds().getMinY();
         final double xpos = Screen.getPrimary().getVisualBounds().getMinX();
         final double width = Screen.getPrimary().getVisualBounds().getWidth();
         final double height = Screen.getPrimary().getVisualBounds().getHeight();
         try {
-            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/DataScreen.fxml"));  // Sandro
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/DataScreen.fxml"));  
             Parent root = (Parent) loader.load();
             //setzen der Stage für die popup und mediachooser
-            EventhandlerDataScreen eventhandlerDataScreen = (EventhandlerDataScreen) loader.getController(); //Sandro
-            eventhandlerDataScreen.setStage(stage);// Sandro
-
+            EventhandlerDataScreen eventhandlerDataScreen = (EventhandlerDataScreen) loader.getController(); 
+            eventhandlerDataScreen.setStage(stage);
+            eventhandlerDataScreen.setController(controller);
+            
+            
             Scene scene = new Scene(root);
             scene.getStylesheets().add(this.getClass().getResource("../view/application.css").toExternalForm());
             //drag'n'drop
@@ -75,6 +80,14 @@ public class StarterData extends Application {
                     event.consume();
                 }
             });
+            
+            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+	            @Override
+	            public void handle(WindowEvent t) {
+	                controller.kill();
+	            }
+	        });
+            
             //set font style
 //			Font.loadFont(getClass().getResourceAsStream("../font/Dosis-Light.ttf"), 14);
             Font.loadFont(getClass().getResourceAsStream("../font/Dosis-Bold.ttf"), 14);
@@ -97,4 +110,7 @@ public class StarterData extends Application {
             var5.printStackTrace();
         }
     }
+	public void setController(Controller controller){
+		this.controller = controller;
+	}
 }
