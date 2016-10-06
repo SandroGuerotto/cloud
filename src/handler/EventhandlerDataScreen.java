@@ -100,10 +100,6 @@ public class EventhandlerDataScreen {
         //Cell factory
         initCell();
 
-        // Tabelle einrichten
-        ObservableList<Data> user_data = getdata();
-//        tv_data.setItems(user_data);
-
         Platform.runLater(() -> {
             
         	 tv_data.setItems(controller.getAllData());
@@ -120,13 +116,12 @@ public class EventhandlerDataScreen {
                 hideButton();
             }
         });
-//        tv_data.getSelectionModel().getSelectedItems().clear();
+
 
         Message message = new Message();
 
         pane_data.widthProperty().addListener(new ChangeListener<Number>() {
             @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-//                if ( (100 / 1920) * newSceneWidth.intValue() <= 75){
                 if ( (100 * newSceneWidth.intValue() / 1920)  <= 75){
                     System.out.println("Width: " + newSceneWidth.intValue());
                     pane_flowcontroll.setVisible(false);
@@ -169,32 +164,6 @@ public class EventhandlerDataScreen {
         itm_download.setVisible(true);
         itm_delete.setDisable(false);
         itm_delete.setVisible(true);
-    }
-    /**
-     *  Temporäre Methode zum füllen der Tabelle
-     * @return ObservableList<Data>
-     */
-    public ObservableList<Data> getdata() {
-        ObservableList<Data> list = FXCollections.observableArrayList();
-
-        Data dummy = new Data();
-        dummy.setdata_type("docx");
-        dummy.setdatacreate("23.09.2016 02:50");
-        dummy.setdata_last("26.09.2016 03:00");
-        dummy.setdata_name("test");
-        dummy.setdata_size("5 Gb");
-        list.add(dummy);
-
-        dummy = new Data();
-        dummy.setdata_type("txt");
-        dummy.setdatacreate("20.09.2016 12:15");
-        dummy.setdata_last("30.09.2016 08:00");
-        dummy.setdata_name("file");
-        dummy.setdata_size("1.2 Mb");
-        list.add(dummy);
-
-        return list;
-
     }
 
     /**

@@ -32,7 +32,7 @@ import model.Data;
  * Project          :   cloud
  * Package          :   controller
  * @version         :   1.0
- * LastUpdated      :
+ * LastUpdated      :	Sandro - Grösse in Humansize(MB, GB) und Datum formatiert
  * Description      :   Connector/uploader/downloader/getter from Dropbox
  */
 
@@ -68,7 +68,7 @@ public class Dropbox {
 				
 				Data dummy = new Data();
 				dummy.setdata_type(getextension(file.name));
-				dummy.setdata_size(convertLongtoString(file.asFile().numBytes));
+				dummy.setdata_size(file.asFile().humanSize);
 				dummy.setdata_name(file.name);
 				dummy.setdatacreate(convertDateToString(file.asFile().clientMtime));
 				dummy.setdata_last(convertDateToString(file.asFile().lastModified));
@@ -107,7 +107,7 @@ public class Dropbox {
 	}
 	protected String convertDateToString(Date indate){
 		String dateString = null;
-		SimpleDateFormat sdfr = new SimpleDateFormat("dd/MMM/yyyy");
+		SimpleDateFormat sdfr = new SimpleDateFormat("dd.MM.yyyy");
 		try{
 			dateString = sdfr.format( indate );
 		}catch (Exception ex ){
