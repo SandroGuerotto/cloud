@@ -3,6 +3,8 @@ package message;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
 import java.util.concurrent.Executors;
@@ -22,23 +24,20 @@ import java.util.concurrent.TimeUnit;
 public class Message {
 
     private Label lbl_message;
+    private ImageView iv_icon;
     private String type;
+    private final Image img_info = new Image("File:icons/msg/info/info.png", 20, 20, false, false);
 
-    public Message(
-
-    ){
-
+    public Message(Label lbl_message, ImageView iv_msgicon){
+    	this.lbl_message = lbl_message;
+    	this.iv_icon = iv_msgicon;
     }
 
     /**
      * Entscheidet welchen Typ und welche Nachricht angezeigt werden muss
      * @param msgid Bsp: 'e20'
      */
-    public void showMessage(String msgid){
-        char msg_type = msgid.charAt(0);
-        String string = new String();
-        String msg_code = msgid.substring(1);
-
+    public void showMessage(char msg_type, String msg){
         switch (msg_type) {
             case 's':
                 type = "msg_success";
@@ -53,21 +52,16 @@ public class Message {
                 type = "msg_error";
                 break;
         }
-        switch (msg_code) {
-            // Generelle Fehler code 1-10 nutze!
-            //für model fehler  code 10-30 nutzen!
-            //für bl Fehler Code 31-50 nutzen!
-            //für GUI Fehler Code 51-70 nuten!
-
-            case "99":
-                setProperties(type, "This Feature is not available yet!");
-                break;
-        }
+        
+        setProperties(type, msg);
+        removeMsg();
     }
 
     private void setProperties(String cssClass, String msg) {
         lbl_message.getStyleClass().add(cssClass);
         lbl_message.setText(msg);
+//        iv_icon.setImage(img_info);
+        lbl_message.setGraphic(new ImageView(img_info));
         lbl_message.setVisible(true);
         lbl_message.setDisable(false);
     }

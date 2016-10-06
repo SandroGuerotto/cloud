@@ -109,10 +109,13 @@
       </StackPane>
       <StackPane fx:id="pane_msg" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2">
          <children>
-            <Label fx:id="lbl_msg" alignment="CENTER" onMouseClicked="#deletemsg" prefHeight="45.0" prefWidth="802.0" styleClass="msg_error" text="Ein schwerwiegender Fehler ist aufgetreten!">
+            <Label fx:id="lbl_msg" alignment="CENTER" onMouseClicked="#deletemsg" prefHeight="45.0" prefWidth="802.0" text="Alles erfolgreich hochgeladen!">
                <font>
                   <Font size="24.0" />
                </font>
+               <graphic>
+                  <ImageView fx:id="iv_msgicon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
             </Label>
          </children>
       </StackPane>

@@ -30,7 +30,7 @@ import javafx.util.Duration;
  * Author		: Sandro Guerotto
  * Describtion	: Handler class for all Event from the Home Screen
  * Create on 	: 20.09.2016
- * Last modify  : 26.29.2016 Sandro Erstellung
+ * Last modify  : 06.10.2016 Sandro Zeit angepasst und controllmethoden eingefügt
  */
 
 public class EventhandlerHomeScreen {
@@ -78,6 +78,9 @@ public class EventhandlerHomeScreen {
         fadeIn.setToValue(1.0);
         fadeIn.setCycleCount(1);
         fadeIn.setAutoReverse(true);
+        // Von Anfang an Zeit setzen und danach im 2 Sekundentakt
+        lbl_title.setText(clock.getText());
+        lbl_time.setText(clock.getTime());
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -100,23 +103,23 @@ public class EventhandlerHomeScreen {
 
     	 controller.gotoData(stage);
     	 
-    	
-      	WebEngine webEngine = wv_dropbox.getEngine();
-      	webEngine.load("https://www.dropbox.com/login");
-     	progress.setVisible(true);
-      	progress.setStyle(" -fx-progress-color: white;");
-      	
-      	webEngine.getLoadWorker().stateProperty().addListener(
-      	        new ChangeListener<State>() {
-      	            public void changed(ObservableValue ov, State oldState, State newState) {
-      	                if (newState == State.SUCCEEDED) {
-      	                	pane_login.setVisible(true);
-      	                	fadeIn.play();
-      	                	progress.setVisible(false);
-      	                	
-      	                }
-      	            }
-      	        });
+//    	
+//      	WebEngine webEngine = wv_dropbox.getEngine();
+//      	webEngine.load("https://www.dropbox.com/login");
+//     	progress.setVisible(true);
+//      	progress.setStyle(" -fx-progress-color: white;");
+//      	
+//      	webEngine.getLoadWorker().stateProperty().addListener(
+//      	        new ChangeListener<State>() {
+//      	            public void changed(ObservableValue ov, State oldState, State newState) {
+//      	                if (newState == State.SUCCEEDED) {
+//      	                	pane_login.setVisible(true);
+//      	                	fadeIn.play();
+//      	                	progress.setVisible(false);
+//      	                	
+//      	                }
+//      	            }
+//      	        });
 
 
     }
