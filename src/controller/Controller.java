@@ -67,12 +67,12 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
 
     @Override
     public ObservableList<Data> getAllData() throws NoFilesException {
-    	throw new NoFilesException('i');
-//    	if (dropbox.getarchives() == null) {
-//			throw new NoFilesException('i');
-//		}else{
-//			return dropbox.getarchives();
-//		}
+
+    	if (dropbox.getarchives() == null) {
+			throw new NoFilesException('i');
+		}else{
+			return dropbox.getarchives();
+		}
         
     }
 

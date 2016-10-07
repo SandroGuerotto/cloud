@@ -1,5 +1,8 @@
 package handler;
 
+import java.io.File;
+import java.util.List;
+
 /**
  * @author          :   Sandro Guerotto
  * Created          :   20.09.2016
@@ -21,9 +24,18 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.SplitMenuButton;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
@@ -34,9 +46,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import message.Message;
 import model.Data;
-
-import java.io.File;
-import java.util.List;
+import view.PTableColumn;
 
 public class EventhandlerDataScreen {
 
@@ -50,19 +60,19 @@ public class EventhandlerDataScreen {
 	private TableView<Data> tv_data;
 
 	@FXML
-	private TableColumn<Data, String> col_name;
+	private PTableColumn<Data, String> col_name;
 
 	@FXML
-	private TableColumn<Data, String> col_type;
+	private PTableColumn<Data, String> col_type;
 
 	@FXML
-	private TableColumn<Data, String> col_size;
+	private PTableColumn<Data, String> col_size;
 
 	@FXML
-	private TableColumn<Data, String> col_create;
+	private PTableColumn<Data, String> col_create;
 
 	@FXML
-	private TableColumn<Data, String> col_last;
+	private PTableColumn<Data, String> col_last;
 
 	@FXML
 	private TableColumn<Record, Boolean> col_download;
@@ -83,10 +93,13 @@ public class EventhandlerDataScreen {
 
 	@FXML
 	private MenuItem itm_download, itm_delete, itm_logout;
+
+	@FXML
+	private ProgressIndicator pb_loaddata;
 	
 	@FXML
-	private ImageView iv_msgicon;
-
+	private ImageView iv_logo;
+	
 	private FileChooser mediaChooser;
 	private Stage stage;
 	private static final String DEFAULT_DIR = "../";
@@ -97,23 +110,17 @@ public class EventhandlerDataScreen {
 	private void initialize() {
 
 		mediaChooser = new FileChooser();
-		message = new Message(lbl_msg, iv_msgicon);
+		message = new Message(lbl_msg);
 		itm_upload.setDisable(true);
 		itm_upload.setVisible(false);
+		pb_loaddata.setStyle(" -fx-progress-color:  #38424b;");
+//		pb_loaddata.setDisable(true);
+//		pb_loaddata.setVisible(false);
 		hideButton();
 
 		// Cell factory
 		initCell();
-
-		Platform.runLater(() -> {
-			
-			try {
-				tv_data.setItems(controller.getAllData());
-			} catch (NoFilesException e) {
-				message.showMessage(e.getType(), e.getMsg());
-			}
-
-		});
+		preloadData();
 
 		tv_data.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
@@ -126,8 +133,6 @@ public class EventhandlerDataScreen {
 			}
 		});
 
-		
-
 		pane_data.widthProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth,
@@ -138,11 +143,28 @@ public class EventhandlerDataScreen {
 					pane_flowcontroll.setDisable(true);
 					itm_upload.setDisable(false);
 					itm_upload.setVisible(true);
+					// Spalten anpassen
+					col_type.setVisible(false);
+					col_create.setVisible(false);
+					col_size.setPercentageWidth(0.13);
+					col_last.setPercentageWidth(0.14);
+					col_name.setPercentageWidth(0.655);
+					lbl_title.setText("");
+					
 				} else {
 					pane_flowcontroll.setVisible(true);
 					pane_flowcontroll.setDisable(false);
 					itm_upload.setDisable(true);
 					itm_upload.setVisible(false);
+					// Spalten zurücksetzen
+					col_type.setVisible(true);
+					col_create.setVisible(true);
+					col_type.setPercentageWidth(0.05);
+					col_size.setPercentageWidth(0.05);
+					col_last.setPercentageWidth(0.08);
+					col_create.setPercentageWidth(0.08);
+					col_name.setPercentageWidth(0.695);
+					lbl_title.setText("Dropbox");
 				}
 			}
 		});
@@ -152,6 +174,25 @@ public class EventhandlerDataScreen {
 					Number newSceneHeight) {
 				System.out.println("Height: " + newSceneHeight);
 			}
+		});
+
+	}
+
+	private void preloadData() {
+//		tv_data.setItems(testload());
+		Platform.runLater(() -> {
+			try {
+				
+				pb_loaddata.setDisable(false);
+				pb_loaddata.setVisible(true);
+				tv_data.setItems(controller.getAllData());
+			} catch (NoFilesException e) {
+				message.showMessage(e.getType(), e.getMsg());
+			}finally {
+				pb_loaddata.setDisable(true);
+				pb_loaddata.setVisible(false);
+			}
+
 		});
 
 	}
@@ -269,10 +310,11 @@ public class EventhandlerDataScreen {
 	}
 
 	/**
-	 * Methode zum Setzen der Stage -> Popup. Aufgerufen von wird für Popups genutzt
+	 * Methode zum Setzen der Stage -> Popup. Aufgerufen von wird für Popups
+	 * genutzt
 	 * 
 	 * @param stage
-	 *            
+	 * 
 	 */
 	public void setStage(Stage stage) {
 		this.stage = stage;
@@ -281,5 +323,28 @@ public class EventhandlerDataScreen {
 	public void setController(Controller controller) {
 		System.out.println(controller);
 		this.controller = controller;
+	}
+	
+	
+	
+	private ObservableList<Data> testload(){
+		ObservableList<Data> list = FXCollections.observableArrayList();
+		Data dummy = new Data();
+		dummy.setdata_name("kjsafsafas");
+		dummy.setdata_type(".docx");
+		dummy.setdata_size("30Gb");
+		dummy.setdata_last("07.10.2016");
+		dummy.setdatacreate("09.09.2016");
+		
+		list.add(dummy);
+		dummy = new Data();
+		dummy.setdata_name("asfsf");
+		dummy.setdata_type("Folder");
+		dummy.setdata_size("");
+		dummy.setdata_last("");
+		dummy.setdatacreate("");
+		
+		list.add(dummy);
+		return list;
 	}
 }

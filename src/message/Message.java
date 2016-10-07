@@ -24,13 +24,10 @@ import java.util.concurrent.TimeUnit;
 public class Message {
 
     private Label lbl_message;
-    private ImageView iv_icon;
     private String type;
-    private final Image img_info = new Image("File:icons/msg/info/info.png", 20, 20, false, false);
 
-    public Message(Label lbl_message, ImageView iv_msgicon){
+    public Message(Label lbl_message){
     	this.lbl_message = lbl_message;
-    	this.iv_icon = iv_msgicon;
     }
 
     /**
@@ -60,8 +57,7 @@ public class Message {
     private void setProperties(String cssClass, String msg) {
         lbl_message.getStyleClass().add(cssClass);
         lbl_message.setText(msg);
-//        iv_icon.setImage(img_info);
-        lbl_message.setGraphic(new ImageView(img_info));
+        
         lbl_message.setVisible(true);
         lbl_message.setDisable(false);
     }
