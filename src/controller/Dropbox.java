@@ -4,6 +4,7 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -125,8 +126,18 @@ public class Dropbox {
 		}
 		return null;
 	}
-	public void downloadFile(){
-		
+	public void downloadFile(String path){
+
+		try {
+			FileOutputStream outputStream = new FileOutputStream(path);
+			DbxEntry.File downloadedFile = client.getFile( "/" + path, null,
+	                outputStream);
+	            System.out.println("Metadata: " + downloadedFile.toString());
+	            outputStream.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 	}
 	public void uploadFile(File args){
 		

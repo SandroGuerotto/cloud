@@ -89,7 +89,9 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
 
     @Override
     public void download_data(ObservableList<Data> downloadlist) throws DownloadException, ConnectionErrorException {
-
+    	for(Data data: downloadlist){
+    		dropbox.downloadFile(data.getdata_name());
+    	}
     }
 
     @Override

@@ -114,8 +114,7 @@ public class EventhandlerDataScreen {
 		itm_upload.setDisable(true);
 		itm_upload.setVisible(false);
 		pb_loaddata.setStyle(" -fx-progress-color:  #38424b;");
-//		pb_loaddata.setDisable(true);
-//		pb_loaddata.setVisible(false);
+
 		hideButton();
 
 		// Cell factory
@@ -126,7 +125,6 @@ public class EventhandlerDataScreen {
 
 		tv_data.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue != null) {
-
 				showButton();
 			} else {
 				hideButton();
@@ -197,6 +195,9 @@ public class EventhandlerDataScreen {
 
 	}
 
+	/**
+	 * Zeigt das Dropdownmenü an und blendet das Standardmenü aus
+	 */
 	private void hideButton() {
 		itm_download.setDisable(true);
 		itm_download.setVisible(false);
@@ -207,7 +208,9 @@ public class EventhandlerDataScreen {
 		btn_download.setDisable(true);
 		btn_download.setVisible(false);
 	}
-
+	/**
+	 * Zeigt das Standardmenü wieder an und blendet das Dropdown aus
+	 */
 	private void showButton() {
 		btn_delete.setVisible(true);
 		btn_delete.setDisable(false);
@@ -270,11 +273,9 @@ public class EventhandlerDataScreen {
 		try {
 			controller.delete_data(delete_list);
 		} catch (DeleteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			message.showMessage(e.getType(), e.getMsg());
 		} catch (ConnectionErrorException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			message.showMessage(e.getType(), e.getMsg());
 		}
 	}
 
@@ -289,11 +290,9 @@ public class EventhandlerDataScreen {
 		try {
 			controller.download_data(download_list);
 		} catch (DownloadException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			message.showMessage(e.getType(), e.getMsg());
 		} catch (ConnectionErrorException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			message.showMessage(e.getType(), e.getMsg());
 		}
 	}
 
