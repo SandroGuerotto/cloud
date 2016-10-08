@@ -16,7 +16,7 @@ public class BasicHttpBinding_ILoginServiceStub extends org.apache.axis.client.S
     static org.apache.axis.description.OperationDesc [] _operations;
 
     static {
-        _operations = new org.apache.axis.description.OperationDesc[6];
+        _operations = new org.apache.axis.description.OperationDesc[9];
         _initOperationDesc1();
     }
 
@@ -86,8 +86,15 @@ public class BasicHttpBinding_ILoginServiceStub extends org.apache.axis.client.S
         _operations[3] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
-        oper.setName("Update");
-        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "newUserData"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://schemas.datacontract.org/2004/07/PrettySecureCloud.Model", "User"), org.datacontract.schemas._2004._07.PrettySecureCloud_Model.User.class, false, false);
+        oper.setName("ChangePassword");
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "userId"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"), java.lang.Integer.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "currentPassword"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
+        param.setNillable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "newPassword"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
         param.setOmittable(true);
         param.setNillable(true);
         oper.addParameter(param);
@@ -95,6 +102,64 @@ public class BasicHttpBinding_ILoginServiceStub extends org.apache.axis.client.S
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
         _operations[4] = oper;
+
+        oper = new org.apache.axis.description.OperationDesc();
+        oper.setName("AddService");
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "userId"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"), java.lang.Integer.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "type"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://schemas.datacontract.org/2004/07/PrettySecureCloud.Model", "ServiceType"), org.datacontract.schemas._2004._07.PrettySecureCloud_Model.ServiceType.class, false, false);
+        param.setOmittable(true);
+        param.setNillable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "name"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
+        param.setNillable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "loginToken"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
+        param.setNillable(true);
+        oper.addParameter(param);
+        oper.setReturnType(new javax.xml.namespace.QName("http://schemas.datacontract.org/2004/07/PrettySecureCloud.Model", "CloudService"));
+        oper.setReturnClass(org.datacontract.schemas._2004._07.PrettySecureCloud_Model.CloudService.class);
+        oper.setReturnQName(new javax.xml.namespace.QName("http://tempuri.org/", "AddServiceResult"));
+        oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
+        oper.setUse(org.apache.axis.constants.Use.LITERAL);
+        _operations[5] = oper;
+
+        oper = new org.apache.axis.description.OperationDesc();
+        oper.setName("UpdateService");
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "userId"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"), java.lang.Integer.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "serviceId"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"), java.lang.Integer.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "newName"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
+        param.setNillable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "newLoginToken"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
+        param.setNillable(true);
+        oper.addParameter(param);
+        oper.setReturnType(org.apache.axis.encoding.XMLType.AXIS_VOID);
+        oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
+        oper.setUse(org.apache.axis.constants.Use.LITERAL);
+        _operations[6] = oper;
+
+        oper = new org.apache.axis.description.OperationDesc();
+        oper.setName("RemoveService");
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "userId"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"), java.lang.Integer.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "serviceId"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"), java.lang.Integer.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
+        oper.setReturnType(org.apache.axis.encoding.XMLType.AXIS_VOID);
+        oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
+        oper.setUse(org.apache.axis.constants.Use.LITERAL);
+        _operations[7] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("LoadAllServices");
@@ -105,7 +170,7 @@ public class BasicHttpBinding_ILoginServiceStub extends org.apache.axis.client.S
         param.setItemQName(new javax.xml.namespace.QName("http://schemas.datacontract.org/2004/07/PrettySecureCloud.Model", "ServiceType"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[5] = oper;
+        _operations[8] = oper;
 
     }
 
@@ -372,23 +437,111 @@ public class BasicHttpBinding_ILoginServiceStub extends org.apache.axis.client.S
 }
     }
 
-    public void update(org.datacontract.schemas._2004._07.PrettySecureCloud_Model.User newUserData) throws java.rmi.RemoteException {
+    public void changePassword(java.lang.Integer userId, java.lang.String currentPassword, java.lang.String newPassword) throws java.rmi.RemoteException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
         _call.setOperation(_operations[4]);
         _call.setUseSOAPAction(true);
-        _call.setSOAPActionURI("http://tempuri.org/ILoginService/Update");
+        _call.setSOAPActionURI("http://tempuri.org/ILoginService/ChangePassword");
         _call.setEncodingStyle(null);
         _call.setProperty(org.apache.axis.client.Call.SEND_TYPE_ATTR, Boolean.FALSE);
         _call.setProperty(org.apache.axis.AxisEngine.PROP_DOMULTIREFS, Boolean.FALSE);
         _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
-        _call.setOperationName(new javax.xml.namespace.QName("http://tempuri.org/", "Update"));
+        _call.setOperationName(new javax.xml.namespace.QName("http://tempuri.org/", "ChangePassword"));
 
         setRequestHeaders(_call);
         setAttachments(_call);
- try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {newUserData});
+ try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {userId, currentPassword, newPassword});
+
+        if (_resp instanceof java.rmi.RemoteException) {
+            throw (java.rmi.RemoteException)_resp;
+        }
+        extractAttachments(_call);
+  } catch (org.apache.axis.AxisFault axisFaultException) {
+  throw axisFaultException;
+}
+    }
+
+    public org.datacontract.schemas._2004._07.PrettySecureCloud_Model.CloudService addService(java.lang.Integer userId, org.datacontract.schemas._2004._07.PrettySecureCloud_Model.ServiceType type, java.lang.String name, java.lang.String loginToken) throws java.rmi.RemoteException {
+        if (super.cachedEndpoint == null) {
+            throw new org.apache.axis.NoEndPointException();
+        }
+        org.apache.axis.client.Call _call = createCall();
+        _call.setOperation(_operations[5]);
+        _call.setUseSOAPAction(true);
+        _call.setSOAPActionURI("http://tempuri.org/ILoginService/AddService");
+        _call.setEncodingStyle(null);
+        _call.setProperty(org.apache.axis.client.Call.SEND_TYPE_ATTR, Boolean.FALSE);
+        _call.setProperty(org.apache.axis.AxisEngine.PROP_DOMULTIREFS, Boolean.FALSE);
+        _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
+        _call.setOperationName(new javax.xml.namespace.QName("http://tempuri.org/", "AddService"));
+
+        setRequestHeaders(_call);
+        setAttachments(_call);
+ try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {userId, type, name, loginToken});
+
+        if (_resp instanceof java.rmi.RemoteException) {
+            throw (java.rmi.RemoteException)_resp;
+        }
+        else {
+            extractAttachments(_call);
+            try {
+                return (org.datacontract.schemas._2004._07.PrettySecureCloud_Model.CloudService) _resp;
+            } catch (java.lang.Exception _exception) {
+                return (org.datacontract.schemas._2004._07.PrettySecureCloud_Model.CloudService) org.apache.axis.utils.JavaUtils.convert(_resp, org.datacontract.schemas._2004._07.PrettySecureCloud_Model.CloudService.class);
+            }
+        }
+  } catch (org.apache.axis.AxisFault axisFaultException) {
+  throw axisFaultException;
+}
+    }
+
+    public void updateService(java.lang.Integer userId, java.lang.Integer serviceId, java.lang.String newName, java.lang.String newLoginToken) throws java.rmi.RemoteException {
+        if (super.cachedEndpoint == null) {
+            throw new org.apache.axis.NoEndPointException();
+        }
+        org.apache.axis.client.Call _call = createCall();
+        _call.setOperation(_operations[6]);
+        _call.setUseSOAPAction(true);
+        _call.setSOAPActionURI("http://tempuri.org/ILoginService/UpdateService");
+        _call.setEncodingStyle(null);
+        _call.setProperty(org.apache.axis.client.Call.SEND_TYPE_ATTR, Boolean.FALSE);
+        _call.setProperty(org.apache.axis.AxisEngine.PROP_DOMULTIREFS, Boolean.FALSE);
+        _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
+        _call.setOperationName(new javax.xml.namespace.QName("http://tempuri.org/", "UpdateService"));
+
+        setRequestHeaders(_call);
+        setAttachments(_call);
+ try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {userId, serviceId, newName, newLoginToken});
+
+        if (_resp instanceof java.rmi.RemoteException) {
+            throw (java.rmi.RemoteException)_resp;
+        }
+        extractAttachments(_call);
+  } catch (org.apache.axis.AxisFault axisFaultException) {
+  throw axisFaultException;
+}
+    }
+
+    public void removeService(java.lang.Integer userId, java.lang.Integer serviceId) throws java.rmi.RemoteException {
+        if (super.cachedEndpoint == null) {
+            throw new org.apache.axis.NoEndPointException();
+        }
+        org.apache.axis.client.Call _call = createCall();
+        _call.setOperation(_operations[7]);
+        _call.setUseSOAPAction(true);
+        _call.setSOAPActionURI("http://tempuri.org/ILoginService/RemoveService");
+        _call.setEncodingStyle(null);
+        _call.setProperty(org.apache.axis.client.Call.SEND_TYPE_ATTR, Boolean.FALSE);
+        _call.setProperty(org.apache.axis.AxisEngine.PROP_DOMULTIREFS, Boolean.FALSE);
+        _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
+        _call.setOperationName(new javax.xml.namespace.QName("http://tempuri.org/", "RemoveService"));
+
+        setRequestHeaders(_call);
+        setAttachments(_call);
+ try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {userId, serviceId});
 
         if (_resp instanceof java.rmi.RemoteException) {
             throw (java.rmi.RemoteException)_resp;
@@ -404,7 +557,7 @@ public class BasicHttpBinding_ILoginServiceStub extends org.apache.axis.client.S
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[5]);
+        _call.setOperation(_operations[8]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tempuri.org/ILoginService/LoadAllServices");
         _call.setEncodingStyle(null);
