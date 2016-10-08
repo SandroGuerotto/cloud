@@ -19,7 +19,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane fx:id="pane_homeScreen" prefHeight="1040.0" prefWidth="1920.0" styleClass="home-wallpaper" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="handler.EventhandlerHomeScreen">
+<AnchorPane fx:id="pane_homeScreen" focusTraversable="true" prefHeight="1040.0" prefWidth="1920.0" styleClass="home-wallpaper" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="handler.EventhandlerHomeScreen">
   <children>
     <StackPane fx:id="pane_homeScreen" layoutX="0.0" layoutY="0.0" prefHeight="1040.0" prefWidth="1920.0">
       <children>
@@ -42,7 +42,7 @@
                <children>
                   <VBox alignment="BOTTOM_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                      <children>
-                        <Label fx:id="lbl_time" prefWidth="152.0" text="21:39" textFill="#ffffffe5">
+                        <Label fx:id="lbl_time" prefWidth="180.0" text="09:03" textFill="#ffffffe5">
                            <font>
                               <Font size="54.0" />
                            </font>

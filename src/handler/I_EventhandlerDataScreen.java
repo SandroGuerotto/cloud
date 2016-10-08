@@ -1,6 +1,7 @@
 package handler;
 
 import exception.DownloadException;
+import exception.NoFilesException;
 import exception.ConnectionErrorException;
 import exception.DeleteException;
 import exception.UploadException;
@@ -20,12 +21,12 @@ import java.util.List;
  */
 public interface I_EventhandlerDataScreen {
 
-    ObservableList<Data> getAllData();
+    ObservableList<Data> getAllData() throws NoFilesException;
 
     void delete_data(ObservableList<Data> deletelist) throws DeleteException, ConnectionErrorException;
 
     void upload_data(List<File> uploadlist) throws UploadException, ConnectionErrorException;
 
-    void download_data(ArrayList<Data> downloadlist) throws DownloadException, ConnectionErrorException;
+    void download_data(ObservableList<Data> downloadlist) throws DownloadException, ConnectionErrorException;
 
 }

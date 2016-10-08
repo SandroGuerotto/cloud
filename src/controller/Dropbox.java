@@ -4,6 +4,7 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -32,7 +33,7 @@ import model.Data;
  * Project          :   cloud
  * Package          :   controller
  * @version         :   1.0
- * LastUpdated      :
+ * LastUpdated      :	Sandro - Grösse in Humansize(MB, GB) und Datum formatiert
  * Description      :   Connector/uploader/downloader/getter from Dropbox
  */
 
@@ -68,14 +69,13 @@ public class Dropbox {
 				
 				Data dummy = new Data();
 				dummy.setdata_type(getextension(file.name));
-				dummy.setdata_size(convertLongtoString(file.asFile().numBytes));
+				dummy.setdata_size(file.asFile().humanSize);
 				dummy.setdata_name(file.name);
 				dummy.setdatacreate(convertDateToString(file.asFile().clientMtime));
 				dummy.setdata_last(convertDateToString(file.asFile().lastModified));
 				list.add(dummy);
 				dummy = null;
-			}
-			else{
+			} else{
 				Data dummy = new Data();
 				dummy.setdata_type("Folder");
 				dummy.setdata_size("");
@@ -108,7 +108,7 @@ public class Dropbox {
 	}
 	protected String convertDateToString(Date indate){
 		String dateString = null;
-		SimpleDateFormat sdfr = new SimpleDateFormat("dd/MMM/yyyy");
+		SimpleDateFormat sdfr = new SimpleDateFormat("dd.MM.yyyy");
 		try{
 			dateString = sdfr.format( indate );
 		}catch (Exception ex ){
@@ -126,8 +126,18 @@ public class Dropbox {
 		}
 		return null;
 	}
-	public void downloadFile(){
-		
+	public void downloadFile(String path){
+
+		try {
+			FileOutputStream outputStream = new FileOutputStream(path);
+			DbxEntry.File downloadedFile = client.getFile( "/" + path, null,
+	                outputStream);
+	            System.out.println("Metadata: " + downloadedFile.toString());
+	            outputStream.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 	}
 	public void uploadFile(File args){
 		
