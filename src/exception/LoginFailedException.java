@@ -22,5 +22,8 @@ public class LoginFailedException extends Exception{
 	    public String getMsg(){
 	        return this.msg;
 	    }
+	    public char getType(){
+	    	return type;
+	    }
 
 }

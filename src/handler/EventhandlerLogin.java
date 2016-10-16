@@ -1,5 +1,6 @@
 package handler;
 
+import controller.Controller;
 import controller.StarterHome;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,7 +12,7 @@ import javafx.stage.Stage;
  * Author		: Sandro Guerotto
  * Describtion	: Handler class for all Event from the Login Screen
  * Create on 	: 20.09.2016
- * Last modify  : 27.09.2016 Sandro Testladen der FXML
+ * Last modify  : 06.10.2016 Sandro Setter für Controller
  */
 public class EventhandlerLogin {
 
@@ -19,6 +20,7 @@ public class EventhandlerLogin {
     private Button btn_login;
 
     private Stage stage;
+    private Controller controller;
 
     @FXML
     private void initialize() {
@@ -29,9 +31,9 @@ public class EventhandlerLogin {
     void login(ActionEvent event) {
 
 
-        stage.close();
-        StarterHome starterHome = new StarterHome();
-        starterHome.start(new Stage());
+//        stage.close();
+        // login methoden
+        controller.gotoHome(stage);
     }
 
     /**
@@ -40,5 +42,9 @@ public class EventhandlerLogin {
      */
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+    
+    public void setController(Controller controller){
+    	this.controller = controller;
     }
 }

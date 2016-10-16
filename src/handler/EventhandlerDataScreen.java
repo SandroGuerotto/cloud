@@ -1,5 +1,8 @@
 package handler;
 
+import java.io.File;
+import java.util.List;
+
 /**
  * @author          :   Sandro Guerotto
  * Created          :   20.09.2016
@@ -10,16 +13,31 @@ package handler;
  * Description      :   Contains all handler for DataScreen and init Screen
  */
 
-
 import com.sun.prism.impl.Disposer.Record;
+
+import controller.Controller;
+import exception.ConnectionErrorException;
+import exception.DeleteException;
+import exception.DownloadException;
+import exception.NoFilesException;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.SplitMenuButton;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -28,239 +46,304 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import message.Message;
 import model.Data;
-
-import java.io.File;
-import java.util.List;
+import view.PTableColumn;
 
 public class EventhandlerDataScreen {
 
-    @FXML
-    private GridPane pane_data;
+	@FXML
+	private GridPane pane_data;
 
-    @FXML
-    private StackPane pane_msg;
+	@FXML
+	private StackPane pane_msg;
 
-    @FXML
-    private TableView<Data> tv_data;
+	@FXML
+	private TableView<Data> tv_data;
 
-    @FXML
-    private TableColumn<Data, String> col_name;
+	@FXML
+	private PTableColumn<Data, String> col_name;
 
-    @FXML
-    private TableColumn<Data, String> col_type;
+	@FXML
+	private PTableColumn<Data, String> col_type;
 
-    @FXML
-    private TableColumn<Data, String> col_size;
+	@FXML
+	private PTableColumn<Data, String> col_size;
 
-    @FXML
-    private TableColumn<Data, String> col_create;
+	@FXML
+	private PTableColumn<Data, String> col_create;
 
-    @FXML
-    private TableColumn<Data, String> col_last;
+	@FXML
+	private PTableColumn<Data, String> col_last;
 
-    @FXML
-    private TableColumn col_download;
+	@FXML
+	private TableColumn<Record, Boolean> col_download;
 
-    @FXML
-    private Label lbl_title, lbl_path, lbl_msg;
+	@FXML
+	private Label lbl_title, lbl_path, lbl_msg;
 
-    @FXML
-    private Button btn_upload, btn_delete, btn_logout, btn_download;
+	@FXML
+	private Button btn_upload, btn_delete, btn_logout, btn_download;
 
-    @FXML
-    private FlowPane pane_flowcontroll;
-    @FXML
-    private StackPane pane_controlls;
+	@FXML
+	private FlowPane pane_flowcontroll;
+	@FXML
+	private StackPane pane_controlls;
 
-    @FXML
-    private SplitMenuButton itm_upload;
+	@FXML
+	private SplitMenuButton itm_upload;
 
-    @FXML
-    private MenuItem itm_download, itm_delete, itm_logout;
+	@FXML
+	private MenuItem itm_download, itm_delete, itm_logout;
 
+	@FXML
+	private ProgressIndicator pb_loaddata;
+	
+	@FXML
+	private ImageView iv_logo;
+	
+	private FileChooser mediaChooser;
+	private Stage stage;
+	private static final String DEFAULT_DIR = "../";
+	private Controller controller;
+	private Message message;
 
+	@FXML
+	private void initialize() {
 
-    private FileChooser mediaChooser;
-    private Stage stage;
-    private static final String DEFAULT_DIR = "../";
+		mediaChooser = new FileChooser();
+		message = new Message(lbl_msg);
+		itm_upload.setDisable(true);
+		itm_upload.setVisible(false);
+		pb_loaddata.setStyle(" -fx-progress-color:  #38424b;");
 
-    @FXML
-    private void initialize() {
+		hideButton();
 
-        mediaChooser = new FileChooser();
-        itm_upload.setDisable(true);
-        itm_upload.setVisible(false);
-        hideButton();
+		// Cell factory
+		initCell();
+		preloadData();
 
+		tv_data.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-        //Cell factory
-        initCell();
+		tv_data.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue != null) {
+				showButton();
+			} else {
+				hideButton();
+			}
+		});
 
-        // Tabelle einrichten
-        ObservableList<Data> user_data = getdata();
-        tv_data.setItems(user_data);
-        tv_data.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		pane_data.widthProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth,
+					Number newSceneWidth) {
+				if ((100 * newSceneWidth.intValue() / 1920) <= 75) {
+					System.out.println("Width: " + newSceneWidth.intValue());
+					pane_flowcontroll.setVisible(false);
+					pane_flowcontroll.setDisable(true);
+					itm_upload.setDisable(false);
+					itm_upload.setVisible(true);
+					// Spalten anpassen
+					col_type.setVisible(false);
+					col_create.setVisible(false);
+					col_size.setPercentageWidth(0.13);
+					col_last.setPercentageWidth(0.14);
+					col_name.setPercentageWidth(0.655);
+					lbl_title.setText("");
+					
+				} else {
+					pane_flowcontroll.setVisible(true);
+					pane_flowcontroll.setDisable(false);
+					itm_upload.setDisable(true);
+					itm_upload.setVisible(false);
+					// Spalten zurücksetzen
+					col_type.setVisible(true);
+					col_create.setVisible(true);
+					col_type.setPercentageWidth(0.05);
+					col_size.setPercentageWidth(0.05);
+					col_last.setPercentageWidth(0.08);
+					col_create.setPercentageWidth(0.08);
+					col_name.setPercentageWidth(0.695);
+					lbl_title.setText("Dropbox");
+				}
+			}
+		});
+		pane_data.heightProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight,
+					Number newSceneHeight) {
+				System.out.println("Height: " + newSceneHeight);
+			}
+		});
 
-        tv_data.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
+	}
 
-                showButton();
-            } else {
-                hideButton();
-            }
-        });
-//        tv_data.getSelectionModel().getSelectedItems().clear();
+	private void preloadData() {
+//		tv_data.setItems(testload());
+		Platform.runLater(() -> {
+			try {
+				
+				pb_loaddata.setDisable(false);
+				pb_loaddata.setVisible(true);
+				tv_data.setItems(controller.getAllData());
+			} catch (NoFilesException e) {
+				message.showMessage(e.getType(), e.getMsg());
+			}finally {
+				pb_loaddata.setDisable(true);
+				pb_loaddata.setVisible(false);
+			}
 
-        Message message = new Message();
+		});
 
-        pane_data.widthProperty().addListener(new ChangeListener<Number>() {
-            @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-//                if ( (100 / 1920) * newSceneWidth.intValue() <= 75){
-                if ( (100 * newSceneWidth.intValue() / 1920)  <= 75){
-                    System.out.println("Width: " + newSceneWidth.intValue());
-                    pane_flowcontroll.setVisible(false);
-                    pane_flowcontroll.setDisable(true);
-                    itm_upload.setDisable(false);
-                    itm_upload.setVisible(true);
-                }else{
-                    pane_flowcontroll.setVisible(true);
-                    pane_flowcontroll.setDisable(false);
-                    itm_upload.setDisable(true);
-                    itm_upload.setVisible(false);
-                }
-            }
-        });
-        pane_data.heightProperty().addListener(new ChangeListener<Number>() {
-            @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-                System.out.println("Height: " + newSceneHeight);
-            }
-        });
+	}
 
-    }
+	/**
+	 * Zeigt das Dropdownmenü an und blendet das Standardmenü aus
+	 */
+	private void hideButton() {
+		itm_download.setDisable(true);
+		itm_download.setVisible(false);
+		itm_delete.setDisable(true);
+		itm_delete.setVisible(false);
+		btn_delete.setDisable(true);
+		btn_delete.setVisible(false);
+		btn_download.setDisable(true);
+		btn_download.setVisible(false);
+	}
+	/**
+	 * Zeigt das Standardmenü wieder an und blendet das Dropdown aus
+	 */
+	private void showButton() {
+		btn_delete.setVisible(true);
+		btn_delete.setDisable(false);
+		btn_download.setVisible(true);
+		btn_download.setDisable(false);
+		itm_download.setDisable(false);
+		itm_download.setVisible(true);
+		itm_delete.setDisable(false);
+		itm_delete.setVisible(true);
+	}
 
-    private void hideButton() {
-        itm_download.setDisable(true);
-        itm_download.setVisible(false);
-        itm_delete.setDisable(true);
-        itm_delete.setVisible(false);
-        btn_delete.setDisable(true);
-        btn_delete.setVisible(false);
-        btn_download.setDisable(true);
-        btn_download.setVisible(false);
-    }
+	/**
+	 * Methode um die Tabellenzellen zu initalisieren. Erstellt auch den
+	 * Downloadbutton
+	 */
+	private void initCell() {
 
-    private void showButton(){
-        btn_delete.setVisible(true);
-        btn_delete.setDisable(false);
-        btn_download.setVisible(true);
-        btn_download.setDisable(false);
-        itm_download.setDisable(false);
-        itm_download.setVisible(true);
-        itm_delete.setDisable(false);
-        itm_delete.setVisible(true);
-    }
-    /**
-     *  TemporÃ¤re Methode zum fÃ¼llen der Tabelle
-     * @return ObservableList<Data>
-     */
-    public ObservableList<Data> getdata() {
-        ObservableList<Data> list = FXCollections.observableArrayList();
+		col_name.setCellValueFactory(new PropertyValueFactory<Data, String>("data_name"));
+		col_type.setCellValueFactory(new PropertyValueFactory<Data, String>("data_type"));
+		col_size.setCellValueFactory(new PropertyValueFactory<Data, String>("data_size"));
+		col_create.setCellValueFactory(new PropertyValueFactory<Data, String>("data_create"));
+		col_last.setCellValueFactory(new PropertyValueFactory<Data, String>("data_last"));
 
-        Data dummy = new Data();
-        dummy.setdata_type("docx");
-        dummy.setdatacreate("23.09.2016 02:50");
-        dummy.setdata_last("26.09.2016 03:00");
-        dummy.setdata_name("test");
-        dummy.setdata_size("5 Gb");
-        list.add(dummy);
+		col_download.setSortable(false);
 
-        dummy = new Data();
-        dummy.setdata_type("txt");
-        dummy.setdatacreate("20.09.2016 12:15");
-        dummy.setdata_last("30.09.2016 08:00");
-        dummy.setdata_name("file");
-        dummy.setdata_size("1.2 Mb");
-        list.add(dummy);
+		col_download.setCellValueFactory(
+				new Callback<TableColumn.CellDataFeatures<Record, Boolean>, ObservableValue<Boolean>>() {
 
-        return list;
+					@Override
+					public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<Record, Boolean> p) {
+						return new SimpleBooleanProperty(p.getValue() != null);
+					}
+				});
 
-    }
+		col_download.setCellFactory(new Callback<TableColumn<Record, Boolean>, TableCell<Record, Boolean>>() {
 
-    /**
-     * Methode um die Tabellenzellen zu initalisieren. Erstellt auch den Downloadbutton
-     */
-    private void initCell(){
+			@Override
+			public TableCell<Record, Boolean> call(TableColumn<Record, Boolean> p) {
+				return new view.ButtonCell();
+			}
 
-        col_name.setCellValueFactory(new PropertyValueFactory("data_name"));
-        col_type.setCellValueFactory(new PropertyValueFactory("data_type"));
-        col_size.setCellValueFactory(new PropertyValueFactory("data_size"));
-        col_create.setCellValueFactory(new PropertyValueFactory("data_create"));
-        col_last.setCellValueFactory(new PropertyValueFactory("data_last"));
+		});
 
-        col_download.setSortable(false);
+	}
 
-        col_download.setCellValueFactory(
-                new Callback<TableColumn.CellDataFeatures<Record, Boolean>, ObservableValue<Boolean>>() {
+	@FXML
+	private void upload() {
+		mediaChooser.setTitle("Datei hochladen");
+		mediaChooser.setInitialDirectory(new File(DEFAULT_DIR));
+		List<File> upload_list = mediaChooser.showOpenMultipleDialog(stage);
+		if (upload_list != null) {
+			// Ã¼bergabe nach controller
+		}
 
-                    @Override
-                    public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<Record, Boolean> p) {
-                        return new SimpleBooleanProperty(p.getValue() != null);
-                    }
-                });
+	}
 
-        col_download.setCellFactory(new Callback<TableColumn<Record, Boolean>, TableCell<Record, Boolean>>() {
+	@FXML
+	private void delete() {
+		ObservableList<Data> delete_list = tv_data.getSelectionModel().getSelectedItems();
+		try {
+			controller.delete_data(delete_list);
+		} catch (DeleteException e) {
+			message.showMessage(e.getType(), e.getMsg());
+		} catch (ConnectionErrorException e) {
+			message.showMessage(e.getType(), e.getMsg());
+		}
+	}
 
-            @Override
-            public TableCell<Record, Boolean> call(TableColumn<Record, Boolean> p) {
-                return new view.ButtonCell();
-            }
+	@FXML
+	private void logout() {
+		controller.gotoHome(stage);
+	}
 
-        });
+	@FXML
+	private void download() {
+		ObservableList<Data> download_list = tv_data.getSelectionModel().getSelectedItems();
+		try {
+			controller.download_data(download_list);
+		} catch (DownloadException e) {
+			message.showMessage(e.getType(), e.getMsg());
+		} catch (ConnectionErrorException e) {
+			message.showMessage(e.getType(), e.getMsg());
+		}
+	}
 
-    }
+	@FXML
+	private void deletemsg() {
+		lbl_msg.setVisible(false);
+		lbl_msg.setDisable(true);
+	}
 
-    @FXML
-    private void upload(){
-        mediaChooser.setTitle("Datei hochladen");
-        mediaChooser.setInitialDirectory(new File(DEFAULT_DIR));
-        List<File> upload_list = mediaChooser.showOpenMultipleDialog(stage);
-        if (upload_list != null){
-            //Ã¼bergabe nach controller
-        }
+	@FXML
+	private void setFocus() {
+		pane_data.requestFocus();
+		tv_data.getSelectionModel().clearSelection();
+	}
 
-    }
-    @FXML
-    private void delete(){
-        ObservableList<Data> delete_list = tv_data.getSelectionModel().getSelectedItems();
-        //Ã¼beragabe nach controller
-    }
-    @FXML
-    private void logout(){
-        //zurÃ¼ck zu home screen
-    }
+	/**
+	 * Methode zum Setzen der Stage -> Popup. Aufgerufen von wird für Popups
+	 * genutzt
+	 * 
+	 * @param stage
+	 * 
+	 */
+	public void setStage(Stage stage) {
+		this.stage = stage;
+	}
 
-    @FXML
-    private void download(){
-        ObservableList<Data> download_list = tv_data.getSelectionModel().getSelectedItems();
-        //Ã¼bergabe nach controller!
-    }
-
-    @FXML
-    private void deletemsg(){
-        lbl_msg.setVisible(false);
-        lbl_msg.setDisable(true);
-    }
-    @FXML
-    private void setFocus(){
-        pane_data.requestFocus();
-        tv_data.getSelectionModel().clearSelection();
-    }
-
-    /**
-     * Methode zum Setzen der Stage -> Popup. Aufgerufen von
-     * @param stage wird fÃ¼r Popups genutzt
-     */
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
+	public void setController(Controller controller) {
+		System.out.println(controller);
+		this.controller = controller;
+	}
+	
+	
+	
+	private ObservableList<Data> testload(){
+		ObservableList<Data> list = FXCollections.observableArrayList();
+		Data dummy = new Data();
+		dummy.setdata_name("kjsafsafas");
+		dummy.setdata_type(".docx");
+		dummy.setdata_size("30Gb");
+		dummy.setdata_last("07.10.2016");
+		dummy.setdatacreate("09.09.2016");
+		
+		list.add(dummy);
+		dummy = new Data();
+		dummy.setdata_name("asfsf");
+		dummy.setdata_type("Folder");
+		dummy.setdata_size("");
+		dummy.setdata_last("");
+		dummy.setdatacreate("");
+		
+		list.add(dummy);
+		return list;
+	}
 }

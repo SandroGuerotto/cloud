@@ -22,4 +22,7 @@ public class DownloadException extends Exception {
     public String getMsg() {
         return this.msg;
     }
+    public char getType(){
+    	return type;
+    }
 }

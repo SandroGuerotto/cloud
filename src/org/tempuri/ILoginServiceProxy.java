@@ -68,10 +68,28 @@ public class ILoginServiceProxy implements org.tempuri.ILoginService {
     return iLoginService.login(username, password);
   }
   
-  public void update(org.datacontract.schemas._2004._07.PrettySecureCloud_Model.User newUserData) throws java.rmi.RemoteException{
+  public void changePassword(java.lang.Integer userId, java.lang.String currentPassword, java.lang.String newPassword) throws java.rmi.RemoteException{
     if (iLoginService == null)
       _initILoginServiceProxy();
-    iLoginService.update(newUserData);
+    iLoginService.changePassword(userId, currentPassword, newPassword);
+  }
+  
+  public org.datacontract.schemas._2004._07.PrettySecureCloud_Model.CloudService addService(java.lang.Integer userId, org.datacontract.schemas._2004._07.PrettySecureCloud_Model.ServiceType type, java.lang.String name, java.lang.String loginToken) throws java.rmi.RemoteException{
+    if (iLoginService == null)
+      _initILoginServiceProxy();
+    return iLoginService.addService(userId, type, name, loginToken);
+  }
+  
+  public void updateService(java.lang.Integer userId, java.lang.Integer serviceId, java.lang.String newName, java.lang.String newLoginToken) throws java.rmi.RemoteException{
+    if (iLoginService == null)
+      _initILoginServiceProxy();
+    iLoginService.updateService(userId, serviceId, newName, newLoginToken);
+  }
+  
+  public void removeService(java.lang.Integer userId, java.lang.Integer serviceId) throws java.rmi.RemoteException{
+    if (iLoginService == null)
+      _initILoginServiceProxy();
+    iLoginService.removeService(userId, serviceId);
   }
   
   public org.datacontract.schemas._2004._07.PrettySecureCloud_Model.ServiceType[] loadAllServices() throws java.rmi.RemoteException{

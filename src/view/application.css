@@ -11,6 +11,10 @@
     -fx-font-family: "Dosis";
     -fx-text-fill: #38424b;
 }
+/* ===================================================================
+/* 							Data Screen 
+ * ===================================================================
+ */
 .TableColumn{
     -fx-font-weight: bold;
     -fx-text-fill: #38424b;
@@ -85,9 +89,29 @@
     /*-fx-pref-width: ;*/
     -fx-padding: 10 20 10 20;
 }
+#download-cell{
+    -fx-background-image: url("../icons/dark-blue/download.png");
+    -fx-background-color:transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 65%;
+    -fx-background-position: center ;
+}
+#download-cell:hover{
+    -fx-cursor: hand;
+}
+#col_name, #col_create, #col_type, #col_last, #col_size{
+    -fx-font-size: 24.0;
+}
+#col_create, #col_last{
+    -fx-text-alignment: justify;
+}
 
+/* ===================================================================
+/* 							Home Screen 
+ * ===================================================================
+ */
 .home-wallpaper{
-    -fx-background-image: url('../images/herbst.jpg');
+    -fx-background-image: url('../images/cool.jpg');
     -fx-background-repeat: no-repeat;
 }
 .home-color{
@@ -109,8 +133,9 @@
 
 .btn-home{
     -fx-background-color: transparent;
+    -fx-background-radius: 10;
 }
-.btn-home:hover{
+.btn-home:hover, .btn-home:focused{
     -fx-background-color: #ffffff4d;
     -fx-cursor: hand;
 }
@@ -121,24 +146,11 @@
 .btn-cancel-whtie:hover{
     -fx-underline: true;
 }
-#download-cell{
-    -fx-background-image: url("../icons/dark-blue/download.png");
-    -fx-background-color:transparent;
-    -fx-background-repeat: no-repeat;
-    -fx-background-size: 65%;
-    -fx-background-position: center ;
-}
-#download-cell:hover{
-    -fx-cursor: hand;
-}
-#col_name, #col_create, #col_type, #col_last, #col_size{
-    -fx-font-size: 24.0;
-}
-#col_create, #col_last{
-    -fx-text-alignment: justify;
-}
 
-/* btn */
+/* ===================================================================
+/* 							Buttons  
+ * ===================================================================
+ */
 .dark-blue {
     -fx-background-color:
             #090a0c,
@@ -180,8 +192,10 @@
             radial-gradient(center 50% 0%, radius 100%, rgba(189, 229, 248, 0.9), rgba(255,255,255,0));
 }
 
-
-/* Message */
+/* ===================================================================
+/* 							Nachrichten
+ * ===================================================================
+ */
 .msg_info, .msg_success, .msg_warning, .msg_error {
     -fx-padding: 12px 12px 12px 12px;
     -fx-font-size: 24px;
@@ -190,23 +204,43 @@
 
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 10, 0, 0, 0);
 }
+.msg_info:hover{
+	-fx-cursor: hand;
+}
 .msg_info {
     -fx-text-fill: #00529B;
     -fx-background-color: #BDE5F8;
     -fx-border-color: #00529B;
+    -fx-graphic: url('../icons/msg/info.png');
+    -fx-graphic-hpos: leading;
+    -fx-graphic-text-gap: 10;
+	-fx-graphic-vpos: center;
+   
 }
 .msg_success {
     -fx-text-fill: #4F8A10;
     -fx-background-color: #DFF2BF;
     -fx-border-color: #4F8A10;
+    -fx-graphic: url('../icons/msg/success.png');
+    -fx-graphic-hpos: leading;
+    -fx-graphic-text-gap: 10;
+	-fx-graphic-vpos: center;
 }
 .msg_warning {
     -fx-text-fill: #9F6000;
     -fx-background-color: #FEEFB3;
     -fx-border-color: #9F6000;
+    -fx-graphic: url('../icons/msg/warning.png');
+    -fx-graphic-hpos: leading;
+    -fx-graphic-text-gap: 10;
+	-fx-graphic-vpos: center;
 }
 .msg_error {
     -fx-text-fill: #D8000C;
     -fx-background-color: #FFBABA;
     -fx-border-color: #D8000C;
+    -fx-graphic: url('../icons/msg/error.png');
+    -fx-graphic-hpos: leading;
+    -fx-graphic-text-gap: 10;
+	-fx-graphic-vpos: center;
 }

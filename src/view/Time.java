@@ -37,11 +37,11 @@ public class Time {
 	public String getText() {
 		if (getTimeOfDay() >= 4 && getTimeOfDay()  < 12) {
 			setText("Guten Morgen, ");
-        } else if (getTimeOfDay() >= 12 && getTimeOfDay() < 16) {
+        } else if (getTimeOfDay() >= 12 && getTimeOfDay() <= 16) {
         	setText("Guten Tag, ");
         } else if (getTimeOfDay() >= 17 && getTimeOfDay() < 21) {
             setText("Guten Abend, ");
-        } else if (getTimeOfDay() >= 21 && getTimeOfDay() < 24  && getTimeOfDay() >= 0  && getTimeOfDay() > 2) {
+        } else if (getTimeOfDay() >= 21 && getTimeOfDay() < 24  && getTimeOfDay() >= 0  && getTimeOfDay() > 3) {
         	setText("Guten Nacht, ");
         }
 		return text;

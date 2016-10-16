@@ -10,6 +10,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import view.Time;
+import controller.Controller;
 import controller.StarterData;
 import controller.StarterLogin;
 import javafx.animation.FadeTransition;
@@ -39,7 +40,7 @@ import javafx.util.Duration;
  * Author		: Sandro Guerotto
  * Describtion	: Handler class for all Event from the Home Screen
  * Create on 	: 20.09.2016
- * Last modify  : 26.29.2016 Sandro Erstellung
+ * Last modify  : 06.10.2016 Sandro Zeit angepasst und controllmethoden eingefügt
  */
 
 public class EventhandlerHomeScreen {
@@ -68,6 +69,7 @@ public class EventhandlerHomeScreen {
     
     BackgroundSize size = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, false, true);
     private Stage stage;
+    private Controller controller;
 
     Random r = new Random();
     int low = 1;
@@ -99,6 +101,9 @@ public class EventhandlerHomeScreen {
         fadeIn.setToValue(1.0);
         fadeIn.setCycleCount(1);
         fadeIn.setAutoReverse(true);
+        // Von Anfang an Zeit setzen und danach im 2 Sekundentakt
+        lbl_title.setText(clock.getText());
+        lbl_time.setText(clock.getTime());
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -119,32 +124,25 @@ public class EventhandlerHomeScreen {
     @FXML
     private void setLoginVisible() {
 
-  
-    	
-      	WebEngine webEngine = wv_dropbox.getEngine();
-      	webEngine.load("https://www.dropbox.com/login");
-     	progress.setVisible(true);
-      	progress.setStyle(" -fx-progress-color: white;");
-      	
-      	webEngine.getLoadWorker().stateProperty().addListener(
-      	        new ChangeListener<State>() {
-      	            public void changed(ObservableValue ov, State oldState, State newState) {
-      	                if (newState == State.SUCCEEDED) {
-      	                	pane_login.setVisible(true);
-      	                	fadeIn.play();
-      	                	progress.setVisible(false);
-      	                	
-      	                }
-      	            }
-      	        });
-    
-      	
-      	
-//        stage.close();
-//        StarterData starterData = new StarterData();
-//        starterData.start(new Stage());
-      	
-      
+    	 controller.gotoData(stage);
+    	 
+//    	
+//      	WebEngine webEngine = wv_dropbox.getEngine();
+//      	webEngine.load("https://www.dropbox.com/login");
+//     	progress.setVisible(true);
+//      	progress.setStyle(" -fx-progress-color: white;");
+//      	
+//      	webEngine.getLoadWorker().stateProperty().addListener(
+//      	        new ChangeListener<State>() {
+//      	            public void changed(ObservableValue ov, State oldState, State newState) {
+//      	                if (newState == State.SUCCEEDED) {
+//      	                	pane_login.setVisible(true);
+//      	                	fadeIn.play();
+//      	                	progress.setVisible(false);
+//      	                	
+//      	                }
+//      	            }
+//      	        });
 
 
     }
@@ -172,6 +170,9 @@ public class EventhandlerHomeScreen {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+    public void setController(Controller controller){
+    	this.controller = controller;
     }
 
 }

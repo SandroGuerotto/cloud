@@ -8,6 +8,8 @@
 package org.datacontract.schemas._2004._07.PrettySecureCloud_Model;
 
 public class ServiceType  implements java.io.Serializable {
+    private java.lang.Integer id;
+
     private java.lang.String key;
 
     private java.lang.String name;
@@ -18,12 +20,34 @@ public class ServiceType  implements java.io.Serializable {
     }
 
     public ServiceType(
+           java.lang.Integer id,
            java.lang.String key,
            java.lang.String name,
            java.lang.String secret) {
+           this.id = id;
            this.key = key;
            this.name = name;
            this.secret = secret;
+    }
+
+
+    /**
+     * Gets the id value for this ServiceType.
+     * 
+     * @return id
+     */
+    public java.lang.Integer getId() {
+        return id;
+    }
+
+
+    /**
+     * Sets the id value for this ServiceType.
+     * 
+     * @param id
+     */
+    public void setId(java.lang.Integer id) {
+        this.id = id;
     }
 
 
@@ -98,6 +122,9 @@ public class ServiceType  implements java.io.Serializable {
         __equalsCalc = obj;
         boolean _equals;
         _equals = true && 
+            ((this.id==null && other.getId()==null) || 
+             (this.id!=null &&
+              this.id.equals(other.getId()))) &&
             ((this.key==null && other.getKey()==null) || 
              (this.key!=null &&
               this.key.equals(other.getKey()))) &&
@@ -118,6 +145,9 @@ public class ServiceType  implements java.io.Serializable {
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
+        if (getId() != null) {
+            _hashCode += getId().hashCode();
+        }
         if (getKey() != null) {
             _hashCode += getKey().hashCode();
         }
@@ -138,6 +168,13 @@ public class ServiceType  implements java.io.Serializable {
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.datacontract.org/2004/07/PrettySecureCloud.Model", "ServiceType"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("id");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.datacontract.org/2004/07/PrettySecureCloud.Model", "Id"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("key");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.datacontract.org/2004/07/PrettySecureCloud.Model", "Key"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
