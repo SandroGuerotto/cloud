@@ -124,25 +124,25 @@ public class EventhandlerHomeScreen {
     @FXML
     private void setLoginVisible() {
 
-    	 controller.gotoData(stage);
+//    	 controller.gotoData(stage);
     	 
-//    	
-//      	WebEngine webEngine = wv_dropbox.getEngine();
-//      	webEngine.load("https://www.dropbox.com/login");
-//     	progress.setVisible(true);
-//      	progress.setStyle(" -fx-progress-color: white;");
-//      	
-//      	webEngine.getLoadWorker().stateProperty().addListener(
-//      	        new ChangeListener<State>() {
-//      	            public void changed(ObservableValue ov, State oldState, State newState) {
-//      	                if (newState == State.SUCCEEDED) {
-//      	                	pane_login.setVisible(true);
-//      	                	fadeIn.play();
-//      	                	progress.setVisible(false);
-//      	                	
-//      	                }
-//      	            }
-//      	        });
+    	
+      	WebEngine webEngine = wv_dropbox.getEngine();
+      	webEngine.load("https://www.dropbox.com/login");
+     	progress.setVisible(true);
+      	progress.setStyle(" -fx-progress-color: white;");
+      	
+      	webEngine.getLoadWorker().stateProperty().addListener(
+      	        new ChangeListener<State>() {
+      	            public void changed(ObservableValue ov, State oldState, State newState) {
+      	                if (newState == State.SUCCEEDED) {
+      	                	pane_login.setVisible(true);
+      	                	fadeIn.play();
+      	                	progress.setVisible(false);
+      	                	
+      	                }
+      	            }
+      	        });
 
 
     }
