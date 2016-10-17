@@ -28,8 +28,7 @@ public class ServerConnecter {
 	private User user; //logged in User
 	private ServiceType[] services; //all supported Cloud-Services
 	private CloudService cs; //service in use
-	
-	
+		
 	/* Standard Constructor with no parameters*/
 	public ServerConnecter() throws ConnectionErrorException, ServiceException, FailLoadingServicesException{
 		this.start_service();
@@ -97,5 +96,25 @@ public class ServerConnecter {
 		}
 	}//-addService
 	
+	/*
+	 * Loads all supported Services from the Server into the Application
+	 * @return void Because this only loads the Data into the ServerConnecter-Object
+	 */
+	public void loadServices() throws LoadSupportedServicesException{
+		try {
+			this.service.loadAllServices();
+		} catch (RemoteException e) {
+			throw new LoadSupportedServicesException('e');
+		}
+	}//-loadServices
 	
+	/*
+	 * Loads all supported Services return them
+	 * @return ServiceType[] Returns ArrayList with Objects ServiceType in it
+	 */
+	public ServiceType[] getAllServices() throws LoadSupportedServicesException{
+		this.loadServices();
+		return this.services;
+	}//-getServices
+
 }//-ServerConnecter

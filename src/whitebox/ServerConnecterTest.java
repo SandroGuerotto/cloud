@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import javax.xml.rpc.ServiceException;
 
 import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.CloudService;
+import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.ServiceType;
 import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.User;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -25,6 +26,7 @@ import org.junit.Test;
 import exception.ConnectionErrorException;
 import exception.EmailExistException;
 import exception.FailLoadingServicesException;
+import exception.LoadSupportedServicesException;
 import exception.LoginFailedException;
 import exception.UserExistException;
 import model.ServerConnecter;
@@ -36,12 +38,13 @@ public class ServerConnecterTest {
 	String password 	= "root1234"; 
 	
 	/*
-	 * Gets object and returns it back as a String for Debuging
+	 * Gets object and returns it back as a String for Debugging
 	 * @param user is the User that we want informations in String
 	 * @return String This returns a String of user information
 	 */
 	public String toStringObject(User user){
-	   	String userinfos = "User-Data:  \n";
+		String userinfos  = "----------------------\n";
+	   	userinfos += "User-Data:  \n";
 	   	userinfos += "ID: "+user.getId().toString()+"\n";
 	   	userinfos += "Username: "+user.getUsername()+"\n";
 	   	userinfos += "Email: "+user.getMail()+"\n";
@@ -55,6 +58,23 @@ public class ServerConnecterTest {
 		}//-for	
     	return userinfos;
 	}//-printUser
+	
+	/*
+	 * Gets object and returns it back as a String for Debugging
+	 * @param services is the ServiceType that we want informations in String
+	 * @return String This returns a String of Object information
+	 */
+	public String toStringObject(ServiceType[] services){
+		String str  = "----------------------\n";
+		str  += "All supported Servies in Application\n";
+	    for(int i = 0; i < services.length; i++){
+	    	str += "ID: "+services[i].getId()+"\n";
+	    	str += "Token"+services[i].getKey();
+	    	str += "Name : "+services[i].getName()+"\n";
+	    	str += "Type"+services[i].getSecret()+"\n";
+		}//-for	
+    	return str;
+	}
 	
 	@BeforeClass
 	public static void startTest(){
@@ -81,8 +101,16 @@ public class ServerConnecterTest {
 	}//-loginApp
 
 	@Test
-	public void addService(){
-		// @TODO
+	public void loadServices() throws LoadSupportedServicesException{
+		this.sc.loadServices();
 	}//-addService 	
 	
-}
+	@Test
+	public void getAllServices() throws LoadSupportedServicesException{
+		ServiceType[] allServices = this.sc.getAllServices();
+		assertNotNull(allServices);
+		System.out.println( this.toStringObject(allServices) );
+	}//-getAllServices
+	
+	
+}//-Test.Class
