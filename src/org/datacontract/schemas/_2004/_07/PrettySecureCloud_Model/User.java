@@ -32,8 +32,7 @@ public class User  implements java.io.Serializable {
            this.mail = mail;
            this.services = services;
            this.username = username;
-    }
-
+    }    
 
     /**
      * Gets the encryptionKey value for this User.

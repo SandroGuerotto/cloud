@@ -12,6 +12,9 @@
 package model;
 
 import java.rmi.RemoteException;
+
+import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.CloudService;
+import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.ServiceType;
 import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.User;
 
 import javax.xml.rpc.ServiceException;
@@ -23,17 +26,25 @@ public class ServerConnecter {
 	private LoginServiceLocator serviceLocator;
 	private BasicHttpsBinding_ILoginServiceStub service;
 	private User user; //logged in User
+	private ServiceType[] services; //all supported Cloud-Services
+	private CloudService cs; //service in use
+	
 	
 	/* Standard Constructor with no parameters*/
-	public ServerConnecter() throws ConnectionErrorException, ServiceException{
+	public ServerConnecter() throws ConnectionErrorException, ServiceException, FailLoadingServicesException{
 		this.start_service();
 	}//-Standart Constructor
 	
 	/* Starts the service to communicate with the server */
-	private void start_service() throws ConnectionErrorException{
+	private void start_service() throws ConnectionErrorException, FailLoadingServicesException{
 		this.serviceLocator = new LoginServiceLocator();
 		try {
 			this.service = (BasicHttpsBinding_ILoginServiceStub) serviceLocator.getBasicHttpsBinding_ILoginService();
+			try {
+				this.services = this.service.loadAllServices();
+			} catch (RemoteException e) {
+				throw new FailLoadingServicesException('e');
+			}
 		} catch (ServiceException e) {
 			throw new ConnectionErrorException('e');
 		}//-catch
@@ -77,7 +88,14 @@ public class ServerConnecter {
 		}//-else
 	}//-registerApp
 	
-	
+	//Don't forget the doc! @TODO
+	public void addService(ServiceType service, String name, String usertoken) throws AddServiceFailException{
+		try {
+			this.service.addService(this.user.getId(), service, name, usertoken);
+		} catch (RemoteException e) {
+			throw new AddServiceFailException('w');
+		}
+	}//-addService
 	
 	
 }//-ServerConnecter
