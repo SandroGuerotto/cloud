@@ -87,10 +87,15 @@ public class ServerConnecter {
 		}//-else
 	}//-registerApp
 	
-	//Don't forget the doc! @TODO
-	public void addService(ServiceType service, String name, String usertoken) throws AddServiceFailException{
+	/*
+	 * Inserts a Service into the Database that allows the Connection between User and Service (Like Dropbox)
+	 * @param service is the ServiceType that we want to Save (Dropbox)
+	 * @param name is the name of the connection ("My Connection-name")
+	 * @return Void No Return
+	 */
+	public void addService(ServiceType service, String name, String usertoken) throws AddServiceFailException, NoUserLoggedInException{
 		try {
-			this.service.addService(this.user.getId(), service, name, usertoken);
+			this.service.addService(this.getLoggedInUser().getId(), service.getId(), name, usertoken);
 		} catch (RemoteException e) {
 			throw new AddServiceFailException('w');
 		}
@@ -117,4 +122,57 @@ public class ServerConnecter {
 		return this.services;
 	}//-getServices
 
+	/*
+	 * This method updates the name of a existing Service-connection
+	 * @param service is the Connection between User and Service that we want to update
+	 * @param name is the new name/alias that we want to give this connection 
+	 */
+	public void updateService(CloudService service, String newname) throws UpdateServiceErrorException{
+		try {
+			this.service.updateService(service.getId(), newname);
+		} catch (RemoteException e) {
+			throw new UpdateServiceErrorException('w');
+		}//-catch
+	}//-updateService
+	
+	/*
+	 * Deletes a existing ServiceConnection of a User
+	 * @param service is the Service that we want to remove from db
+	 * @return void 
+	 */
+	public void deleteService(CloudService service) throws DeleteServiceConnectionErrorException{
+		try {
+			this.service.removeService(service.getId());
+		} catch (RemoteException e) {
+			throw new DeleteServiceConnectionErrorException('w');
+		}//-catch
+	}//-deleteService
+	
+	/*
+	 * Good practice for Checking if a user is logged in 
+	 * @return User This returns the Logged In User as a Object
+	 */
+	public User getLoggedInUser() throws NoUserLoggedInException{
+		if(this.user != null){
+			return this.user;
+		}//-if
+		else{
+			throw new NoUserLoggedInException('e');
+		}//-else
+	}//-getLoggInUser
+	
+	/*
+	 * This function updates the user password for our application
+	 * @param user Is the User that we want to update
+	 * @param oldPassword Is the old password that we need to make this update
+	 * @param newPassword Is the password that we want to set as current pw
+	 */
+	public void updateUserPw(User user, String oldPassword, String newPassword) throws UpdateUserPwErrorException{
+		try {
+			this.service.changePassword(user.getId(), oldPassword, newPassword);
+		} catch (RemoteException e) {
+			throw new UpdateUserPwErrorException('w');
+		}//-catch
+	}//-updateUserPw
+	
 }//-ServerConnecter

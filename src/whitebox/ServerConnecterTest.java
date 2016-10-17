@@ -20,14 +20,19 @@ import javax.xml.rpc.ServiceException;
 import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.CloudService;
 import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.ServiceType;
 import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.User;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import exception.AddServiceFailException;
 import exception.ConnectionErrorException;
 import exception.EmailExistException;
 import exception.FailLoadingServicesException;
 import exception.LoadSupportedServicesException;
 import exception.LoginFailedException;
+import exception.NoUserLoggedInException;
 import exception.UserExistException;
 import model.ServerConnecter;
 
@@ -84,12 +89,12 @@ public class ServerConnecterTest {
 	@Before
 	public void startConnection() throws ConnectionErrorException, ServiceException, FailLoadingServicesException{
 		this.sc = new ServerConnecter();
+		System.out.println("he\n");
 	}//-startConnection
 	
 	@Test
 	public void registerApp() throws RemoteException, UserExistException, EmailExistException {
 		User user = this.sc.registerApp(username, email, password);
-		System.out.println();
 		assertNotNull(user);
 	}//-loginApp
 
@@ -97,20 +102,51 @@ public class ServerConnecterTest {
 	public void loginApp() throws LoginFailedException {
 		User user = this.sc.loginApp(username, password);
 		assertNotNull(user);
-		System.out.println(toStringObject(user));
 	}//-loginApp
 
 	@Test
+	public void addServiceConnection() throws LoadSupportedServicesException, AddServiceFailException, LoginFailedException, NoUserLoggedInException{
+		this.sc.loginApp(username, password);
+		ServiceType[] services = this.sc.getAllServices();
+		this.sc.addService(services[0], "My First DropBox Connection", "FakeTokenXZAXUASDJHAKSDJHASDJKSADASDSAD");
+	}//-addServiceConnection
+	
+	@Test
 	public void loadServices() throws LoadSupportedServicesException{
 		this.sc.loadServices();
-	}//-addService 	
+	}//-loadServices 	
 	
 	@Test
 	public void getAllServices() throws LoadSupportedServicesException{
 		ServiceType[] allServices = this.sc.getAllServices();
 		assertNotNull(allServices);
-		System.out.println( this.toStringObject(allServices) );
 	}//-getAllServices
 	
+	@Test
+	public void updateService(){
+		//@TODO
+	}//-updateService
 	
+	@Test
+	public void deleteService(){
+		//@TODO
+	}//-updateService
+	
+	@Test
+	public void getLoggedUser(){
+		//@TODO
+	}//-updateService
+	
+	@Test
+	public void changePassword(){
+		//@TODO
+	}//-updateService
+	
+	
+/*	@After
+	public void debug() throws LoadSupportedServicesException, LoginFailedException{
+		System.out.println( toStringObject(this.sc.getAllServices()) );
+		System.out.println( toStringObject(this.sc.loginApp(username, password)) );
+	}//-debug	
+*/
 }//-Test.Class
