@@ -5,10 +5,10 @@ import javafx.concurrent.Worker.State;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.Calendar;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import view.BackgroundWallpaper;
 import view.Time;
 import controller.Controller;
 import controller.StarterData;
@@ -22,13 +22,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -43,7 +37,7 @@ import javafx.util.Duration;
  * Last modify  : 06.10.2016 Sandro Zeit angepasst und controllmethoden eingefügt
  */
 
-public class EventhandlerHomeScreen {
+public class EventhandlerHomeScreen extends BackgroundWallpaper {
 
 	@FXML
 	private AnchorPane pane_mainPane;
@@ -67,18 +61,8 @@ public class EventhandlerHomeScreen {
     @FXML
     private StackPane pane_login;
     
-    BackgroundSize size = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, false, true);
     private Stage stage;
     private Controller controller;
-
-    Random r = new Random();
-    int low = 1;
-    int high = 15;
-    int result = r.nextInt(high-low) + low;
- 
-    Image image = new Image("images/" +result+".jpg");
-    Background background = new Background(new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, size));
-    
 
     @FXML
     private Hyperlink btn_cancel;
