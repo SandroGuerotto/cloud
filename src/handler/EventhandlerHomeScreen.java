@@ -34,7 +34,7 @@ import javafx.util.Duration;
  * Author		: Sandro Guerotto
  * Describtion	: Handler class for all Event from the Home Screen
  * Create on 	: 20.09.2016
- * Last modify  : 06.10.2016 Sandro Zeit angepasst und controllmethoden eingefügt
+ * Last modify  : 06.10.2016 Sandro Zeit angepasst und controllmethoden eingefï¿½gt
  */
 
 public class EventhandlerHomeScreen extends BackgroundWallpaper {
@@ -108,25 +108,25 @@ public class EventhandlerHomeScreen extends BackgroundWallpaper {
     @FXML
     private void setLoginVisible() {
 
-//    	 controller.gotoData(stage);
+    	 controller.gotoData(stage);
     	 
     	
-      	WebEngine webEngine = wv_dropbox.getEngine();
-      	webEngine.load("https://www.dropbox.com/login");
-     	progress.setVisible(true);
-      	progress.setStyle(" -fx-progress-color: white;");
-      	
-      	webEngine.getLoadWorker().stateProperty().addListener(
-      	        new ChangeListener<State>() {
-      	            public void changed(ObservableValue ov, State oldState, State newState) {
-      	                if (newState == State.SUCCEEDED) {
-      	                	pane_login.setVisible(true);
-      	                	fadeIn.play();
-      	                	progress.setVisible(false);
-      	                	
-      	                }
-      	            }
-      	        });
+//      	WebEngine webEngine = wv_dropbox.getEngine();
+//      	webEngine.load("https://www.dropbox.com/login");
+//     	progress.setVisible(true);
+//      	progress.setStyle(" -fx-progress-color: white;");
+//
+//      	webEngine.getLoadWorker().stateProperty().addListener(
+//      	        new ChangeListener<State>() {
+//      	            public void changed(ObservableValue ov, State oldState, State newState) {
+//      	                if (newState == State.SUCCEEDED) {
+//      	                	pane_login.setVisible(true);
+//      	                	fadeIn.play();
+//      	                	progress.setVisible(false);
+//
+//      	                }
+//      	            }
+//      	        });
 
 
     }

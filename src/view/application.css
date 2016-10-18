@@ -148,6 +148,14 @@
 }
 
 /* ===================================================================
+/* 							Login
+ * ===================================================================
+ */
+#lbl_login_error{
+    -fx-font-size: 24px;
+}
+
+/* ===================================================================
 /* 							Buttons  
  * ===================================================================
  */
@@ -162,18 +170,19 @@
     -fx-text-fill: white;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
     -fx-text-fill: linear-gradient(white, #d0d0d0);
-    -fx-font-size: 12px;
+    -fx-font-size: 20px;
     -fx-padding: 10 20 10 20;
 
 }
 .dark-blue:hover, .dark-blue:focused {
     -fx-cursor: hand;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 20, 0.0 , 0 , 1 );
 }
 .dark-blue Text {
     -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.9) , 1, 0.0 , 0 , 1 );
 }
 
-#btn_delete:hover{
+#btn_delete:hover, #btn_delete:focused{
 
     -fx-background-color:
             #aa2709,
@@ -183,7 +192,7 @@
 }
 
 
-#btn_download:hover{
+#btn_download:hover , #btn_download:focused{
 
     -fx-background-color:
             #00529B,
