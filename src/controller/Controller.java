@@ -46,7 +46,7 @@ import model.ServerConnecter;
  * Package          :   controller
  * @version         :   1.0
  * LastUpdated      :
- * Description      :   Allgemeiner Kontroller für das Programm
+ * Description      :   Allgemeiner Kontroller fï¿½r das Programm
  */
 public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeScreen {
 
@@ -65,13 +65,8 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
     	this.servconnection.loginApp(username, password);
     }//-logMeIn
     
-    public void register(String username, String email, String password) throws RemoteException, UserExistException, EmailExistException, UsernameHasToBeFilledOutException{
-    	if(username != null && !username.isEmpty() && email != null && !email.isEmpty() && password != null && !password.isEmpty() ){
+    public void register(String username, String email, String password) throws RemoteException, UserExistException, EmailExistException{
     		this.servconnection.registerApp(username, email, password);
-    	}//-if
-    	else{
-    		throw new UsernameHasToBeFilledOutException('w');
-    	}//-else
     }//-register
    
     public void getAllClouds() throws LoadSupportedServicesException{
@@ -107,7 +102,11 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
     }//-setUserPW
     
     /*END SERVER DATA FUNCTIONS*/
-    
+
+	public String getUsername(){
+		return servconnection.getUser().getUsername();
+	}
+
     //starter
     public void start(){
         StarterLogin starterLogin = new StarterLogin();

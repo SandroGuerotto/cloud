@@ -78,13 +78,17 @@ public class EventhandlerHomeScreen extends BackgroundWallpaper {
    
 
     public void initialize() {
+
     	pane_mainPane.setBackground(background);
+
     	progress.setVisible(false);
+
         fadeIn.setNode(pane_login);
         fadeIn.setFromValue(0.0);
         fadeIn.setToValue(1.0);
         fadeIn.setCycleCount(1);
         fadeIn.setAutoReverse(true);
+
         // Von Anfang an Zeit setzen und danach im 2 Sekundentakt
         lbl_title.setText(clock.getText());
         lbl_time.setText(clock.getTime());
@@ -92,17 +96,16 @@ public class EventhandlerHomeScreen extends BackgroundWallpaper {
             @Override
             public void run() {
                 Platform.runLater(() -> {
-                    
                     lbl_title.setText(clock.getText());
                     lbl_time.setText(clock.getTime());
-
                 });
-
-
             }
         }, 0, 2000);
 
-
+        //Name setzen
+        Platform.runLater(() -> {
+            lbl_username.setText(controller.getUsername());
+        });
     }
 
     @FXML

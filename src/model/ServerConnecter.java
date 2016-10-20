@@ -186,5 +186,9 @@ public class ServerConnecter {
 	public ServiceType getActualServiceType(){
 		return this.serviceTypeInUse;
 	}//-getActualServiceType
-	
+
+
+	public User getUser(){
+		return this.user;
+	}
 }//-ServerConnecter
