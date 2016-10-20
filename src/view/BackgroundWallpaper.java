@@ -13,8 +13,9 @@ public class BackgroundWallpaper {
 
 	Random r = new Random();
 	int low = 1;
-	int high = 15;
+	int high = 14;
 	int result = r.nextInt(high-low) + low;
+
 	BackgroundSize size = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, false, true);
 	Image image = new Image("images/" +result+".jpg");
 	protected Background background = new Background(new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, size));

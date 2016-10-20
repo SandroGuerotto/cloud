@@ -4,21 +4,40 @@ package controller;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.rmi.RemoteException;
 import java.util.List;
+
+import javax.xml.rpc.ServiceException;
+
+import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.CloudService;
+import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.ServiceType;
+import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.User;
 
 import com.dropbox.core.DbxException;
 
+import exception.AddServiceFailException;
 import exception.ConnectionErrorException;
 import exception.DeleteException;
+import exception.DeleteServiceConnectionErrorException;
 import exception.DownloadException;
+import exception.EmailExistException;
+import exception.FailLoadingServicesException;
+import exception.LoadSupportedServicesException;
+import exception.LoginFailedException;
 import exception.NoFilesException;
+import exception.NoUserLoggedInException;
+import exception.UpdateServiceErrorException;
+import exception.UpdateUserPwErrorException;
 import exception.UploadException;
+import exception.UserExistException;
+import exception.UsernameHasToBeFilledOutException;
 import handler.I_EventhandlerDataScreen;
 import handler.I_EventhandlerHomeScreen;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.stage.Stage;
 import model.Data;
+import model.ServerConnecter;
 
 /**
  * @author          :   Sandro Guerotto
@@ -27,17 +46,67 @@ import model.Data;
  * Package          :   controller
  * @version         :   1.0
  * LastUpdated      :
- * Description      :   Allgemeiner Kontroller für das Programm
+ * Description      :   Allgemeiner Kontroller fï¿½r das Programm
  */
 public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeScreen {
 
 	private String[] args;
 	private Dropbox dropbox;
+	private ServerConnecter servconnection;
 	
-    public Controller(String[] args){
+    public Controller(String[] args) throws ConnectionErrorException, ServiceException, FailLoadingServicesException{
     	this.args = args;
-
+    	this.servconnection = new ServerConnecter();
     }
+    
+    
+    /*SERVER DATA FUNCTIONS PS: Add doc! */
+    public void login(String username, String password) throws LoginFailedException{
+    	this.servconnection.loginApp(username, password);
+    }//-logMeIn
+    
+    public void register(String username, String email, String password) throws RemoteException, UserExistException, EmailExistException{
+    		this.servconnection.registerApp(username, email, password);
+    }//-register
+   
+    public void getAllClouds() throws LoadSupportedServicesException{
+	   this.servconnection.getAllServices();
+    }//-getAllClouds
+   
+    public void setCloudTypeInUse(ServiceType servicetype){
+	   this.servconnection.setActualServiceType(servicetype);
+    }//-setCloudTypeInUse
+        
+    public ServiceType getCloudTypeInUse(){
+    	return this.servconnection.getActualServiceType();
+    }//-getCloudTypeInUse
+   
+    public void saveCloudConnection(String connection_name, String usertoken) throws AddServiceFailException, NoUserLoggedInException{
+	   this.servconnection.addService(this.servconnection.getActualServiceType(), connection_name, usertoken);
+    }//-saveCloudConnection
+   
+    public void updateCloudConnection(CloudService service, String newname) throws UpdateServiceErrorException{
+    	this.servconnection.updateService(service, newname);
+    }//-updateCloudConnection
+    
+    public void deleteCloudConnection(CloudService service) throws DeleteServiceConnectionErrorException{
+    	this.servconnection.deleteService(service);
+    }//-deleteCloudConnection
+    
+    public User getLoggedInUser() throws NoUserLoggedInException{
+    	return this.servconnection.getLoggedInUser();
+    }//-getLoggedInUser
+    
+    public void setUserPw(String oldPassword, String newPassword) throws UpdateUserPwErrorException{
+    	this.servconnection.updateUserPw(oldPassword, newPassword);
+    }//-setUserPW
+    
+    /*END SERVER DATA FUNCTIONS*/
+
+	public String getUsername(){
+		return servconnection.getUser().getUsername();
+	}
+
 
 
     //starter

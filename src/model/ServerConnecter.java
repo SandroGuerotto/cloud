@@ -27,7 +27,8 @@ public class ServerConnecter {
 	private BasicHttpsBinding_ILoginServiceStub service;
 	private User user; //logged in User
 	private ServiceType[] services; //all supported Cloud-Services
-	private CloudService cs; //service in use
+	private ServiceType serviceTypeInUse; //actual servicetype in use (Like DROPBOX)
+	private CloudService cs; //service in use (Burims Connection to Dropbox TOKEN)
 		
 	/* Standard Constructor with no parameters*/
 	public ServerConnecter() throws ConnectionErrorException, ServiceException, FailLoadingServicesException{
@@ -107,7 +108,7 @@ public class ServerConnecter {
 	 */
 	public void loadServices() throws LoadSupportedServicesException{
 		try {
-			this.service.loadAllServices();
+			this.services = this.service.loadAllServices();
 		} catch (RemoteException e) {
 			throw new LoadSupportedServicesException('e');
 		}
@@ -167,12 +168,27 @@ public class ServerConnecter {
 	 * @param oldPassword Is the old password that we need to make this update
 	 * @param newPassword Is the password that we want to set as current pw
 	 */
-	public void updateUserPw(User user, String oldPassword, String newPassword) throws UpdateUserPwErrorException{
+	public void updateUserPw(String oldPassword, String newPassword) throws UpdateUserPwErrorException{
 		try {
-			this.service.changePassword(user.getId(), oldPassword, newPassword);
+			this.service.changePassword(this.user.getId(), oldPassword, newPassword);
 		} catch (RemoteException e) {
 			throw new UpdateUserPwErrorException('w');
 		}//-catch
 	}//-updateUserPw
 	
+	//@TODO DOC
+	public ServiceType setActualServiceType(ServiceType service){
+		this.serviceTypeInUse = service;
+		return this.serviceTypeInUse;
+	}//-setActualServiceType
+	
+	//@TODO DOC
+	public ServiceType getActualServiceType(){
+		return this.serviceTypeInUse;
+	}//-getActualServiceType
+
+
+	public User getUser(){
+		return this.user;
+	}
 }//-ServerConnecter

@@ -34,7 +34,7 @@ import javafx.util.Duration;
  * Author		: Sandro Guerotto
  * Describtion	: Handler class for all Event from the Home Screen
  * Create on 	: 20.09.2016
- * Last modify  : 06.10.2016 Sandro Zeit angepasst und controllmethoden eingefügt
+ * Last modify  : 06.10.2016 Sandro Zeit angepasst und controllmethoden eingefï¿½gt
  */
 
 public class EventhandlerHomeScreen extends BackgroundWallpaper {
@@ -72,20 +72,31 @@ public class EventhandlerHomeScreen extends BackgroundWallpaper {
     );
 
     Timer timer = new Timer();
+<<<<<<< HEAD
     private String username = "Toshiki";
    
     
    
+=======
+
+>>>>>>> b133a33315d8293a674f4600d4afea43d410b1e2
 
     public void initialize() {
+
     	pane_mainPane.setBackground(background);
+
     	progress.setVisible(false);
+<<<<<<< HEAD
     	lbl_username.setText(username);
+=======
+
+>>>>>>> b133a33315d8293a674f4600d4afea43d410b1e2
         fadeIn.setNode(pane_login);
         fadeIn.setFromValue(0.0);
         fadeIn.setToValue(1.0);
         fadeIn.setCycleCount(1);
         fadeIn.setAutoReverse(true);
+
         // Von Anfang an Zeit setzen und danach im 2 Sekundentakt
         lbl_title.setText(clock.getText());
         lbl_time.setText(clock.getTime());
@@ -93,41 +104,40 @@ public class EventhandlerHomeScreen extends BackgroundWallpaper {
             @Override
             public void run() {
                 Platform.runLater(() -> {
-                    
                     lbl_title.setText(clock.getText());
                     lbl_time.setText(clock.getTime());
-
                 });
-
-
             }
         }, 0, 2000);
 
-
+        //Name setzen
+        Platform.runLater(() -> {
+            lbl_username.setText(controller.getUsername());
+        });
     }
 
     @FXML
     private void setLoginVisible() {
 
-//    	 controller.gotoData(stage);
+    	 controller.gotoData(stage);
     	 
     	
-      	WebEngine webEngine = wv_dropbox.getEngine();
-      	webEngine.load("https://www.dropbox.com/login");
-     	progress.setVisible(true);
-      	progress.setStyle(" -fx-progress-color: white;");
-      	
-      	webEngine.getLoadWorker().stateProperty().addListener(
-      	        new ChangeListener<State>() {
-      	            public void changed(ObservableValue ov, State oldState, State newState) {
-      	                if (newState == State.SUCCEEDED) {
-      	                	pane_login.setVisible(true);
-      	                	fadeIn.play();
-      	                	progress.setVisible(false);
-      	                	
-      	                }
-      	            }
-      	        });
+//      	WebEngine webEngine = wv_dropbox.getEngine();
+//      	webEngine.load("https://www.dropbox.com/login");
+//     	progress.setVisible(true);
+//      	progress.setStyle(" -fx-progress-color: white;");
+//
+//      	webEngine.getLoadWorker().stateProperty().addListener(
+//      	        new ChangeListener<State>() {
+//      	            public void changed(ObservableValue ov, State oldState, State newState) {
+//      	                if (newState == State.SUCCEEDED) {
+//      	                	pane_login.setVisible(true);
+//      	                	fadeIn.play();
+//      	                	progress.setVisible(false);
+//
+//      	                }
+//      	            }
+//      	        });
 
 
     }

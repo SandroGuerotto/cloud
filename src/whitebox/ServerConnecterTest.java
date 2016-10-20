@@ -89,7 +89,6 @@ public class ServerConnecterTest {
 	@Before
 	public void startConnection() throws ConnectionErrorException, ServiceException, FailLoadingServicesException{
 		this.sc = new ServerConnecter();
-		System.out.println("he\n");
 	}//-startConnection
 	
 	@Test

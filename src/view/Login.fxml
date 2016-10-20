@@ -1,15 +1,136 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="handler.EventhandlerLogin">
-
-  <stylesheets>
-    <URL value="@application.css" />
-  </stylesheets>
+<GridPane focusTraversable="true" prefHeight="520.0" prefWidth="787.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="handler.EventhandlerLogin">
+   <columnConstraints>
+      <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" minWidth="10.0" percentWidth="6.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="712.0" minWidth="10.0" prefWidth="709.0" />
+      <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="57.0" minWidth="12.0" percentWidth="6.0" prefWidth="15.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints fillHeight="false" minHeight="10.0" percentHeight="8.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="213.0" minHeight="10.0" percentHeight="20.0" prefHeight="60.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="377.0" minHeight="10.0" percentHeight="55.0" prefHeight="377.0" vgrow="SOMETIMES" />
+      <RowConstraints fillHeight="false" maxHeight="377.0" minHeight="0.0" percentHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+      <RowConstraints fillHeight="false" maxHeight="377.0" minHeight="10.0" percentHeight="9.0" prefHeight="154.0" vgrow="SOMETIMES" />
+      <RowConstraints fillHeight="false" percentHeight="8.0" vgrow="SOMETIMES" />
+   </rowConstraints>
    <children>
-      <Button fx:id="btn_login" layoutX="134.0" layoutY="108.0" mnemonicParsing="false" onAction="#login" text="Login" />
+      <VBox fx:id="pane_login" alignment="TOP_CENTER" prefHeight="276.0" prefWidth="661.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <children>
+            <Label fx:id="lbl_login_error" text="Username oder Passwort falsch!" textFill="#d8000c">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
+               <tooltip>
+                  <Tooltip text="Zum Testen irgendwelche Daten eingeben!">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Tooltip>
+               </tooltip>
+            </Label>
+            <FlowPane alignment="TOP_CENTER" columnHalignment="CENTER" orientation="VERTICAL">
+               <children>
+                  <JFXTextField fx:id="tf_username" focusColor="#00529b" maxWidth="300.0" minWidth="283.0" prefHeight="31.0" prefWidth="300.0" promptText="Username" unFocusColor="#090a0c">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </JFXTextField>
+                  <JFXTextField fx:id="tf_email" focusColor="#00529b" maxWidth="300.0" minWidth="283.0" prefHeight="31.0" prefWidth="300.0" promptText="E-Mail" unFocusColor="#090a0c">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </JFXTextField>
+                  <JFXPasswordField fx:id="tf_password" focusColor="#00529b" maxWidth="300.0" onKeyPressed="#onEnter" prefHeight="31.0" prefWidth="300.0" promptText="Password" unFocusColor="#090a0c">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </JFXPasswordField>
+                  <VBox fx:id="pane_agb" alignment="CENTER_RIGHT">
+                     <children>
+                        <JFXCheckBox fx:id="btn_agb" checkedColor="#4f8a10" prefHeight="31.0" prefWidth="156.0" text="AGB akzeptieren" textAlignment="RIGHT">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXCheckBox>
+                     </children>
+                  </VBox>
+               </children>
+            </FlowPane>
+         </children>
+         <GridPane.margin>
+            <Insets />
+         </GridPane.margin>
+         <padding>
+            <Insets top="20.0" />
+         </padding>
+      </VBox>
+      <BorderPane GridPane.columnIndex="1" GridPane.rowIndex="4">
+         <right>
+            <StackPane BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="btn_login" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#login" prefHeight="42.0" prefWidth="117.0" styleClass="dark-blue" text="Login">
+                     <graphic>
+                        <ImageView fitHeight="24.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/white/PNG/enter.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </Button>
+                  <Button fx:id="btn_register" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#register" prefHeight="42.0" prefWidth="117.0" styleClass="dark-blue" text="Sign Up" />
+               </children>
+            </StackPane>
+         </right>
+         <left>
+            <StackPane BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="btn_signup" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#signup" prefHeight="42.0" prefWidth="117.0" styleClass="dark-blue" text="Sign Up" />
+                  <Button fx:id="btn_back" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#back" prefHeight="42.0" prefWidth="117.0" styleClass="dark-blue" text="Zurück" />
+               </children>
+            </StackPane>
+         </left>
+      </BorderPane>
+      <VBox GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <children>
+            <Label prefWidth="475.0" styleClass="data-title" text="Willkommen,">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <Label prefHeight="17.0" prefWidth="564.0" styleClass="data-subtitle" text="bitte geben Sie Ihre Logindaten ein.">
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
    </children>
-</AnchorPane>
+</GridPane>
