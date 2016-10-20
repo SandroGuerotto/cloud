@@ -84,7 +84,7 @@
 													<String fx:value="home-color" />
 												</styleClass>
 											</Label>
-											<Label fx:id="lbl_username" prefHeight="85.0" text="Username"
+											<Label fx:id="lbl_username" prefHeight="85.0" text=""
 												textFill="#ffffffe5">
 												<font>
 													<Font size="48.0" />

@@ -73,9 +73,6 @@ public class EventhandlerHomeScreen extends BackgroundWallpaper {
 
     Timer timer = new Timer();
 
-   
-    
-   
 
     public void initialize() {
 

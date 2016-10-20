@@ -111,7 +111,6 @@
  * ===================================================================
  */
 .home-wallpaper{
-    -fx-background-image: url('../images/cool.jpg');
     -fx-background-repeat: no-repeat;
 }
 .home-color{
@@ -153,6 +152,9 @@
  */
 #lbl_login_error{
     -fx-font-size: 24px;
+}
+#btn_agb{
+    -fx-font-size: 18px;
 }
 
 /* ===================================================================

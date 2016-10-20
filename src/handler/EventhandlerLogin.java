@@ -1,6 +1,7 @@
 package handler;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import controller.Controller;
@@ -49,6 +50,12 @@ public class EventhandlerLogin {
 
     @FXML
     private VBox pane_login;
+
+    @FXML
+    private VBox pane_agb;
+
+    @FXML
+    private JFXCheckBox btn_agb;
 
     private Stage stage;
     private Controller controller;
@@ -105,6 +112,9 @@ public class EventhandlerLogin {
         tf_password.setText("");
         tf_username.setText("");
 
+        pane_agb.setVisible(true);
+        pane_agb.setDisable(false);
+
     }
 
 
@@ -117,6 +127,12 @@ public class EventhandlerLogin {
             lbl_login_error.setDisable(false);
             lbl_login_error.setVisible(true);
         }else{
+            if(!btn_agb.isSelected()){
+                lbl_login_error.setText("Bitte AGBs akzeptieren");
+                lbl_login_error.setDisable(false);
+                lbl_login_error.setVisible(true);
+                return;
+            }
             try {
                 controller.register(tf_username.getText(), tf_email.getText(), tf_password.getText());
             } catch (RemoteException e) {
@@ -169,6 +185,9 @@ public class EventhandlerLogin {
 
         btn_signup.setVisible(true);
         btn_signup.setDisable(false);
+
+        pane_agb.setVisible(false);
+        pane_agb.setDisable(true);
 
         Platform.runLater(() -> {
             pane_login.requestFocus();
