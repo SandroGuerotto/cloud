@@ -68,11 +68,11 @@ public class EventhandlerHomeScreen extends BackgroundWallpaper {
     private Hyperlink btn_cancel;
     
     private FadeTransition fadeIn = new FadeTransition(
-            Duration.millis(700)
+            Duration.millis(800)
     );
 
     Timer timer = new Timer();
-
+    private String username = "Toshiki";
    
     
    
@@ -80,6 +80,7 @@ public class EventhandlerHomeScreen extends BackgroundWallpaper {
     public void initialize() {
     	pane_mainPane.setBackground(background);
     	progress.setVisible(false);
+    	lbl_username.setText(username);
         fadeIn.setNode(pane_login);
         fadeIn.setFromValue(0.0);
         fadeIn.setToValue(1.0);
