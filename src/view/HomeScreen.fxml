@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import java.lang.String?>
+<?import javafx.geometry.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
@@ -16,144 +21,98 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.web.*?>
 <?import javafx.scene.web.WebView?>
 
-
-<AnchorPane fx:id="pane_mainPane" prefHeight="1040.0"
-	prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="handler.EventhandlerHomeScreen">
-
-	<children>
-		<StackPane fx:id="pane_homeScreen" layoutX="0.0" layoutY="0.0"
-			prefHeight="1040.0" prefWidth="1920.0">
-			<children>
-				<GridPane>
-					<columnConstraints>
-						<ColumnConstraints fillWidth="false" hgrow="SOMETIMES"
-							maxWidth="80.0" minWidth="80.0" prefWidth="100.0" />
-						<ColumnConstraints fillWidth="false" hgrow="SOMETIMES"
-							maxWidth="518.0" minWidth="80.0" prefWidth="422.0" />
-						<ColumnConstraints hgrow="SOMETIMES" maxWidth="1173.0"
-							minWidth="10.0" prefWidth="861.0" />
-						<ColumnConstraints hgrow="SOMETIMES" maxWidth="607.0"
-							minWidth="0.0" prefWidth="381.0" />
-						<ColumnConstraints fillWidth="false" hgrow="SOMETIMES"
-							maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
-					</columnConstraints>
-					<rowConstraints>
-						<RowConstraints fillHeight="false" maxHeight="80.0"
-							minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
-						<RowConstraints maxHeight="248.0" minHeight="0.0"
-							prefHeight="0.0" vgrow="SOMETIMES" />
-						<RowConstraints maxHeight="666.0" minHeight="10.0"
-							prefHeight="439.0" vgrow="SOMETIMES" />
-						<RowConstraints maxHeight="666.0" minHeight="10.0"
-							prefHeight="173.0" vgrow="SOMETIMES" />
-						<RowConstraints maxHeight="666.0" minHeight="10.0"
-							prefHeight="292.0" vgrow="SOMETIMES" />
-						<RowConstraints fillHeight="false" maxHeight="80.0"
-							minHeight="80.0" prefHeight="88.0" vgrow="SOMETIMES" />
-					</rowConstraints>
-					<children>
-						<VBox alignment="BOTTOM_LEFT" prefHeight="200.0" prefWidth="100.0"
-							GridPane.columnIndex="2" GridPane.rowIndex="2">
-							<children>
-
-								<Label fx:id="lbl_time" prefHeight="80.0" prefWidth="183.0"
-									text="21:39" textFill="#ffffffe5">
-									
-
-										<font>
-											<Font size="54.0" />
-										</font>
-										<styleClass>
-											<String fx:value="home-time" />
-											<String fx:value="home-color" />
-										</styleClass>
-									</Label>
-									<FlowPane>
-										<children>
-											<Label fx:id="lbl_title" prefHeight="70.0" text="Guten Morgen, "
-												textFill="#ffffffcc">
-												<font>
-													<Font size="48.0" />
-												</font>
-												<styleClass>
-													<String fx:value="home-title" />
-													<String fx:value="home-color" />
-												</styleClass>
-											</Label>
-											<Label fx:id="lbl_username" prefHeight="85.0" text=""
-												textFill="#ffffffe5">
-												<font>
-													<Font size="48.0" />
-												</font>
-												<styleClass>
-													<String fx:value="home-title" />
-													<String fx:value="home-color" />
-												</styleClass>
-											</Label>
-										</children>
-									</FlowPane>
-							</children>
-						</VBox>
-						<StackPane GridPane.columnIndex="2" GridPane.rowIndex="3">
-							<GridPane.margin>
-								<Insets />
-							</GridPane.margin>
-							<children>
-								<ProgressIndicator fx:id="progress" maxWidth="90.0"
-									prefHeight="50.0" prefWidth="50.0" />
-								<FlowPane hgap="30.0" prefHeight="200.0" prefWidth="200.0"
-									vgap="30.0">
-									<children>
-										<Button fx:id="btn_dropbox" maxHeight="45.0" maxWidth="45.0"
-											minHeight="45.0" minWidth="45.0" mnemonicParsing="false"
-											onAction="#setLoginVisible" prefHeight="45.0" prefWidth="45.0"
-											styleClass="btn-home">
-											<graphic>
-												<ImageView fitHeight="30.0" pickOnBounds="true"
-													preserveRatio="true">
-													<image>
-														<Image url="@../icons/white/PNG/dropbox.png" />
-													</image>
-												</ImageView>
-											</graphic>
-										</Button>
-									</children>
-								</FlowPane>
-							</children>
-						</StackPane>
-						<HBox alignment="BOTTOM_LEFT" prefHeight="284.0" prefWidth="478.0"
-							GridPane.columnIndex="1" GridPane.rowIndex="4">
-							<children>
-								<Hyperlink fx:id="btn_cancel" onAction="#logout"
-									styleClass="btn-cancel-whtie" text="Logout">
-									<font>
-										<Font size="36.0" />
-									</font>
-								</Hyperlink>
-							</children>
-						</HBox>
-					</children>
-				</GridPane>
-			</children>
-		</StackPane>
-		<StackPane fx:id="pane_login" alignment="BOTTOM_LEFT"
-			prefHeight="1051.0" prefWidth="1920.0" visible="false">
-			<children>
-				<WebView fx:id="wv_dropbox" prefHeight="200.0" prefWidth="200.0" />
-				<Hyperlink fx:id="btn_cancel" onAction="#setLoginCancel"
-					styleClass="home-btn-cancel" text="Cancel">
-					<StackPane.margin>
-						<Insets bottom="80.0" left="80.0" />
-					</StackPane.margin>
-					<font>
-						<Font size="36.0" />
-					</font>
-				</Hyperlink>
-			</children>
-		</StackPane>
-	</children>
+<AnchorPane fx:id="pane_mainPane" prefHeight="1040.0" prefWidth="1920.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="handler.EventhandlerHomeScreen">
+  <children>
+    <StackPane fx:id="pane_homeScreen" layoutX="0.0" layoutY="0.0" prefHeight="1040.0" prefWidth="1920.0">
+      <children>
+        <GridPane>
+          <children>
+            <VBox alignment="BOTTOM_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+              <children>
+                <Label fx:id="lbl_time" prefHeight="80.0" prefWidth="183.0" styleClass="home-time, home-color" text="21:39">
+                  <font>
+                    <Font size="54.0" />
+                  </font>
+                  <textFill>
+                    <Color blue="1.000" green="1.000" opacity="0.898" red="1.000" fx:id="x2" />
+                  </textFill>
+                </Label>
+                <FlowPane>
+                  <children>
+                    <Label fx:id="lbl_title" prefHeight="70.0" prefWidth="223.0" styleClass="home-title, home-color" text="Guten Morgen, " textFill="WHITE">
+                      <font>
+                        <Font size="48.0" fx:id="x1" />
+                      </font>
+                    </Label>
+                    <Label fx:id="lbl_username" font="$x1" prefHeight="85.0" styleClass="home-title, home-color" text="" textFill="$x2" />
+                  </children>
+                </FlowPane>
+              </children>
+            </VBox>
+            <StackPane GridPane.columnIndex="2" GridPane.rowIndex="3">
+              <children>
+                <ProgressIndicator fx:id="progress" maxWidth="90.0" prefHeight="50.0" prefWidth="50.0" />
+                <FlowPane hgap="30.0" prefHeight="200.0" prefWidth="200.0" vgap="30.0">
+                  <children>
+                    <Button fx:id="btn_dropbox" maxHeight="45.0" maxWidth="45.0" minHeight="45.0" minWidth="45.0" mnemonicParsing="false" onAction="#setLoginVisible" prefHeight="45.0" prefWidth="45.0" styleClass="btn-home">
+                      <graphic>
+                        <ImageView fitHeight="30.0" pickOnBounds="true" preserveRatio="true">
+                          <image>
+                            <Image url="@../icons/white/PNG/dropbox.png" />
+                          </image>
+                        </ImageView>
+                      </graphic>
+                    </Button>
+                  </children>
+                </FlowPane>
+              </children>
+              <GridPane.margin>
+                <Insets />
+              </GridPane.margin>
+            </StackPane>
+            <HBox alignment="BOTTOM_LEFT" prefHeight="284.0" prefWidth="478.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+              <children>
+                <Hyperlink id="btn_cancel" fx:id="btn_logout" onAction="#logout" styleClass="btn-cancel-whtie" text="Logout">
+                  <font>
+                    <Font size="36.0" fx:id="x3" />
+                  </font>
+                </Hyperlink>
+              </children>
+            </HBox>
+          </children>
+          <columnConstraints>
+            <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="100.0" />
+            <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="518.0" minWidth="80.0" prefWidth="422.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1173.0" minWidth="10.0" prefWidth="861.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="607.0" minWidth="0.0" prefWidth="381.0" />
+            <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints fillHeight="false" maxHeight="80.0" minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="248.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="666.0" minHeight="10.0" prefHeight="439.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="666.0" minHeight="10.0" prefHeight="173.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="666.0" minHeight="10.0" prefHeight="292.0" vgrow="SOMETIMES" />
+            <RowConstraints fillHeight="false" maxHeight="80.0" minHeight="80.0" prefHeight="88.0" vgrow="SOMETIMES" />
+          </rowConstraints>
+        </GridPane>
+      </children>
+    </StackPane>
+    <StackPane fx:id="pane_login" alignment="BOTTOM_LEFT" layoutX="579.0" layoutY="144.0" prefHeight="731.0" prefWidth="806.0" style="" visible="false">
+      <children>
+        <WebView fx:id="wv_dropbox" prefHeight="200.0" prefWidth="200.0" style="&#10;" styleClass="" />
+        <Hyperlink fx:id="btn_cancel" font="$x3" onAction="#setLoginCancel" styleClass="home-btn-cancel" text="Cancel">
+          <StackPane.margin>
+            <Insets bottom="80.0" left="80.0" />
+          </StackPane.margin>
+        </Hyperlink>
+      </children>
+    </StackPane>
+  </children>
 </AnchorPane>

@@ -61,6 +61,8 @@
     -fx-text-fill: linear-gradient(white, #d0d0d0);
 }
 
+
+
 /*.menu-item:focused {*/
     /*-fx-background-color: transparent;*/
 /*}*/
@@ -128,6 +130,7 @@
 .home-btn-cancel{
 	-fx-font-size: 20px;
 }
+
 
 
 .btn-home{

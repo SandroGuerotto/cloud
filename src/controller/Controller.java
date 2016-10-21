@@ -174,7 +174,7 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
 		
 	}
 	
-	private void dpxtestlogin(){
+	public void dpxtestlogin(){
     	try {
 			dropbox = new Dropbox();
 		} catch (IOException e) {
