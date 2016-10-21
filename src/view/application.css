@@ -15,7 +15,7 @@
 /* 							Data Screen 
  * ===================================================================
  */
-.TableColumn{
+.TableColumn, .PTableColumn{
     -fx-font-weight: bold;
     -fx-text-fill: #38424b;
 }
@@ -130,8 +130,6 @@
 .home-btn-cancel{
 	-fx-font-size: 20px;
 }
-
-
 
 .btn-home{
     -fx-background-color: transparent;

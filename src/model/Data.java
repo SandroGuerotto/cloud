@@ -12,6 +12,12 @@ import javafx.beans.property.StringProperty;
  * Description      :   Class for all data object. Used for GUI
  */
 
+
+/*
+
+    !!!!!!!!!!    HIER WIRD NIX GEÄNDERT !!!!!!!!
+
+ */
 public class Data {
 
     private StringProperty data_name;
@@ -32,7 +38,7 @@ public class Data {
         return this.data_nameProperty().get();
     }
 
-    private StringProperty data_nameProperty() {
+    public StringProperty data_nameProperty() {
         if (this.data_name == null) {
             this.data_name = new SimpleStringProperty(this, "data_name");
         }
@@ -49,7 +55,7 @@ public class Data {
         return this.data_typeProperty().get();
     }
 
-    private StringProperty data_typeProperty() {
+    public StringProperty data_typeProperty() {
         if (this.data_type == null) {
             this.data_type = new SimpleStringProperty(this, "data_type");
         }
@@ -66,7 +72,7 @@ public class Data {
         return this.data_createProperty().get();
     }
 
-    private StringProperty data_createProperty() {
+    public StringProperty data_createProperty() {
         if (this.data_create == null) {
             this.data_create = new SimpleStringProperty(this, "data_create");
         }
@@ -83,7 +89,7 @@ public class Data {
         return this.data_lastProperty().get();
     }
 
-    private StringProperty data_lastProperty() {
+    public StringProperty data_lastProperty() {
         if (this.data_last == null) {
             this.data_last = new SimpleStringProperty(this, "data_last");
         }
@@ -100,7 +106,7 @@ public class Data {
         return this.data_sizeProperty().get();
     }
 
-    private StringProperty data_sizeProperty() {
+    public StringProperty data_sizeProperty() {
         if (this.data_size == null) {
             this.data_size = new SimpleStringProperty(this, "data_size");
         }

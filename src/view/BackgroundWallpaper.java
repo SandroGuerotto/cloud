@@ -14,14 +14,34 @@ public class BackgroundWallpaper {
 	Random r = new Random();
 	int low = 1;
 	int high = 14;
-	int result = r.nextInt(high-low) + low;
+	int result;
 
-	BackgroundSize size = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, false, true);
-	Image image = new Image("images/" +result+".jpg");
-	protected Background background = new Background(new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, size));
+	BackgroundSize size;
+	Image image;
+	protected Background background;
 
 	public BackgroundWallpaper() {
 		super();
+
+		result = r.nextInt(high-low) + low;
+		size = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, false, true);
+		image = new Image("images/" +result+".jpg");
+		background = new Background(new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, size));
+
 	}
 
+	public void setResult(int newValue){
+		if (newValue == 15){
+			this.result = 1;
+		}else{
+			this.result = newValue;
+		}
+		Image image = new Image("images/" +result+".jpg");
+		background = new Background(new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, size));
+
+	}
+
+	public int getResult(){
+		return this.result;
+	}
 }

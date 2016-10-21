@@ -9,28 +9,13 @@ import java.util.List;
 
 import javax.xml.rpc.ServiceException;
 
+import exception.*;
 import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.CloudService;
 import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.ServiceType;
 import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.User;
 
 import com.dropbox.core.DbxException;
 
-import exception.AddServiceFailException;
-import exception.ConnectionErrorException;
-import exception.DeleteException;
-import exception.DeleteServiceConnectionErrorException;
-import exception.DownloadException;
-import exception.EmailExistException;
-import exception.FailLoadingServicesException;
-import exception.LoadSupportedServicesException;
-import exception.LoginFailedException;
-import exception.NoFilesException;
-import exception.NoUserLoggedInException;
-import exception.UpdateServiceErrorException;
-import exception.UpdateUserPwErrorException;
-import exception.UploadException;
-import exception.UserExistException;
-import exception.UsernameHasToBeFilledOutException;
 import handler.I_EventhandlerDataScreen;
 import handler.I_EventhandlerHomeScreen;
 import javafx.application.Platform;
@@ -114,7 +99,8 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
         StarterLogin starterLogin = new StarterLogin();
         starterLogin.show(args, this);
     }
-    
+
+    /* GoTO Methode */
     public void gotoHome(Stage stage){
     	StarterHome starterHome = new StarterHome();
     	starterHome.setController(this);
@@ -128,6 +114,7 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
     		starterData.start(stage);
     	
     }
+    /* END GoTO Methode*/
     
     public void kill(){
     	Platform.exit();
@@ -163,17 +150,32 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
     	}
     }
 
+
+    /*  Home Screen Methode  */
     @Override
-    public void getLogin(String Username) {
-    	
+    public ServiceType[] getServices() throws LoadSupportedServicesException, NoServicesFoundException {
+        if (servconnection.getAllServices() == null){
+            throw new NoServicesFoundException('i');
+        }else{
+            return servconnection.getAllServices();
+        }
     }
 
-	@Override
-	public void getDropboxAPI(String api) {
-		// TODO Auto-generated method stub
-		
-	}
-	
+
+    public String getLink(String serviceType)  {
+        String url = "";
+        switch (serviceType){
+            case "Dropbox":
+//                dropbox = new Dropbox();
+                url =  "https://www.dropbox.com/1/oauth2/authorize?locale=de_DE&client_id=4ib2r751sawik1x&response_type=code";
+                break;
+        }
+        return url;
+    }
+
+    /* END Home Screen Methode */
+
+    // TODO Test Methoden
 	public void dpxtestlogin(){
     	try {
 			dropbox = new Dropbox();
@@ -188,4 +190,6 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
 			e.printStackTrace();
 		}
 	}
+
+
 }

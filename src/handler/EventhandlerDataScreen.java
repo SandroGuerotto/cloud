@@ -5,11 +5,14 @@ import controller.Controller;
 import exception.ConnectionErrorException;
 import exception.DeleteException;
 import exception.DownloadException;
+import exception.NoFilesException;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -28,11 +31,11 @@ import java.io.File;
 import java.util.List;
 
 /**
- * @author :   Sandro Guerotto
+ * @author          :   Sandro Guerotto
  * Created          :   20.09.2016
  * Project          :   cloud
- * Package          :   exception
- * @version :   1.0
+ * Package          :   handler
+ * @version         :   1.0
  * LastUpdated      :
  * Description      :   Contains all handler for DataScreen and init Screen
  */
@@ -166,21 +169,23 @@ public class EventhandlerDataScreen {
     }
 
     private void preloadData() {
-        tv_data.setItems(testload());
-//		Platform.runLater(() -> {
-//			try {
-//
-//				pb_loaddata.setDisable(false);
-//				pb_loaddata.setVisible(true);
-//				tv_data.setItems(controller.getAllData());
-//			} catch (NoFilesException e) {
-//				message.showMessage(e.getType(), e.getMsg());
-//			}finally {
-//				pb_loaddata.setDisable(true);
-//				pb_loaddata.setVisible(false);
-//			}
-//
-//		});
+
+        //    tv_data.setItems(testload());
+
+            Platform.runLater(() -> {
+                try {
+
+                    pb_loaddata.setDisable(false);
+                    pb_loaddata.setVisible(true);
+                    tv_data.setItems(controller.getAllData());
+                } catch (NoFilesException e) {
+                    message.showMessage(e.getType(), e.getMsg());
+                } finally {
+                    pb_loaddata.setDisable(true);
+                    pb_loaddata.setVisible(false);
+                }
+
+            });
 
     }
 
@@ -233,7 +238,7 @@ public class EventhandlerDataScreen {
     }
 
     @FXML
-    private void upload() {
+    private void upload(ActionEvent event) {
         mediaChooser.setTitle("Datei hochladen");
         mediaChooser.setInitialDirectory(new File(DEFAULT_DIR));
         List<File> upload_list = mediaChooser.showOpenMultipleDialog(stage);
@@ -244,7 +249,7 @@ public class EventhandlerDataScreen {
     }
 
     @FXML
-    private void delete() {
+    private void delete(ActionEvent event) {
         ObservableList<Data> delete_list = tv_data.getSelectionModel().getSelectedItems();
         try {
             controller.delete_data(delete_list);
@@ -256,12 +261,12 @@ public class EventhandlerDataScreen {
     }
 
     @FXML
-    private void logout() {
+    private void logout(ActionEvent event) {
         controller.gotoHome(stage);
     }
 
     @FXML
-    private void download() {
+    private void download(ActionEvent event) {
         ObservableList<Data> download_list = tv_data.getSelectionModel().getSelectedItems();
         try {
             controller.download_data(download_list);
@@ -273,13 +278,13 @@ public class EventhandlerDataScreen {
     }
 
     @FXML
-    private void deletemsg() {
+    private void deletemsg(ActionEvent event) {
         lbl_msg.setVisible(false);
         lbl_msg.setDisable(true);
     }
 
     @FXML
-    private void setFocus() {
+    private void setFocus(ActionEvent event) {
         pane_data.requestFocus();
         tv_data.getSelectionModel().clearSelection();
     }

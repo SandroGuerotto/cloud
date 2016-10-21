@@ -1,24 +1,19 @@
 package handler;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import controller.Controller;
-import controller.StarterHome;
 import exception.EmailExistException;
 import exception.LoginFailedException;
 import exception.UserExistException;
-import exception.UsernameHasToBeFilledOutException;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -67,7 +62,7 @@ public class EventhandlerLogin {
     }
 
     @FXML
-    private void login(ActionEvent event) {
+    private void login() {
 
         if (tf_username.getText().isEmpty() || tf_password.getText().isEmpty()){
             lbl_login_error.setText("Bitte alles ausfüllen!");
@@ -189,9 +184,7 @@ public class EventhandlerLogin {
         pane_agb.setVisible(false);
         pane_agb.setDisable(true);
 
-        Platform.runLater(() -> {
-            pane_login.requestFocus();
-        });
+        Platform.runLater(() -> pane_login.requestFocus());
     }
 
     @FXML
@@ -201,7 +194,7 @@ public class EventhandlerLogin {
             if (tf_email.isVisible()){
                 register(new ActionEvent());
             }else{
-                login(new ActionEvent());
+                login();
             }
         }
     }
