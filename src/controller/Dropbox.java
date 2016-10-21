@@ -33,7 +33,7 @@ import model.Data;
  * Project          :   cloud
  * Package          :   controller
  * @version         :   1.0
- * LastUpdated      :	Sandro - Grösse in Humansize(MB, GB) und Datum formatiert
+ * LastUpdated      :	Sandro - GrÃ¶sse in Humansize(MB, GB) und Datum formatiert
  * Description      :   Connector/uploader/downloader/getter from Dropbox
  */
 
@@ -93,7 +93,7 @@ public class Dropbox {
 		Scanner sc = new Scanner(System.in);
 		Desktop.getDesktop().browse(new URI(webAuth.start()));
 		
-		System.out.println("Kopieren Sie den Text und fügen Sie ihn ein!");
+		System.out.println("Kopieren Sie den Text und fï¿½gen Sie ihn ein!");
 		authtoken = sc.nextLine();
 		
 		accesstoken = webAuth.finish(authtoken).accessToken;

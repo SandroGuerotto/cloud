@@ -36,8 +36,14 @@ public class ButtonCell extends TableCell<Disposer.Record, Boolean> {
 
     protected void updateItem(Boolean t, boolean empty) {
         super.updateItem(t, empty);
+
         if (!empty) {
-            this.setGraphic(this.cellButton);
+            int index = indexProperty().getValue();
+            Data data = (Data) ButtonCell.this.getTableView().getItems().get(index);
+            if (!data.getdata_type().equals("Folder")){
+                this.setGraphic(this.cellButton);
+            }
+
         }
 
     }
