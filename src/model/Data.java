@@ -2,7 +2,6 @@ package model;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-
 /**
  * @author          :   Sandro Guerotto
  * Created          :   23.09.2016
@@ -21,7 +20,6 @@ public class Data {
     private StringProperty data_create;
     private StringProperty data_last;
 
-
     public Data() {
     }
 
@@ -31,10 +29,10 @@ public class Data {
     }
 
     public String getdata_name() {
-        return (String) this.data_nameProperty().get();
+        return this.data_nameProperty().get();
     }
 
-    public StringProperty data_nameProperty() {
+    private StringProperty data_nameProperty() {
         if (this.data_name == null) {
             this.data_name = new SimpleStringProperty(this, "data_name");
         }
@@ -48,10 +46,10 @@ public class Data {
     }
 
     public String getdata_type() {
-        return (String) this.data_typeProperty().get();
+        return this.data_typeProperty().get();
     }
 
-    public StringProperty data_typeProperty() {
+    private StringProperty data_typeProperty() {
         if (this.data_type == null) {
             this.data_type = new SimpleStringProperty(this, "data_type");
         }
@@ -65,10 +63,10 @@ public class Data {
     }
 
     public String getdata_create() {
-        return (String) this.data_createProperty().get();
+        return this.data_createProperty().get();
     }
 
-    public StringProperty data_createProperty() {
+    private StringProperty data_createProperty() {
         if (this.data_create == null) {
             this.data_create = new SimpleStringProperty(this, "data_create");
         }
@@ -82,10 +80,10 @@ public class Data {
     }
 
     public String getdata_last() {
-        return (String) this.data_lastProperty().get();
+        return this.data_lastProperty().get();
     }
 
-    public StringProperty data_lastProperty() {
+    private StringProperty data_lastProperty() {
         if (this.data_last == null) {
             this.data_last = new SimpleStringProperty(this, "data_last");
         }
@@ -99,15 +97,16 @@ public class Data {
     }
 
     public String getdata_size() {
-        return (String) this.data_sizeProperty().get();
+        return this.data_sizeProperty().get();
     }
 
-    public StringProperty data_sizeProperty() {
+    private StringProperty data_sizeProperty() {
         if (this.data_size == null) {
             this.data_size = new SimpleStringProperty(this, "data_size");
         }
 
         return this.data_size;
     }
+
 
 }

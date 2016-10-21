@@ -46,7 +46,7 @@ import model.ServerConnecter;
  * Package          :   controller
  * @version         :   1.0
  * LastUpdated      :
- * Description      :   Allgemeiner Kontroller f�r das Programm
+ * Description      :   Allgemeiner Kontroller für das Programm
  */
 public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeScreen {
 
