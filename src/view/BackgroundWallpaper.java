@@ -13,7 +13,7 @@ public class BackgroundWallpaper{
 
 	Random r = new Random();
 	int low = 1;
-	int high = 17;
+	int high = 18;
 	int result;
 
 	private BackgroundSize size;
