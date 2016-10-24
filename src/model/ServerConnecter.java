@@ -1,6 +1,6 @@
 /**
  * @author :   Burim Cakolli
- * @Turns coffee & pizza into Software
+ * @Turns coffee & pizza into Software :)
  * @Created         :   02.10.2016
  * @Project         :   cloud
  * @Package         :   model
