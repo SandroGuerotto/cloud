@@ -29,7 +29,7 @@ public class AESEncrpytionTest {
 
 	private byte[] aesKey;
 	private AESEncryption aesEncrpytion;
-	private static final String TEST_RESOURCES_PATH = "src/tests/resources/";
+	private static final String TEST_RESOURCES_PATH = "src/whitebox/resources/";
 
 	public void loadKey() {
 		aesKey = new byte[256 / 8];
