@@ -19,6 +19,7 @@ import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebEngine;
@@ -37,14 +38,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /*
- * Name			: EventhandlerHomeScreen.java
- * Author		: Sandro Guerotto & Toshiki Hennig
- * Describtion	: Handler class for all Event from the Home Screen
- * Create on 	: 20.09.2016
- * Last modify  : 06.10.2016 Sandro Zeit angepasst und controllmethoden eingefügt
+ * @Name			: EventhandlerHomeScreen.java
+ * @Author		    : Sandro Guerotto & Toshiki Hennig
+ * @Describtion	    : Handler class for all Event from the Home Screen
+ * @Create on 	    : 20.09.2016
+ * @Last modify     : 06.10.2016 Sandro Zeit angepasst und controllmethoden eingefügt
  */
 
-public class EventhandlerHomeScreen extends BackgroundWallpaper {
+public class EventhandlerHomeScreen {
 
     private static final double BLUR_AMOUNT = 10;
 
@@ -81,6 +82,7 @@ public class EventhandlerHomeScreen extends BackgroundWallpaper {
     private FadeTransition fadeIn;
     private Stage stage;
     private Controller controller;
+    private BackgroundWallpaper customBackground;
 
     private WebEngine webEngine;
 
@@ -90,9 +92,9 @@ public class EventhandlerHomeScreen extends BackgroundWallpaper {
 
     public void initialize() {
 
+        customBackground = new BackgroundWallpaper();
 
-
-        pane_homeScreen.setBackground(background);
+        pane_homeScreen.setBackground(customBackground.getBackground());
 
         progress.setVisible(false);
 
@@ -164,8 +166,8 @@ public class EventhandlerHomeScreen extends BackgroundWallpaper {
 
     @FXML
     private void changebackground() {
-        setResult(getResult() + 1);
-        pane_homeScreen.setBackground(background);
+        customBackground.setResult(customBackground.getResult() + 1);
+        pane_homeScreen.setBackground(customBackground.getBackground());
     }
 
 

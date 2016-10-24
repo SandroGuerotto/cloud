@@ -1,15 +1,18 @@
 package controller;
 
 /**
- * @author          :   Sandro Guerotto
- * Created          :   27.09.2016
- * Project          :   cloud
- * Package          :   controller
- * @version         :   1.0
- * LastUpdated      :
- * Description      :   Starter class für das Data GUI
+ * @author           :   Sandro Guerotto
+ * @Created          :   27.09.2016
+ * @Project          :   cloud
+ * @Package          :   controller
+ * @version          :   1.0
+ * @LastUpdated      :
+ * @Description      :   Starter class für das Data GUI
  */
 
+import com.dropbox.core.DbxException;
+import exception.ConnectionErrorException;
+import exception.UploadException;
 import handler.EventhandlerDataScreen;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -26,12 +29,13 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.io.File;
+import java.io.IOException;
 
-public class StarterData extends Application {
+public class StarterData{
 
 	protected static Controller controller;
 	
-    public void start(Stage stage) {
+    public void start(Stage stage, Controller controller) {
         final double ypos = Screen.getPrimary().getVisualBounds().getMinY();
         final double xpos = Screen.getPrimary().getVisualBounds().getMinX();
         final double width = Screen.getPrimary().getVisualBounds().getWidth();
@@ -48,45 +52,43 @@ public class StarterData extends Application {
             Scene scene = new Scene(root);
             scene.getStylesheets().add(this.getClass().getResource("../view/application.css").toExternalForm());
             //drag'n'drop
-            scene.setOnDragOver(new EventHandler<DragEvent>() {
-                @Override
-                public void handle(DragEvent event) {
-                    Dragboard db = event.getDragboard();
-                    if (db.hasFiles()) {
-
-                        event.acceptTransferModes(TransferMode.COPY);
-                    } else {
-                        event.consume();
-
-                    }
-                }
-            });
-
-
-            scene.setOnDragDropped(new EventHandler<DragEvent>() {
-                @Override
-                public void handle(DragEvent event) {
-                    Dragboard db = event.getDragboard();
-                    boolean success = false;
-                    if (db.hasFiles()) {
-                        success = true;
-                        String filePath = null;
-                        for (File file:db.getFiles()) {
-                            filePath = file.getAbsolutePath();
-                            System.out.println(filePath);
-                        }
-                    }
-                    event.setDropCompleted(success);
+            scene.setOnDragOver(event -> {
+                Dragboard db = event.getDragboard();
+                if (db.hasFiles()) {
+                    event.acceptTransferModes(TransferMode.COPY);
+                } else {
                     event.consume();
                 }
             });
+
+
+            scene.setOnDragDropped(event -> {
+                Dragboard db = event.getDragboard();
+                boolean success = false;
+                if (db.hasFiles()) {
+                    success = true;
+                    String filePath = null;
+                    try {
+                        controller.upload_data(db.getFiles());
+                    } catch (UploadException e) {
+                        e.printStackTrace();
+                    } catch (ConnectionErrorException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (DbxException e) {
+                        e.printStackTrace();
+                    }
+//                    for (File file:db.getFiles()) {
+//                        filePath = file.getAbsolutePath();
+//
+//                    }
+                }
+                event.setDropCompleted(success);
+                event.consume();
+            });
             
-            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-	            @Override
-	            public void handle(WindowEvent t) {
-	                controller.kill();
-	            }
-	        });
+            stage.setOnCloseRequest(t -> controller.kill());
             
             //set font style
 //			Font.loadFont(getClass().getResourceAsStream("../font/Dosis-Light.ttf"), 14);
@@ -110,7 +112,7 @@ public class StarterData extends Application {
             var5.printStackTrace();
         }
     }
-	public void setController(Controller controller){
-		this.controller = controller;
-	}
+//	public void setController(Controller controller){
+//		this.controller = controller;
+//	}
 }

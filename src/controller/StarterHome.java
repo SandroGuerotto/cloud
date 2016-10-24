@@ -1,13 +1,13 @@
 package controller;
 
 /**
- * @author          :   Sandro Guerotto
- * Created          :   27.09.2016
- * Project          :   cloud
- * Package          :   controller
- * @version         :   1.0
- * LastUpdated      :
- * Description      :   Starter class für das Home GUI
+ * @author           :   Sandro Guerotto
+ * @Created          :   27.09.2016
+ * @Project          :   cloud
+ * @Package          :   controller
+ * @version          :   1.0
+ * @LastUpdated      :
+ * @Description      :   Starter class für das Home GUI
  */
 
 import handler.EventhandlerHomeScreen;
@@ -22,11 +22,11 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-public class StarterHome extends Application {
+public class StarterHome {
 	
 	protected static Controller controller;
-	@Override
-    public void start(Stage stage) {
+
+    public void start(Stage stage, Controller controller) {
         final double ypos = Screen.getPrimary().getVisualBounds().getMinY();
         final double xpos = Screen.getPrimary().getVisualBounds().getMinX();
         final double width = Screen.getPrimary().getVisualBounds().getWidth();
@@ -72,9 +72,9 @@ public class StarterHome extends Application {
         }
     }
     
-
-	public void setController(Controller controller){
-		this.controller = controller;
-	}
+//
+//	public void setController(Controller controller){
+//		this.controller = controller;
+//	}
 	
 }

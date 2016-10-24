@@ -1,15 +1,11 @@
 package handler;
 
+import com.dropbox.core.DbxException;
 import com.sun.prism.impl.Disposer.Record;
 import controller.Controller;
-import exception.ConnectionErrorException;
-import exception.DeleteException;
-import exception.DownloadException;
-import exception.NoFilesException;
+import exception.*;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,22 +18,22 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import message.Message;
 import model.Data;
 import view.PTableColumn;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
- * @author          :   Sandro Guerotto
- * Created          :   20.09.2016
- * Project          :   cloud
- * Package          :   handler
- * @version         :   1.0
- * LastUpdated      :
- * Description      :   Contains all handler for DataScreen and init Screen
+ * @author           :   Sandro Guerotto
+ * @Created          :   20.09.2016
+ * @Project          :   cloud
+ * @Package          :   handler
+ * @version          :   1.0
+ * @LastUpdated      :
+ * @Description      :   Contains all handler for DataScreen and init Screen
  */
 
 public class EventhandlerDataScreen {
@@ -243,7 +239,18 @@ public class EventhandlerDataScreen {
         mediaChooser.setInitialDirectory(new File(DEFAULT_DIR));
         List<File> upload_list = mediaChooser.showOpenMultipleDialog(stage);
         if (upload_list != null) {
-            // ToDo übergabe nach controller
+            try {
+                controller.upload_data(upload_list);
+                refresh();
+            } catch (UploadException e) {
+                message.showMessage('e', e.getMsg());
+            } catch (ConnectionErrorException e) {
+                message.showMessage('e', e.getMsg());
+            } catch (IOException e) {
+                message.showMessage('e', "Fehler ist aufgetreten");
+            } catch (DbxException e) {
+                message.showMessage('e', "Fehler ist aufgetreten");
+            }
         }
 
     }
@@ -304,6 +311,16 @@ public class EventhandlerDataScreen {
         this.controller = controller;
     }
 
+
+    private void refresh(){
+//        try {
+////            tv_data.getItems().clear();
+////            tv_data.refresh();
+////            tv_data.setItems(controller.getAllData());
+//        } catch (NoFilesException e) {
+//            e.printStackTrace();
+//        }
+    }
 
     private ObservableList<Data> testload() {
         ObservableList<Data> list = FXCollections.observableArrayList();

@@ -25,13 +25,13 @@ import model.Data;
 import model.ServerConnecter;
 
 /**
- * @author          :   Sandro Guerotto
- * Created          :   04.10.2016
- * Project          :   cloud
- * Package          :   controller
- * @version         :   1.0
- * LastUpdated      :
- * Description      :   Allgemeiner Kontroller für das Programm
+ * @author           :   Sandro Guerotto
+ * @Created          :   04.10.2016
+ * @Project          :   cloud
+ * @Package          :   controller
+ * @version          :   1.0
+ * @LastUpdated      :
+ * @Description      :   Allgemeiner Kontroller für das Programm
  */
 public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeScreen {
 
@@ -103,15 +103,16 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
     /* GoTO Methode */
     public void gotoHome(Stage stage){
     	StarterHome starterHome = new StarterHome();
-    	starterHome.setController(this);
-    	starterHome.start(stage);
+//    	starterHome.setController(this);
+//    	starterHome.start(stage);
+        starterHome.start(stage, this);
     }
     
     public void gotoData(Stage stage){
     	dpxtestlogin();
     	StarterData starterData = new StarterData();
-    	starterData.setController(this);
-    		starterData.start(stage);
+//    	starterData.setController(this);
+    		starterData.start(stage, this);
     	
     }
     /* END GoTO Methode*/
@@ -138,9 +139,12 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
     }
 
     @Override
-    public void upload_data(List<File> uploadlist) throws UploadException, ConnectionErrorException {
-    	// TODO convert file list to single files
-    	// dropbox.uploadFile(null);
+    public void upload_data(List<File> uploadlist) throws UploadException, ConnectionErrorException, IOException, DbxException {
+        for(File file: uploadlist){
+            dropbox.uploadFile(file.getAbsolutePath());
+        }
+
+        dropbox.makearchives();
     }
 
     @Override
