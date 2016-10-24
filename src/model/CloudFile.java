@@ -1,24 +1,22 @@
 package model;
+import java.io.File;
 
 /**
- * @author :   Burim Cakolli
- * Turns coffee & pizza into Software
- * Created          :   02.10.2016
- * Project          :   cloud
- * Package          :   model
- * @version 		:   1.0
- * LastUpdated      :   02.10.2016 / by Burim Cakolli
- * Description      :
- * 
+ * Holds a file in it
+ * @author Burim Cakolli
+ * @version 2.0
+ * @project cloud
+ * @package model
+ * @created 02.10.2016
+ * @lastUpdate 21.10.2016 / by Tim Meier
  */
-
-public class File {
+public class CloudFile {
 
 	private String name;
 	private String type;
 	private File file;
 	
-	public File(String name, String type, File file) {
+	public CloudFile(String name, String type, File file) {
 		this.name = name;
 		this.type = type;
 		this.file = file;
