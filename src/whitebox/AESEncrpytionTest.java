@@ -12,6 +12,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import exception.EncryptionFileNotFoundException;
+import exception.EncryptionInvalidKeyException;
+import exception.StreamCopyException;
 import model.AESEncryption;
 
 /**
@@ -37,9 +40,7 @@ public class AESEncrpytionTest {
 			fis = new FileInputStream(new File(TEST_RESOURCES_PATH + "AES_KEY.dat"));
 			fis.read(aesKey);
 		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -47,7 +48,6 @@ public class AESEncrpytionTest {
 		try {
 			Files.copy(new File(actFilePath).toPath(), new File(newFilePath).toPath());
 		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -58,7 +58,7 @@ public class AESEncrpytionTest {
 	}
 
 	@Test
-	public void encryptFile_enrypted_file_exists() {
+	public void encryptFile_enrypted_file_exists() throws EncryptionInvalidKeyException, EncryptionFileNotFoundException, StreamCopyException {
 		// Arrange
 		File file = new File(TEST_RESOURCES_PATH + "TestTextFile.txt");
 
@@ -75,7 +75,7 @@ public class AESEncrpytionTest {
 	}
 
 	@Test
-	public void encryptFile_cloudFileExtension_contains_aes() {
+	public void encryptFile_cloudFileExtension_contains_aes() throws EncryptionInvalidKeyException, EncryptionFileNotFoundException, StreamCopyException {
 		// Arrange
 		File file = new File(TEST_RESOURCES_PATH + "TestTextFile.txt");
 
@@ -91,7 +91,7 @@ public class AESEncrpytionTest {
 	}
 
 	@Test
-	public void decryptFile_decrypted_file_exists() {
+	public void decryptFile_decrypted_file_exists() throws EncryptionInvalidKeyException, EncryptionFileNotFoundException, StreamCopyException {
 		// Arrange
 		File file = new File(TEST_RESOURCES_PATH + "TestAESFile.txt.aes");
 
@@ -107,7 +107,7 @@ public class AESEncrpytionTest {
 	}
 
 	@Test
-	public void decryptFile_cloudFileExtension_contains_txt() {
+	public void decryptFile_cloudFileExtension_contains_txt() throws EncryptionInvalidKeyException, EncryptionFileNotFoundException, StreamCopyException {
 		// Arrange
 		File file = new File(TEST_RESOURCES_PATH + "TestAESFile.txt.aes");
 
@@ -123,7 +123,7 @@ public class AESEncrpytionTest {
 	}
 
 	@Test
-	public void decryptFile_file_content_contains_test() {
+	public void decryptFile_file_content_contains_test() throws EncryptionInvalidKeyException, EncryptionFileNotFoundException, StreamCopyException {
 		// Arrange
 		List<String> fileContent = null;
 		File file = new File(TEST_RESOURCES_PATH + "TestAESFile.txt.aes");
@@ -144,7 +144,7 @@ public class AESEncrpytionTest {
 	}
 	
 	@Test
-	public void encryptFile_and_decryptFile_decrypted_file_content_contains_test(){
+	public void encryptFile_and_decryptFile_decrypted_file_content_contains_test() throws EncryptionInvalidKeyException, EncryptionFileNotFoundException, StreamCopyException{
 		// Arrange
 		List<String> fileContent = null;
 		File file = new File(TEST_RESOURCES_PATH + "TestTextFile.txt");
