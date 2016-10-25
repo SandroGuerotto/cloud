@@ -1,13 +1,9 @@
 package controller;
 
-import com.dropbox.core.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import model.Data;
-
-import java.awt.*;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
@@ -16,6 +12,20 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Scanner;
+
+import com.dropbox.core.DbxAppInfo;
+import com.dropbox.core.DbxClient;
+import com.dropbox.core.DbxEntry;
+import com.dropbox.core.DbxException;
+import com.dropbox.core.DbxRequestConfig;
+import com.dropbox.core.DbxWebAuthNoRedirect;
+import com.dropbox.core.DbxWriteMode;
+
+import javafx.collections.ObservableList;
+import javafx.collections.ListChangeListener;
+import javafx.collections.FXCollections;
+
+import model.Data;
 
 /**
  * @author          :   Sasa Markovic
@@ -36,24 +46,30 @@ public class Dropbox {
 	private String accesstoken;
 	private DbxClient client;
 	private ObservableList<Data> list = FXCollections.observableArrayList();
+	private String currentPath;
 	
-	public static void main(String[] args0) throws IOException, URISyntaxException, DbxException{
-		new Dropbox();
-	}
 	//Controller
 	public Dropbox() throws IOException, URISyntaxException, DbxException{
 		appInfo = new DbxAppInfo("4ib2r751sawik1x","xwcn09oaicgpo0d");
 		config = new DbxRequestConfig("Testsecurecloudapp", Locale.getDefault().toString());
 		webAuth = new DbxWebAuthNoRedirect(config, appInfo);
+		currentPath = "/";
 		
 		firstlogin();
 		makearchives();
 		getarchives();
 	}
+	public void updatecurrentPath(String foldername){
+		StringBuilder temp = new StringBuilder(currentPath);
+		temp.append(foldername);
+		temp.append("/");
+		
+		this.currentPath = temp.toString();
+	}
 	//Erstellt die variable "list"
 	public void makearchives() throws DbxException{
 		list.removeAll();
-		DbxEntry.WithChildren files = client.getMetadataWithChildren("/");
+		DbxEntry.WithChildren files = client.getMetadataWithChildren(currentPath);
 		for(DbxEntry file : files.children){
 			if(!file.isFolder()){
 				
@@ -117,6 +133,8 @@ public class Dropbox {
 		return null;
 	}
 	public void downloadFile(String path){
+		
+		String endPath = "";
 
 		try {
 			FileOutputStream outputStream = new FileOutputStream(path);
@@ -142,8 +160,8 @@ public class Dropbox {
 
 		
 	}
-	public void login(){
-		client = new DbxClient(config,accesstoken);
+	public void login(String token){
+		client = new DbxClient(config,token);
 	}
 	public void logout(){
 		client = null;
