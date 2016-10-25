@@ -33,8 +33,6 @@ public class ServiceButton extends Button {
         imageView.setFitHeight(30);
         imageView.setFitWidth(30);
         setGraphic(imageView);
-
-
     }
 
     private void setImage(){

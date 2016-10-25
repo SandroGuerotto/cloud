@@ -11,14 +11,12 @@ package controller;
 
 import handler.EventhandlerLogin;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 public class StarterLogin extends Application {
 	
@@ -28,10 +26,10 @@ public class StarterLogin extends Application {
 		try {
 
 			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/Login.fxml"));
-			Parent root = (Parent) loader.load();
+			Parent root = loader.load();
 			//setzen der Stage für die popup und mediachooser
 
-			EventhandlerLogin eventhandlerLoginScreen = (EventhandlerLogin) loader.getController();
+			EventhandlerLogin eventhandlerLoginScreen = loader.getController();
 			eventhandlerLoginScreen.setStage(stage);
 			eventhandlerLoginScreen.setController(controller);
 
@@ -39,17 +37,11 @@ public class StarterLogin extends Application {
 			scene.getStylesheets().add(this.getClass().getResource("../view/application.css").toExternalForm());
 
 			//set font style
-//			Font.loadFont(getClass().getResourceAsStream("../font/Dosis-Light.ttf"), 14);
 			Font.loadFont(getClass().getResourceAsStream("../font/Dosis-Bold.ttf"), 14);
 			Font.loadFont(getClass().getResourceAsStream("../font/Dosis-Medium.ttf"), 14);
 			
 			
-			stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-	            @Override
-	            public void handle(WindowEvent t) {
-	                controller.kill();
-	            }
-	        });
+			stage.setOnCloseRequest(t -> controller.kill());
 			
 			stage.getIcons().add(new Image("@/../icons/logo/logo.png"));
 			stage.setTitle("Secure Cloud"); // Titel
@@ -65,7 +57,7 @@ public class StarterLogin extends Application {
 
 	
 	public void show(String[] args, Controller controller) {
-		this.controller = controller;
+		StarterLogin.controller = controller;
 		launch(args);
 	}
 }

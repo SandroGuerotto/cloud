@@ -1,9 +1,13 @@
 package controller;
 
-import java.awt.Desktop;
+import com.dropbox.core.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import model.Data;
+
+import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
@@ -12,20 +16,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Scanner;
-
-import com.dropbox.core.DbxAppInfo;
-import com.dropbox.core.DbxClient;
-import com.dropbox.core.DbxEntry;
-import com.dropbox.core.DbxException;
-import com.dropbox.core.DbxRequestConfig;
-import com.dropbox.core.DbxWebAuthNoRedirect;
-import com.dropbox.core.DbxWriteMode;
-
-import javafx.collections.ObservableList;
-import javafx.collections.ListChangeListener;
-import javafx.collections.FXCollections;
-
-import model.Data;
 
 /**
  * @author          :   Sasa Markovic

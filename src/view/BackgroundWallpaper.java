@@ -11,10 +11,10 @@ import javafx.scene.layout.BackgroundSize;
 
 public class BackgroundWallpaper{
 
-	Random r = new Random();
-	int low = 1;
-	int high = 18;
-	int result;
+	private Random r = new Random();
+	private int low = 1;
+	private int high = 18;
+	private int result;
 
 	private BackgroundSize size;
 	private Image image;

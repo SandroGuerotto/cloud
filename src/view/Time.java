@@ -3,6 +3,7 @@ package view;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+
 public class Time {
 
     private String text;
@@ -16,7 +17,7 @@ public class Time {
         return sdf.format(Calendar.getInstance().getTime());
     }
 
-    public int getTimeOfDay() {
+    private int getTimeOfDay() {
         return Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
     }
 

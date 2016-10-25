@@ -1,6 +1,5 @@
 package handler;
 
-import com.dropbox.core.DbxException;
 import com.jfoenix.controls.JFXButton;
 import controller.Controller;
 import exception.LoadSupportedServicesException;
@@ -11,7 +10,6 @@ import javafx.collections.ListChangeListener;
 import javafx.concurrent.Worker.State;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
@@ -19,7 +17,6 @@ import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebEngine;
@@ -31,8 +28,6 @@ import view.BackgroundWallpaper;
 import view.ServiceButton;
 import view.Time;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -98,9 +93,7 @@ public class EventhandlerHomeScreen {
 
         progress.setVisible(false);
 
-        Platform.runLater(() -> {
-            loadservice();
-        });
+        Platform.runLater(() -> loadservice());
 
 
         // Von Anfang an Zeit setzen und danach im 2 Sekundentakt
@@ -219,9 +212,7 @@ public class EventhandlerHomeScreen {
             for (ServiceType service : controller.getServices()) {
                 System.out.print(service.getName());
                 ServiceButton serviceButton = new ServiceButton(service.getName());
-                serviceButton.setOnAction((event) -> {
-                    setLoginVisible(service.getName());
-                });
+                serviceButton.setOnAction((event) -> setLoginVisible(service.getName()));
                 pane_service.getChildren().add(serviceButton);
             }
         } catch (LoadSupportedServicesException e) {

@@ -26,7 +26,7 @@ import model.ServerConnecter;
 
 /**
  * @author           :   Sandro Guerotto
- * @Created          :   04.10.2016
+ * @created          :   04.10.2016
  * @Project          :   cloud
  * @Package          :   controller
  * @version          :   1.0

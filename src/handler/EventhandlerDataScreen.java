@@ -246,9 +246,7 @@ public class EventhandlerDataScreen {
                 message.showMessage('e', e.getMsg());
             } catch (ConnectionErrorException e) {
                 message.showMessage('e', e.getMsg());
-            } catch (IOException e) {
-                message.showMessage('e', "Fehler ist aufgetreten");
-            } catch (DbxException e) {
+            } catch (IOException | DbxException e) {
                 message.showMessage('e', "Fehler ist aufgetreten");
             }
         }
