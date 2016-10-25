@@ -140,7 +140,7 @@ public class EventhandlerHomeScreen {
      * 
      */
     @FXML
-    private void setLoginVisible(String type) {
+    private void setLoginVisible(ServiceType type) {
 
         if (controller.getUsername().equals("Sandro")) {
             controller.gotoData(stage);
@@ -235,7 +235,7 @@ public class EventhandlerHomeScreen {
                 System.out.print(service.getName());
                 ServiceButton serviceButton = new ServiceButton(service.getName());
                 serviceButton.setOnAction((event) -> {
-                    setLoginVisible(service.getName());
+                    setLoginVisible(service);
                 });
                 pane_service.getChildren().add(serviceButton);
             }
