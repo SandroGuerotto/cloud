@@ -13,17 +13,16 @@ import org.junit.Before;
 import org.junit.Test;
 
 import model.AESEncryption;
-import model.CloudFile;
 
 /**
  * Tests for AESEncryption Class
  * 
  * @author Tim Meier
- * @version 1.0
+ * @version 2.0
  * @project cloud
- * @package model.tests
+ * @package whitebox
  * @created 21.10.2016
- * @lastUpdate 24.10.2016 / by Tim Meier
+ * @lastUpdate 25.10.2016 / by Tim Meier
  */
 public class AESEncrpytionTest {
 
@@ -61,11 +60,10 @@ public class AESEncrpytionTest {
 	@Test
 	public void encryptFile_enrypted_file_exists() {
 		// Arrange
-		CloudFile cloudFile = new CloudFile("TestTextFile.txt", ".txt",
-				new File(TEST_RESOURCES_PATH + "TestTextFile.txt"));
+		File file = new File(TEST_RESOURCES_PATH + "TestTextFile.txt");
 
 		// Act
-		aesEncrpytion.encryptFile(cloudFile, aesKey);
+		aesEncrpytion.encryptFile(file, aesKey);
 		File encryptedFile = new File(TEST_RESOURCES_PATH + "TestTextFile.txt.aes");
 
 		// Assert
@@ -79,11 +77,10 @@ public class AESEncrpytionTest {
 	@Test
 	public void encryptFile_cloudFileExtension_contains_aes() {
 		// Arrange
-		CloudFile cloudFile = new CloudFile("TestTextFile.txt", ".txt",
-				new File(TEST_RESOURCES_PATH + "TestTextFile.txt"));
+		File file = new File(TEST_RESOURCES_PATH + "TestTextFile.txt");
 
 		// Act
-		aesEncrpytion.encryptFile(cloudFile, aesKey);
+		aesEncrpytion.encryptFile(file, aesKey);
 		File encryptedFile = new File(TEST_RESOURCES_PATH + "TestTextFile.txt.aes");
 
 		// Assert
@@ -96,11 +93,10 @@ public class AESEncrpytionTest {
 	@Test
 	public void decryptFile_decrypted_file_exists() {
 		// Arrange
-		CloudFile cloudFile = new CloudFile("TestAESFile.txt.aes", ".txt",
-				new File(TEST_RESOURCES_PATH + "TestAESFile.txt.aes"));
+		File file = new File(TEST_RESOURCES_PATH + "TestAESFile.txt.aes");
 
 		// Act
-		aesEncrpytion.decryptFile(cloudFile, aesKey);
+		aesEncrpytion.decryptFile(file, aesKey);
 		File decryptedFile = new File(TEST_RESOURCES_PATH + "TestAESFile.txt");
 
 		// Assert
@@ -113,11 +109,10 @@ public class AESEncrpytionTest {
 	@Test
 	public void decryptFile_cloudFileExtension_contains_txt() {
 		// Arrange
-		CloudFile cloudFile = new CloudFile("TestAESFile.txt.aes", ".txt",
-				new File(TEST_RESOURCES_PATH + "TestAESFile.txt.aes"));
+		File file = new File(TEST_RESOURCES_PATH + "TestAESFile.txt.aes");
 
 		// Act
-		aesEncrpytion.decryptFile(cloudFile, aesKey);
+		aesEncrpytion.decryptFile(file, aesKey);
 		File decryptedFile = new File(TEST_RESOURCES_PATH + "TestAESFile.txt");
 
 		// Assert
@@ -131,11 +126,10 @@ public class AESEncrpytionTest {
 	public void decryptFile_file_content_contains_test() {
 		// Arrange
 		List<String> fileContent = null;
-		CloudFile cloudFile = new CloudFile("TestAESFile.txt.aes", ".txt",
-				new File(TEST_RESOURCES_PATH + "TestAESFile.txt.aes"));
+		File file = new File(TEST_RESOURCES_PATH + "TestAESFile.txt.aes");
 
 		// Act
-		aesEncrpytion.decryptFile(cloudFile, aesKey);
+		aesEncrpytion.decryptFile(file, aesKey);
 		try {
 			fileContent = Files.readAllLines(new File(TEST_RESOURCES_PATH + "TestAESFile.txt").toPath(),
 					Charset.forName("UTF-8"));
@@ -148,14 +142,25 @@ public class AESEncrpytionTest {
 		// After
 		new File(TEST_RESOURCES_PATH + "TestAESFile.txt").delete();
 	}
-
-	@Test
-	public void encryptFolder_all_files_encrypted(){
-		
-	}
 	
 	@Test
-	public void decryptFolder_all_files_decrypted(){
+	public void encryptFile_and_decryptFile_decrypted_file_content_contains_test(){
+		// Arrange
+		List<String> fileContent = null;
+		File file = new File(TEST_RESOURCES_PATH + "TestTextFile.txt");
+		File decryptedFile = new File(TEST_RESOURCES_PATH + "TestTextFile.txt.aes");
+
+		// Act
+		aesEncrpytion.encryptFile(file, aesKey);
+		aesEncrpytion.decryptFile(decryptedFile, aesKey);
 		
+		try {
+			fileContent = Files.readAllLines(new File(TEST_RESOURCES_PATH + "TestTextFile.txt").toPath(),
+					Charset.forName("UTF-8"));
+		} catch (IOException e) {
+		}
+
+		// Assert
+		Assert.assertTrue(fileContent.get(0).equals("test"));
 	}
 }

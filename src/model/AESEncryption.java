@@ -20,11 +20,11 @@ import javax.crypto.spec.SecretKeySpec;
 /**
  * Class for encrypting/decrypting files with AES.
  * @author Tim Meier
- * @version 2.0
+ * @version 3.0
  * @project cloud
  * @package model
  * @created 13.10.2016
- * @lastUpdate 21.10.2016 / by Tim Meier
+ * @lastUpdate 25.10.2016 / by Tim Meier
  */
 public class AESEncryption {
 	
@@ -51,14 +51,13 @@ public class AESEncryption {
 	 * @param cloudFile
 	 * @param key
 	 */
-	public void encryptFile(CloudFile cloudFile, byte[] key) {
+	public void encryptFile(File file, byte[] key) {
 		try {
 			SecretKey aesKey = new SecretKeySpec(key, 0, AES_KEY_SIZE/8, ENCRYPTION_INSTANCE);
 			aesCipher.init(Cipher.ENCRYPT_MODE, aesKey);
-			FileInputStream fis = new FileInputStream(cloudFile.getFile());
+			FileInputStream fis = new FileInputStream(file);
 			CipherOutputStream cos = new CipherOutputStream(new FileOutputStream(
-					new File(cloudFile.getFile().getAbsolutePath() + ".aes")), aesCipher);
-			cloudFile.setName(cloudFile.getName()+".aes");
+					new File(file.getAbsolutePath() + ".aes")), aesCipher);
 			copyStreams(fis, cos);
 			fis.close();
 			cos.close();
@@ -70,52 +69,22 @@ public class AESEncryption {
 			e.printStackTrace();
 		}
 	}//-encryptFile method
-	
-	/**
-	 * Encrypts and then copies the files of a given folder.
-	 * @param cloudFolder
-	 * @param key
-	 */
-	public void encryptFolder(CloudFolder cloudFolder, byte[] key) {
-		FileInputStream fis = null;
-		CipherOutputStream cos = null;
-		try {
-			SecretKey aesKey = new SecretKeySpec(key, 0, AES_KEY_SIZE/8, ENCRYPTION_INSTANCE);
-			aesCipher.init(Cipher.ENCRYPT_MODE, aesKey);
-			for(CloudFile file : cloudFolder.getFiles()){
-				fis = new FileInputStream(file.getFile());
-				cos = new CipherOutputStream(new FileOutputStream(
-						new File(file.getName() + ".aes")), aesCipher);
-				file.setName(file.getName()+".aes");
-				copyStreams(fis, cos);
-				fis.close();
-				cos.close();
-			}	
-		} catch (InvalidKeyException e) {
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}//-encryptFolder method
 
 	/**
 	 * Decrypts and then copies the content of a given file.
 	 * @param cloudFile
 	 * @param key
 	 */
-	public void decryptFile(CloudFile cloudFile, byte[] key) {
+	public void decryptFile(File file, byte[] key) {
 		try {
 			SecretKey aesKey = new SecretKeySpec(key, 0, AES_KEY_SIZE/8, ENCRYPTION_INSTANCE);
 			aesCipher.init(Cipher.DECRYPT_MODE, aesKey);
-			CipherInputStream cis = new CipherInputStream(new FileInputStream(cloudFile.getFile()), aesCipher);
-			FileOutputStream fos = new FileOutputStream(new File(cloudFile.getFile().getAbsolutePath()
-					.substring(0, cloudFile.getFile().getAbsolutePath().length()-4)));
+			CipherInputStream cis = new CipherInputStream(new FileInputStream(file), aesCipher);
+			FileOutputStream fos = new FileOutputStream(new File(file.getAbsolutePath()
+					.substring(0, file.getAbsolutePath().length()-4)));
 			copyStreams(cis, fos);
 			cis.close();
 			fos.close();
-			cloudFile.setName(cloudFile.getName().substring(0, cloudFile.getName().length()-4));
 		} catch (InvalidKeyException e) {
 			e.printStackTrace();
 		} catch (FileNotFoundException e) {
@@ -124,36 +93,6 @@ public class AESEncryption {
 			e.printStackTrace();
 		}
 	}//-decryptFile method
-	
-	
-	/**
-	 * Decrypts and then copies the files of a given folder.
-	 * @param cloudFolder
-	 * @param key
-	 */
-	public void decryptFolder(CloudFolder cloudFolder, byte[] key) {
-		try {
-			SecretKey aesKey = new SecretKeySpec(key, 0, AES_KEY_SIZE/8, ENCRYPTION_INSTANCE);
-			aesCipher.init(Cipher.DECRYPT_MODE, aesKey);
-
-			for (CloudFile file : cloudFolder.getFiles()) {
-				CipherInputStream cis = new CipherInputStream(new FileInputStream(file.getFile()), aesCipher);
-				FileOutputStream fos = new FileOutputStream(new File(file.getFile().getAbsolutePath().substring(0,
-						file.getFile().getAbsolutePath().length() - 4)));
-				copyStreams(cis, fos);
-				cis.close();
-				fos.close();
-				file.setName(file.getName().substring(0, file.getName().length() - 4));
-			}
-		} catch (InvalidKeyException e) {
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}//-decryptFolder method
-	
 
 	/**
 	 * Copies a stream 
