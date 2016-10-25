@@ -46,9 +46,10 @@ import java.util.TimerTask;
  */
 
 public class EventhandlerHomeScreen {
-
+	//@BLUR_AMOUNT is a variable that declares how blurry the picture should be
     private static final double BLUR_AMOUNT = 10;
 
+    //@frostEffect is the blur effect that is called while we load the WebView
     private static final Effect frostEffect = new BoxBlur(BLUR_AMOUNT, BLUR_AMOUNT, 3);
 
     @FXML
@@ -78,10 +79,12 @@ public class EventhandlerHomeScreen {
 
     @FXML
     private FlowPane pane_service;
-
+    
+    //@FadeTransition is the Effect that is called while opening the WebView
     private FadeTransition fadeIn;
     private Stage stage;
     private Controller controller;
+    //@BackgroundWallpaper has all wallpaper that is loaded in the main_paine
     private BackgroundWallpaper customBackground;
 
     private WebEngine webEngine;
@@ -90,6 +93,7 @@ public class EventhandlerHomeScreen {
     Time clock = new Time();
 
 
+    //loads everything that is needed at the start
     public void initialize() {
 
         customBackground = new BackgroundWallpaper();
@@ -109,6 +113,7 @@ public class EventhandlerHomeScreen {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
+            	//@Platform.runLater is a method that is still running after the call of initialize
                 Platform.runLater(() -> {
                     lbl_title.setText(clock.getText());
                     lbl_time.setText(clock.getTime());
@@ -123,6 +128,17 @@ public class EventhandlerHomeScreen {
         });
     }
 
+    /**
+     * 
+     * Sets everything visible that is needed to show in the WebView
+     * For testing we call Username Sandro, that we can load another stage while we're implementing the dropbox-service
+     * @param type is the website that we need as a string
+     * getUsername().equals() looks if the Username is available
+     * progress.serVisible() shows the progressindicator while loading the Website
+     * webEngine.load() loads the Site that we need
+     * setWVProps() shows the Webview only if the site is loaded
+     * 
+     */
     @FXML
     private void setLoginVisible(String type) {
 
@@ -137,9 +153,8 @@ public class EventhandlerHomeScreen {
 //            webEngine.load("https://www.dropbox.com/1/oauth2/authorize?locale=de_DE&client_id=4ib2r751sawik1x&response_type=code");
 
             webEngine.load(controller.getLink(type));
-
-
             setWVProps();
+
 
         }
 
