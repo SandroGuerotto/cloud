@@ -17,10 +17,14 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
+import exception.EncryptionInvalidKeyException;
+import exception.StreamCopyException;
+import exception.EncryptionFileNotFoundException;
+
 /**
  * Class for encrypting/decrypting files with AES.
  * @author Tim Meier
- * @version 3.0
+ * @version 4.0
  * @project cloud
  * @package model
  * @created 13.10.2016
@@ -50,8 +54,11 @@ public class AESEncryption {
 	 * Encrypts and then copies the contents of a given file.
 	 * @param cloudFile
 	 * @param key
+	 * @throws EncryptionInvalidKeyException 
+	 * @throws EncryptionFileNotFoundException 
+	 * @throws StreamCopyException 
 	 */
-	public void encryptFile(File file, byte[] key) {
+	public void encryptFile(File file, byte[] key) throws EncryptionInvalidKeyException, EncryptionFileNotFoundException, StreamCopyException {
 		try {
 			SecretKey aesKey = new SecretKeySpec(key, 0, AES_KEY_SIZE/8, ENCRYPTION_INSTANCE);
 			aesCipher.init(Cipher.ENCRYPT_MODE, aesKey);
@@ -62,11 +69,11 @@ public class AESEncryption {
 			fis.close();
 			cos.close();
 		} catch (InvalidKeyException e) {
-			e.printStackTrace();
+			throw new EncryptionInvalidKeyException('e');
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			throw new EncryptionFileNotFoundException('e');
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new StreamCopyException('e');
 		}
 	}//-encryptFile method
 
@@ -74,8 +81,11 @@ public class AESEncryption {
 	 * Decrypts and then copies the content of a given file.
 	 * @param cloudFile
 	 * @param key
+	 * @throws EncryptionInvalidKeyException 
+	 * @throws EncryptionFileNotFoundException 
+	 * @throws StreamCopyException 
 	 */
-	public void decryptFile(File file, byte[] key) {
+	public void decryptFile(File file, byte[] key) throws EncryptionInvalidKeyException, EncryptionFileNotFoundException, StreamCopyException {
 		try {
 			SecretKey aesKey = new SecretKeySpec(key, 0, AES_KEY_SIZE/8, ENCRYPTION_INSTANCE);
 			aesCipher.init(Cipher.DECRYPT_MODE, aesKey);
@@ -86,11 +96,11 @@ public class AESEncryption {
 			cis.close();
 			fos.close();
 		} catch (InvalidKeyException e) {
-			e.printStackTrace();
+			throw new EncryptionInvalidKeyException('e');
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			throw new EncryptionFileNotFoundException('e');
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new StreamCopyException('e');
 		}
 	}//-decryptFile method
 
@@ -98,8 +108,9 @@ public class AESEncryption {
 	 * Copies a stream 
 	 * @param inputStream
 	 * @param outputStream
+	 * @throws StreamCopyException 
 	 */
-	private void copyStreams(InputStream inputStream, OutputStream outputStream) {
+	private void copyStreams(InputStream inputStream, OutputStream outputStream) throws StreamCopyException {
 		int i;
 		byte[] b = new byte[1024];
 		try {
@@ -107,7 +118,7 @@ public class AESEncryption {
 				outputStream.write(b, 0, i);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new StreamCopyException('e');
 		}
 	}//-copyStreams method
 	
@@ -127,11 +138,8 @@ public class AESEncryption {
 			fos = new FileOutputStream(new File(keyDirectoryPath + "/AES_KEY.dat"));
 			fos.write(aesKey);
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
 		} catch (NoSuchAlgorithmException e1) {
-			e1.printStackTrace();
 		}
 	}//-createKey method
 
@@ -148,9 +156,7 @@ public class AESEncryption {
 			fis.read(aesKey);
 //			aeskeySpec = new SecretKeySpec(aesKey, 0, 32, ENCRYPTION_INSTANCE);
 		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
 		}
 		return aesKey;
 	}//-loadKey method
