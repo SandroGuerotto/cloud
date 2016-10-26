@@ -1,5 +1,6 @@
 package handler;
 
+import com.dropbox.core.DbxException;
 import exception.DownloadException;
 import exception.NoFilesException;
 import exception.ConnectionErrorException;
@@ -9,6 +10,7 @@ import javafx.collections.ObservableList;
 import model.Data;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +27,7 @@ public interface I_EventhandlerDataScreen {
 
     void delete_data(ObservableList<Data> deletelist) throws DeleteException, ConnectionErrorException;
 
-    void upload_data(List<File> uploadlist) throws UploadException, ConnectionErrorException;
+    void upload_data(List<File> uploadlist) throws UploadException, ConnectionErrorException, IOException, DbxException;
 
     void download_data(ObservableList<Data> downloadlist) throws DownloadException, ConnectionErrorException;
 

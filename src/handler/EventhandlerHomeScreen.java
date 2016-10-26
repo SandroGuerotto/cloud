@@ -19,6 +19,7 @@ import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebEngine;
@@ -37,17 +38,18 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /*
- * Name			: EventhandlerHomeScreen.java
- * Author		: Sandro Guerotto & Toshiki Hennig
- * Describtion	: Handler class for all Event from the Home Screen
- * Create on 	: 20.09.2016
- * Last modify  : 06.10.2016 Sandro Zeit angepasst und controllmethoden eingefügt
+ * @Name			: EventhandlerHomeScreen.java
+ * @Author		    : Sandro Guerotto & Toshiki Hennig
+ * @Describtion	    : Handler class for all Event from the Home Screen
+ * @Create on 	    : 20.09.2016
+ * @Last modify     : 06.10.2016 Sandro Zeit angepasst und controllmethoden eingefügt
  */
 
-public class EventhandlerHomeScreen extends BackgroundWallpaper {
-
+public class EventhandlerHomeScreen {
+	//@BLUR_AMOUNT is a variable that declares how blurry the picture should be
     private static final double BLUR_AMOUNT = 10;
 
+    //@frostEffect is the blur effect that is called while we load the WebView
     private static final Effect frostEffect = new BoxBlur(BLUR_AMOUNT, BLUR_AMOUNT, 3);
 
     @FXML
@@ -77,10 +79,13 @@ public class EventhandlerHomeScreen extends BackgroundWallpaper {
 
     @FXML
     private FlowPane pane_service;
-
+    
+    //@FadeTransition is the Effect that is called while opening the WebView
     private FadeTransition fadeIn;
     private Stage stage;
     private Controller controller;
+    //@BackgroundWallpaper has all wallpaper that is loaded in the main_paine
+    private BackgroundWallpaper customBackground;
 
     private WebEngine webEngine;
 
@@ -88,11 +93,12 @@ public class EventhandlerHomeScreen extends BackgroundWallpaper {
     Time clock = new Time();
 
 
+    //loads everything that is needed at the start
     public void initialize() {
 
+        customBackground = new BackgroundWallpaper();
 
-
-        pane_homeScreen.setBackground(background);
+        pane_homeScreen.setBackground(customBackground.getBackground());
 
         progress.setVisible(false);
 
@@ -107,6 +113,7 @@ public class EventhandlerHomeScreen extends BackgroundWallpaper {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
+            	//@Platform.runLater is a method that is still running after the call of initialize
                 Platform.runLater(() -> {
                     lbl_title.setText(clock.getText());
                     lbl_time.setText(clock.getTime());
@@ -121,8 +128,19 @@ public class EventhandlerHomeScreen extends BackgroundWallpaper {
         });
     }
 
+    /**
+     * 
+     * Sets everything visible that is needed to show in the WebView
+     * For testing we call Username Sandro, that we can load another stage while we're implementing the dropbox-service
+     * @param type is the website that we need as a string
+     * getUsername().equals() looks if the Username is available
+     * progress.serVisible() shows the progressindicator while loading the Website
+     * webEngine.load() loads the Site that we need
+     * setWVProps() shows the Webview only if the site is loaded
+     * 
+     */
     @FXML
-    private void setLoginVisible(String type) {
+    private void setLoginVisible(ServiceType type) {
 
         if (controller.getUsername().equals("Sandro")) {
             controller.gotoData(stage);
@@ -135,9 +153,8 @@ public class EventhandlerHomeScreen extends BackgroundWallpaper {
 //            webEngine.load("https://www.dropbox.com/1/oauth2/authorize?locale=de_DE&client_id=4ib2r751sawik1x&response_type=code");
 
             webEngine.load(controller.getLink(type));
-
-
             setWVProps();
+
 
         }
 
@@ -164,8 +181,8 @@ public class EventhandlerHomeScreen extends BackgroundWallpaper {
 
     @FXML
     private void changebackground() {
-        setResult(getResult() + 1);
-        pane_homeScreen.setBackground(background);
+        customBackground.setResult(customBackground.getResult() + 1);
+        pane_homeScreen.setBackground(customBackground.getBackground());
     }
 
 
@@ -218,7 +235,7 @@ public class EventhandlerHomeScreen extends BackgroundWallpaper {
                 System.out.print(service.getName());
                 ServiceButton serviceButton = new ServiceButton(service.getName());
                 serviceButton.setOnAction((event) -> {
-                    setLoginVisible(service.getName());
+                    setLoginVisible(service);
                 });
                 pane_service.getChildren().add(serviceButton);
             }

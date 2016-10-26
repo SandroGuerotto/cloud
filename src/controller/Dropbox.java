@@ -29,12 +29,12 @@ import model.Data;
 
 /**
  * @author          :   Sasa Markovic
- * Created          :   03.10.2016
- * Project          :   cloud
- * Package          :   controller
+ * @Created          :   03.10.2016
+ * @Project          :   cloud
+ * @Package          :   controller
  * @version         :   1.0
- * LastUpdated      :	Sandro - Grösse in Humansize(MB, GB) und Datum formatiert
- * Description      :   Connector/uploader/downloader/getter from Dropbox
+ * @LastUpdated      :	Sandro - Grösse in Humansize(MB, GB) und Datum formatiert
+ * @Description      :   Connector/uploader/downloader/getter from Dropbox
  */
 
 public class Dropbox {
@@ -46,24 +46,30 @@ public class Dropbox {
 	private String accesstoken;
 	private DbxClient client;
 	private ObservableList<Data> list = FXCollections.observableArrayList();
+	private String currentPath;
 	
-	public static void main(String[] args0) throws IOException, URISyntaxException, DbxException{
-		new Dropbox();
-	}
 	//Controller
 	public Dropbox() throws IOException, URISyntaxException, DbxException{
 		appInfo = new DbxAppInfo("4ib2r751sawik1x","xwcn09oaicgpo0d");
 		config = new DbxRequestConfig("Testsecurecloudapp", Locale.getDefault().toString());
 		webAuth = new DbxWebAuthNoRedirect(config, appInfo);
+		currentPath = "/";
 		
 		firstlogin();
 		makearchives();
 		getarchives();
 	}
-	//Erstellt die variable "list"
-	protected void makearchives() throws DbxException{
+	public void updatecurrentPath(String foldername){
+		StringBuilder temp = new StringBuilder(currentPath);
+		temp.append(foldername);
+		temp.append("/");
 		
-		DbxEntry.WithChildren files = client.getMetadataWithChildren("/");
+		this.currentPath = temp.toString();
+	}
+	//Erstellt die variable "list"
+	public void makearchives() throws DbxException{
+		list.removeAll();
+		DbxEntry.WithChildren files = client.getMetadataWithChildren(currentPath);
 		for(DbxEntry file : files.children){
 			if(!file.isFolder()){
 				
@@ -127,6 +133,8 @@ public class Dropbox {
 		return null;
 	}
 	public void downloadFile(String path){
+		
+		String endPath = "";
 
 		try {
 			FileOutputStream outputStream = new FileOutputStream(path);
@@ -139,11 +147,21 @@ public class Dropbox {
 			e.printStackTrace();
 		} 
 	}
-	public void uploadFile(File args){
+	public void uploadFile(String path) throws IOException, DbxException {
+		File inputFile = new File(path);
+		FileInputStream inputStream = new FileInputStream(inputFile);
+		try {
+			DbxEntry.File uploadedFile = client.uploadFile("/"+ inputFile.getName(),
+					DbxWriteMode.add(), inputFile.length(), inputStream);
+			System.out.println("Uploaded: " + uploadedFile.toString());
+		} finally {
+			inputStream.close();
+		}
+
 		
 	}
-	public void login(){
-		client = new DbxClient(config,accesstoken);
+	public void login(String token){
+		client = new DbxClient(config,token);
 	}
 	public void logout(){
 		client = null;

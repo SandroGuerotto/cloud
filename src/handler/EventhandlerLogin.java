@@ -20,13 +20,13 @@ import javafx.stage.Stage;
 import java.rmi.RemoteException;
 
 /**
- * @author          :   Sandro Guerotto
- * Created          :   20.09.2016
- * Project          :   cloud
- * Package          :   view
- * @version         :   1.0
- * LastUpdated      :
- * Description      :   Contains all handler for Login and init Screen
+ * @author           :   Sandro Guerotto
+ * @Created          :   20.09.2016
+ * @Project          :   cloud
+ * @Package          :   handler
+ * @version          :   1.0
+ * @LastUpdated      :
+ * @Description      :   Contains all handler for Login and init Screen
  */
 public class EventhandlerLogin {
 

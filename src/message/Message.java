@@ -3,10 +3,6 @@ package message;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -26,13 +22,19 @@ public class Message {
     private Label lbl_message;
     private String type;
 
+    /**
+     * To create an show a message correctly, it musst have a label to set the Text.
+     * It automatically hides after 5 seconds
+     * @param lbl_message Javafx Label to set the message text
+     */
     public Message(Label lbl_message){
     	this.lbl_message = lbl_message;
     }
 
     /**
-     * Entscheidet welchen Typ und welche Nachricht angezeigt werden muss
-     * @param msgid Bsp: 'e20'
+     * Method to show all kind of Messages
+     * @param msg_type  msg_type sets how the message will be displayed
+     * @param msg       message to show
      */
     public void showMessage(char msg_type, String msg){
         switch (msg_type) {
@@ -54,6 +56,11 @@ public class Message {
         removeMsg();
     }
 
+    /**
+     * Sets all Properties, show and Enable the label
+     * @param cssClass  refernece to external css file
+     * @param msg      actual message
+     */
     private void setProperties(String cssClass, String msg) {
         lbl_message.getStyleClass().add(cssClass);
         lbl_message.setText(msg);
@@ -62,6 +69,10 @@ public class Message {
         lbl_message.setDisable(false);
     }
 
+    /**
+     * Removes all Stylecasses for the label so it doesn't show up
+     * @param name  classname which will be removed
+     */
     private void deleteStyleMsg(String name) {
         ObservableList<String> list = lbl_message.getStyleClass();
         try {
@@ -74,21 +85,19 @@ public class Message {
                     return;
                 }
             }
-        } catch (Exception e) {
-            return;
+        } catch (Exception ignored) {
         }
 
     }
-
+    /**
+     * after 5 seconds the message will be removed.
+     * runs in a new Thread/Service
+     */
     private void removeMsg() {
-        // Label & Button nach bestimmter zeit not Visible
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-        service.schedule(() -> {
-            Platform.runLater(() -> {
-                deleteStyleMsg("msg_.*");
-            });
-
-        }, 5, TimeUnit.SECONDS);
+        service.schedule(() -> Platform.runLater(() -> {
+            deleteStyleMsg("msg_.*");
+        }), 5, TimeUnit.SECONDS);
 
     }
 }

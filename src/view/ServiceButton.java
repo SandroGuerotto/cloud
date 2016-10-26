@@ -1,13 +1,19 @@
 package view;
 
-import handler.EventhandlerHomeScreen;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
- * Created by Sandro on 21.10.2016.
+ * @author           :   Sandro Guerotto
+ * @Created          :   22.10.2016
+ * @Project          :   cloud
+ * @Package          :   view
+ * @version          :   1.0
+ * @LastUpdated      :
+ * @Description      :   ServiceButton Klasse
  */
+
 public class ServiceButton extends Button {
     private String type;
     private String path;
@@ -27,8 +33,6 @@ public class ServiceButton extends Button {
         imageView.setFitHeight(30);
         imageView.setFitWidth(30);
         setGraphic(imageView);
-
-
     }
 
     private void setImage(){

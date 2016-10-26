@@ -1,12 +1,12 @@
 /**
  * @author :   Burim Cakolli
- * Turns coffee & pizza into Software
- * Created          :   02.10.2016
- * Project          :   cloud
- * Package          :   model
+ * @Turns coffee & pizza into Software :)
+ * @Created         :   02.10.2016
+ * @Project         :   cloud
+ * @Package         :   model
  * @version 		:   1.0
- * LastUpdated      :   02.10.2016 / by Burim Cakolli
- * Description      :
+ * @LastUpdated     :   02.10.2016 / by Burim Cakolli
+ * @Description     :
  * 
  */
 package model;
@@ -176,18 +176,27 @@ public class ServerConnecter {
 		}//-catch
 	}//-updateUserPw
 	
-	//@TODO DOC
+	/*
+	 * Sets the selected ServiceType
+	 * @param ServiceType service is the ServiceType that we want to use
+	 */
 	public ServiceType setActualServiceType(ServiceType service){
 		this.serviceTypeInUse = service;
 		return this.serviceTypeInUse;
 	}//-setActualServiceType
 	
-	//@TODO DOC
+	/*
+	 * Gets the actual ServiceType that is set
+	 * @return ServiceType That Service that is in use
+	 */
 	public ServiceType getActualServiceType(){
 		return this.serviceTypeInUse;
 	}//-getActualServiceType
 
-
+	/*
+	 * Gets the logged in User
+	 * @return User The user who is logged in	
+	 */
 	public User getUser(){
 		return this.user;
 	}
