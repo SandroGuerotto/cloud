@@ -132,20 +132,21 @@ public class Dropbox {
 		}
 		return null;
 	}
-	public void downloadFile(String path){
-		
+	public String downloadFile(String path){
 		String endPath = "";
-
 		try {
 			FileOutputStream outputStream = new FileOutputStream(path);
 			DbxEntry.File downloadedFile = client.getFile( "/" + path, null,
 	                outputStream);
-	            System.out.println("Metadata: " + downloadedFile.toString());
 	            outputStream.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
+		}
+		String currentDir = System.getProperty("user.dir");
+		File newfile = new File(currentDir+"\\reset.css");
+		endPath = newfile.getAbsolutePath();
+		return endPath;
 	}
 	public void uploadFile(String path) throws IOException, DbxException {
 		File inputFile = new File(path);
