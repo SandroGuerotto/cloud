@@ -9,18 +9,37 @@ import java.util.List;
 
 import javax.xml.rpc.ServiceException;
 
-import exception.*;
 import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.CloudService;
 import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.ServiceType;
 import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.User;
 
 import com.dropbox.core.DbxException;
 
+import exception.AddServiceFailException;
+import exception.ConnectionErrorException;
+import exception.DeleteException;
+import exception.DeleteServiceConnectionErrorException;
+import exception.DownloadException;
+import exception.EmailExistException;
+import exception.EncryptionFileNotFoundException;
+import exception.EncryptionInvalidKeyException;
+import exception.FailLoadingServicesException;
+import exception.LoadSupportedServicesException;
+import exception.LoginFailedException;
+import exception.NoFilesException;
+import exception.NoServicesFoundException;
+import exception.NoUserLoggedInException;
+import exception.StreamCopyException;
+import exception.UpdateServiceErrorException;
+import exception.UpdateUserPwErrorException;
+import exception.UploadException;
+import exception.UserExistException;
 import handler.I_EventhandlerDataScreen;
 import handler.I_EventhandlerHomeScreen;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.stage.Stage;
+import model.AESEncryption;
 import model.Data;
 import model.ServerConnecter;
 
@@ -38,10 +57,12 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
 	private String[] args;
 	private Dropbox dropbox;
 	private ServerConnecter servconnection;
+	private AESEncryption encryption;
 	
     public Controller(String[] args) throws ConnectionErrorException, ServiceException, FailLoadingServicesException{
     	this.args = args;
     	this.servconnection = new ServerConnecter();
+    	this.encryption = new AESEncryption();
     }
     
     
@@ -186,20 +207,28 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
     }
 
     @Override
-    public void upload_data(List<File> uploadlist) throws UploadException, ConnectionErrorException, IOException, DbxException {
-        for(File file: uploadlist){
-            dropbox.uploadFile(file.getAbsolutePath());
-        }
+	public void upload_data(List<File> uploadlist) throws UploadException, ConnectionErrorException, IOException, DbxException {
+		for (File file : uploadlist) {
+			try {
+				encryption.encryptFile(file, servconnection.getUser().getEncryptionKey());
+			} catch (EncryptionInvalidKeyException | EncryptionFileNotFoundException | StreamCopyException e) {
+			}
+			dropbox.uploadFile(file.getAbsolutePath());
+		}
 
-        dropbox.makearchives();
-    }
+		dropbox.makearchives();
+	}
 
     @Override
-    public void download_data(ObservableList<Data> downloadlist) throws DownloadException, ConnectionErrorException {
-    	for(Data data: downloadlist){
-    		dropbox.downloadFile(data.getdata_name());
-    	}
-    }
+	public void download_data(ObservableList<Data> downloadlist) throws DownloadException, ConnectionErrorException {
+		for (Data data : downloadlist) {
+			String filePath = dropbox.downloadFile(data.getdata_name());
+			try { 														// Ziel Pfad muss no bestimmt werden ("C:/Cloud")
+				encryption.decryptFile(new File(filePath), servconnection.getUser().getEncryptionKey(), "C:/Cloud");
+			} catch (EncryptionInvalidKeyException | EncryptionFileNotFoundException | StreamCopyException e) {
+			}
+		}
+	}
 
 
     /*  Home Screen Methode  */
