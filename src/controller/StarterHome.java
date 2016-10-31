@@ -54,7 +54,7 @@ public class StarterHome {
             stage.setWidth(width);
             stage.setHeight(height);
             stage.setMaximized(true);
-
+            ;
             stage.setResizable(true);
             stage.show();
         } catch (Exception var5) {

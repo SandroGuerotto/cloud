@@ -27,6 +27,14 @@
 .data-subtitle{
     -fx-font-size: 24px;
 }
+.data-hyperlink{
+    -fx-font-size: 18px;
+    -fx-underline: false;
+}
+.data-hyperlink:hover{
+    -fx-text-fill: #38424b;
+    -fx-underline: true;
+}
 #itm_upload > .label{
     -fx-background-color:
             #090a0c,

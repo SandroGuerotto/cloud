@@ -1,26 +1,34 @@
 package view;
 
 import com.sun.prism.impl.Disposer;
+import controller.Controller;
+import exception.ConnectionErrorException;
+import exception.DownloadException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import model.Data;
 
 
 /**
- * @author          :   Sandro Guerotto
- * Created          :   23.09.2016
- * Project          :   cloud
- * Package          :   view
- * @version         :   1.0
- * LastUpdated      :
- * Description      :   Custom Cell  for Download button
+ * @author :   Sandro Guerotto
+ *         Created          :   23.09.2016
+ *         Project          :   cloud
+ *         Package          :   view
+ * @version :   1.0
+ *          LastUpdated      :
+ *          Description      :   Custom Cell  for Download button
  */
 
 public class ButtonCell extends TableCell<Disposer.Record, Boolean> {
 
     private Button cellButton = new Button();
 
-    public ButtonCell() {
+    public ButtonCell(Controller controller) {
 
         // set dimensions
         cellButton.setMaxWidth(45);
@@ -34,7 +42,10 @@ public class ButtonCell extends TableCell<Disposer.Record, Boolean> {
         this.cellButton.setOnAction(t -> {
             Data data = (Data) ButtonCell.this.getTableView().getItems().get(ButtonCell.this.getIndex());
             //Handle download
-                System.out.println("herunterladen " + data.getdata_name() + "." + data.getdata_type());
+            ObservableList<Data> downloadList = FXCollections.observableArrayList();
+            downloadList.add(data);
+            controller.download_data(downloadList);
+            System.out.println("herunterladen " + data.getdata_name() + "." + data.getdata_type());
         });
     }
 
@@ -43,10 +54,15 @@ public class ButtonCell extends TableCell<Disposer.Record, Boolean> {
         if (!empty) {
             int index = indexProperty().getValue();
             Data data = (Data) ButtonCell.this.getTableView().getItems().get(index);
-            if (!data.getdata_type().equals("Folder")){
+            if (!data.getdata_type().equals("Folder")) {
                 this.setGraphic(this.cellButton);
             }
 
         }
     }
+
+    public Button getCellButton() {
+        return this.cellButton;
+    }
+
 }

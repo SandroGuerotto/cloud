@@ -234,9 +234,7 @@ public class EventhandlerHomeScreen {
             for (ServiceType service : controller.getServices()) {
                 System.out.print(service.getName());
                 ServiceButton serviceButton = new ServiceButton(service.getName());
-                serviceButton.setOnAction((event) -> {
-                    setLoginVisible(service);
-                });
+                serviceButton.setOnAction((event) -> setLoginVisible(service));
                 pane_service.getChildren().add(serviceButton);
             }
         } catch (LoadSupportedServicesException e) {

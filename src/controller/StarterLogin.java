@@ -47,7 +47,7 @@ public class StarterLogin extends Application {
 			stage.setTitle("Secure Cloud"); // Titel
 			stage.setScene(scene);
 
-			stage.setResizable(true);
+			stage.setResizable(false);
 			stage.show();
 		} catch (Exception var5) {
 			var5.printStackTrace();
