@@ -96,7 +96,7 @@ public class AESEncrpytionTest {
 		File file = new File(TEST_RESOURCES_PATH + "TestAESFile.txt.aes");
 
 		// Act
-		aesEncrpytion.decryptFile(file, aesKey);
+		aesEncrpytion.decryptFile(file, aesKey, TEST_RESOURCES_PATH);
 		File decryptedFile = new File(TEST_RESOURCES_PATH + "TestAESFile.txt");
 
 		// Assert
@@ -112,7 +112,7 @@ public class AESEncrpytionTest {
 		File file = new File(TEST_RESOURCES_PATH + "TestAESFile.txt.aes");
 
 		// Act
-		aesEncrpytion.decryptFile(file, aesKey);
+		aesEncrpytion.decryptFile(file, aesKey, TEST_RESOURCES_PATH);
 		File decryptedFile = new File(TEST_RESOURCES_PATH + "TestAESFile.txt");
 
 		// Assert
@@ -129,7 +129,7 @@ public class AESEncrpytionTest {
 		File file = new File(TEST_RESOURCES_PATH + "TestAESFile.txt.aes");
 
 		// Act
-		aesEncrpytion.decryptFile(file, aesKey);
+		aesEncrpytion.decryptFile(file, aesKey, TEST_RESOURCES_PATH);
 		try {
 			fileContent = Files.readAllLines(new File(TEST_RESOURCES_PATH + "TestAESFile.txt").toPath(),
 					Charset.forName("UTF-8"));
@@ -152,7 +152,7 @@ public class AESEncrpytionTest {
 
 		// Act
 		aesEncrpytion.encryptFile(file, aesKey);
-		aesEncrpytion.decryptFile(decryptedFile, aesKey);
+		aesEncrpytion.decryptFile(decryptedFile, aesKey, TEST_RESOURCES_PATH);
 		
 		try {
 			fileContent = Files.readAllLines(new File(TEST_RESOURCES_PATH + "TestTextFile.txt").toPath(),

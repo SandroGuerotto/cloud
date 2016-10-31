@@ -52,8 +52,8 @@ public class AESEncryption {
 
 	/**
 	 * Encrypts and then copies the contents of a given file.
-	 * @param cloudFile
-	 * @param key
+	 * @paramFile cloudFile the encrypted File
+	 * @param byte[] key the aes 256 bit key
 	 * @throws EncryptionInvalidKeyException 
 	 * @throws EncryptionFileNotFoundException 
 	 * @throws StreamCopyException 
@@ -79,19 +79,20 @@ public class AESEncryption {
 
 	/**
 	 * Decrypts and then copies the content of a given file.
-	 * @param cloudFile
-	 * @param key
+	 * @param File cloudFile the encrypted File
+	 * @param byte[] key the aes 256 bit key
+	 * @param String fileDestinationPath the directory path of the new decrypted file
 	 * @throws EncryptionInvalidKeyException 
 	 * @throws EncryptionFileNotFoundException 
 	 * @throws StreamCopyException 
 	 */
-	public void decryptFile(File file, byte[] key) throws EncryptionInvalidKeyException, EncryptionFileNotFoundException, StreamCopyException {
+	public void decryptFile(File file, byte[] key,String fileDestinationPath) throws EncryptionInvalidKeyException, EncryptionFileNotFoundException, StreamCopyException {
 		try {
 			SecretKey aesKey = new SecretKeySpec(key, 0, AES_KEY_SIZE/8, ENCRYPTION_INSTANCE);
 			aesCipher.init(Cipher.DECRYPT_MODE, aesKey);
 			CipherInputStream cis = new CipherInputStream(new FileInputStream(file), aesCipher);
-			FileOutputStream fos = new FileOutputStream(new File(file.getAbsolutePath()
-					.substring(0, file.getAbsolutePath().length()-4)));
+			FileOutputStream fos = new FileOutputStream(new File(fileDestinationPath+file.getName()
+					.substring(0, file.getName().length()-4)));
 			copyStreams(cis, fos);
 			cis.close();
 			fos.close();
@@ -105,9 +106,9 @@ public class AESEncryption {
 	}//-decryptFile method
 
 	/**
-	 * Copies a stream 
-	 * @param inputStream
-	 * @param outputStream
+	 * Copies a stream, so that the file content will be copied.
+	 * @param InputStream inputStream
+	 * @param OutputStream outputStream
 	 * @throws StreamCopyException 
 	 */
 	private void copyStreams(InputStream inputStream, OutputStream outputStream) throws StreamCopyException {
@@ -123,8 +124,8 @@ public class AESEncryption {
 	}//-copyStreams method
 	
 	/**
-	 * Creates a new AES key and saves it to a directory
-	 * @param keyDirectoryPath
+	 * Creates a new AES 265 bit key and saves it to a directory.
+	 * @param String keyDirectoryPath the directory path for the new aes 256 bit key
 	 */
 	public void createNewKey(String keyDirectoryPath) {
 		KeyGenerator kgen;
@@ -144,7 +145,7 @@ public class AESEncryption {
 	}//-createKey method
 
 	/**
-	 * Loads a AES key from a file
+	 * Loads a AES key from a file.
 	 * @param keyFilePath
 	 * @return 
 	 */
