@@ -144,7 +144,7 @@ public class Dropbox {
 			e.printStackTrace();
 		}
 		String currentDir = System.getProperty("user.dir");
-		File newfile = new File(currentDir+"\\reset.css");
+		File newfile = new File(currentDir+"\\"+path);
 		endPath = newfile.getAbsolutePath();
 		return endPath;
 	}
