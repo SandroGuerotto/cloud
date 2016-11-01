@@ -3,8 +3,10 @@ package handler;
 import com.dropbox.core.DbxException;
 import com.jfoenix.controls.JFXButton;
 import controller.Controller;
+import exception.AddServiceFailException;
 import exception.LoadSupportedServicesException;
 import exception.NoServicesFoundException;
+import exception.NoUserLoggedInException;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
@@ -144,7 +146,15 @@ public class EventhandlerHomeScreen {
 
         if (controller.getUsername().equals("Sandro")) {
             controller.setCloudTypeInUse(type);
-            controller.gotoData(stage);
+            try {
+				controller.gotoData(stage);
+			} catch (AddServiceFailException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoUserLoggedInException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         } else {
 
             webEngine = wv_services.getEngine();

@@ -78,7 +78,7 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
     
     /*SERVER DATA FUNCTIONS */
 
-    /*
+    /**
      * Tries to log in the user into the application and set him as applicationUser
      * @param username the name that the users identify himself
      * @param password the password from the user in clear-text
@@ -87,7 +87,7 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
         this.servconnection.loginApp(username, password);
     }//-logMeIn
 
-    /*
+    /**
      * Register a new user into the application if the username and email is unique
      * @param username the name that the users identify himself
      * @param email the email adress of a user to contact him
@@ -97,14 +97,14 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
         this.servconnection.registerApp(username, email, password);
     }//-register
 
-    /*
+    /**
      * Loads all supported Services into the application
      */
     public void getAllClouds() throws LoadSupportedServicesException {
         this.servconnection.getAllServices();
     }//-getAllClouds
 
-    /*
+    /**
      * Sets the selected ServiceType
 	 * @param ServiceType service is the ServiceType that we want to use
 	 */
@@ -112,7 +112,7 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
         this.servconnection.setActualServiceType(servicetype);
     }//-setCloudTypeInUse
 
-    /*
+    /**
      * Gets the actual ServiceType that is set
 	 * @return ServiceType That Service that is in use
 	 */
@@ -120,7 +120,7 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
         return this.servconnection.getActualServiceType();
     }//-getCloudTypeInUse
 
-    /*
+    /**
      * Inserts a Service into the Database that allows the Connection between User and Service (Like Dropbox)
      * @param service is the ServiceType that we want to Save (Dropbox)
      * @param name is the name of the connection ("My Connection-name")
@@ -129,7 +129,7 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
         this.servconnection.addService(this.servconnection.getActualServiceType(), connection_name, usertoken);
     }//-saveCloudConnection
 
-    /*
+    /**
      * This method updates the name of a existing Service-connection
 	 * @param service is the Connection between User and Service that we want to update
 	 * @param name is the new name/alias that we want to give this connection 
@@ -138,7 +138,7 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
         this.servconnection.updateService(service, newname);
     }//-updateCloudConnection
 
-    /*
+    /**
      * Deletes a existing ServiceConnection of a User
      * @param CloudService is the Service that we want to remove from db
      */
@@ -146,7 +146,7 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
         this.servconnection.deleteService(service);
     }//-deleteCloudConnection
 
-    /*
+    /**
      * Good practice for Checking if a user is logged in
      * @return User This returns the Logged In User as a Object
      */
@@ -154,7 +154,7 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
         return this.servconnection.getLoggedInUser();
     }//-getLoggedInUser
 
-    /*
+    /**
      * This function updates the user password for our application
      * @param user Is the User that we want to update
      * @param oldPassword Is the old password that we need to make this update
@@ -185,8 +185,8 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
         starterHome.start(stage, this);
     }
 
-    public void gotoData(Stage stage) {
-        dpxtestlogin();
+    public void gotoData(Stage stage) throws AddServiceFailException, NoUserLoggedInException {
+        dpxlogin("TEST LOGIN");
         StarterData starterData = new StarterData();
 //    	starterData.setController(this);
         starterData.start(stage, this);
@@ -335,10 +335,16 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
     }
 
     /* END Home Screen Methode */
-
-    public void dpxtestlogin(){
+    
+    public void dpxlogin(String connection_name) throws AddServiceFailException, NoUserLoggedInException{
         try {
             dropbox = new Dropbox(this.getCloudTypeInUse());
+            dropbox.firstlogin();
+            dropbox.makearchives();
+            dropbox.getarchives();
+            connection_name = "TEST LOGIN AMK"; //anpassen wenn autofunktion von Florian fertig
+            this.saveCloudConnection(connection_name, dropbox.getAccesstoken());
+            
         } catch (IOException | URISyntaxException | DbxException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

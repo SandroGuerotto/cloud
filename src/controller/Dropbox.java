@@ -65,10 +65,6 @@ public class Dropbox {
         config = new DbxRequestConfig("Pretty Secure Cloud", Locale.getDefault().toString());
         webAuth = new DbxWebAuthNoRedirect(config, appInfo);
         currentPath = "/";
-
-        firstlogin();
-        makearchives();
-        getarchives();
     }
 
     /**
@@ -128,9 +124,9 @@ public class Dropbox {
 
         System.out.println("Kopieren Sie den Text und f�gen Sie ihn ein!");
         authtoken = sc.nextLine();
-
+        sc.close();
         accesstoken = webAuth.finish(authtoken).accessToken;
-
+        
         client = new DbxClient(config, accesstoken);
     }
 
@@ -347,4 +343,14 @@ public class Dropbox {
     public ObservableList<Data> getarchives() {
         return list;
     }
+
+	public String getAccesstoken() {
+		return accesstoken;
+	}
+
+	public void setAccesstoken(String accesstoken) {
+		this.accesstoken = accesstoken;
+	}
+    
+    
 }
