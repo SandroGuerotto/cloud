@@ -259,7 +259,7 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
     // TODO Test Methoden
 	public void dpxtestlogin(){
     	try {
-			dropbox = new Dropbox();
+			dropbox = new Dropbox(this.getCloudTypeInUse());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -26,6 +26,9 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.FXCollections;
 
 import model.Data;
+import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.CloudService;
+import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.ServiceType;
+import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.User;
 
 /**
  * @author          :   Sasa Markovic
@@ -48,10 +51,17 @@ public class Dropbox {
 	private ObservableList<Data> list = FXCollections.observableArrayList();
 	private String currentPath;
 	
-	//Controller
-	public Dropbox() throws IOException, URISyntaxException, DbxException{
-		appInfo = new DbxAppInfo("4ib2r751sawik1x","xwcn09oaicgpo0d");
-		config = new DbxRequestConfig("Testsecurecloudapp", Locale.getDefault().toString());
+	/**
+	 * 
+	 * @param applicationInfo
+	 * @throws IOException
+	 * @throws URISyntaxException
+	 * @throws DbxException
+	 */
+	public Dropbox(ServiceType applicationInfo) throws IOException, URISyntaxException, DbxException{
+		
+		appInfo = new DbxAppInfo(applicationInfo.getKey(),applicationInfo.getSecret());
+		config = new DbxRequestConfig("Pretty Secure Cloud", Locale.getDefault().toString());
 		webAuth = new DbxWebAuthNoRedirect(config, appInfo);
 		currentPath = "/";
 		
@@ -59,6 +69,10 @@ public class Dropbox {
 		makearchives();
 		getarchives();
 	}
+	/**
+	 * 
+	 * @param foldername
+	 */
 	public void updatecurrentPath(String foldername){
 		StringBuilder temp = new StringBuilder(currentPath);
 		temp.append(foldername);
@@ -66,7 +80,10 @@ public class Dropbox {
 		
 		this.currentPath = temp.toString();
 	}
-	//Erstellt die variable "list"
+	/**
+	 * 
+	 * @throws DbxException
+	 */
 	public void makearchives() throws DbxException{
 		list.removeAll();
 		DbxEntry.WithChildren files = client.getMetadataWithChildren(currentPath);
@@ -94,7 +111,12 @@ public class Dropbox {
 		}
 		
 	}
-	//bei registrationen oder invaliden accesstokens
+	/**
+	 * 
+	 * @throws IOException
+	 * @throws URISyntaxException
+	 * @throws DbxException
+	 */
 	public void firstlogin() throws IOException, URISyntaxException, DbxException{
 		Scanner sc = new Scanner(System.in);
 		Desktop.getDesktop().browse(new URI(webAuth.start()));
@@ -106,12 +128,22 @@ public class Dropbox {
 		
 		client = new DbxClient(config,accesstoken);
 	}
+	/**
+	 * 
+	 * @param args
+	 * @return
+	 */
 	protected String convertLongtoString(Long args){
 		
 		String temp = Long.toString(args);
 		
 		return temp;
 	}
+	/**
+	 * 
+	 * @param indate
+	 * @return
+	 */
 	protected String convertDateToString(Date indate){
 		String dateString = null;
 		SimpleDateFormat sdfr = new SimpleDateFormat("dd.MM.yyyy");
@@ -122,6 +154,11 @@ public class Dropbox {
 		}
 		return dateString;
 	}
+	/**
+	 * 
+	 * @param fileName
+	 * @return
+	 */
 	public String getextension(String fileName){
 		String extension = "";
 
@@ -132,6 +169,11 @@ public class Dropbox {
 		}
 		return null;
 	}
+	/**
+	 * 
+	 * @param path
+	 * @return
+	 */
 	public String downloadFile(String path){
 		String endPath = "";
 		try {
@@ -148,6 +190,12 @@ public class Dropbox {
 		endPath = newfile.getAbsolutePath();
 		return endPath;
 	}
+	/**
+	 * 
+	 * @param path
+	 * @throws IOException
+	 * @throws DbxException
+	 */
 	public void uploadFile(String path) throws IOException, DbxException {
 		File inputFile = new File(path);
 		FileInputStream inputStream = new FileInputStream(inputFile);
@@ -161,42 +209,93 @@ public class Dropbox {
 
 		
 	}
+	/**
+	 * 
+	 * @param token
+	 */
 	public void login(String token){
 		client = new DbxClient(config,token);
 	}
+	/**
+	 * 
+	 */
 	public void logout(){
 		client = null;
 	}
+	/**
+	 * 
+	 * @param args
+	 */
 	public void setappInfo(DbxAppInfo args){
 		appInfo = args;
 	}
+	/**
+	 * 
+	 * @param args
+	 */
 	public void setconfig(DbxRequestConfig args){
 		config = args;
 	}
+	/**
+	 * 
+	 * @param args
+	 */
 	public void setwebAuth(DbxWebAuthNoRedirect args){
 		webAuth = args;
 	}
+	/**
+	 * 
+	 * @param args
+	 */
 	public void setauthtoken(String args){
 		authtoken = args;
 	}
+	/**
+	 * 
+	 * @param args
+	 */
 	public void setclient(DbxClient args){
 		client = args;
 	}
+	/**
+	 * 
+	 * @return
+	 */
 	public DbxAppInfo getappInfo(){
 		return appInfo;
 	}
+	/**
+	 * 
+	 * @return
+	 */
 	public DbxRequestConfig getconfig(){
 		return config;
 	}
+	/**
+	 * 
+	 * @return
+	 */
 	public DbxWebAuthNoRedirect getwebAuth(){
 		return webAuth;
 	}
+	/**
+	 * 
+	 * @return
+	 */
 	public String getauthtoken(){
 		return authtoken;
 	}
+	/**
+	 * 
+	 * @return
+	 */
 	public DbxClient getclient(){
 		return client;
 	}
+	/**
+	 * 
+	 * @return
+	 */
 	public ObservableList<Data> getarchives(){
 		return list;
 	}
