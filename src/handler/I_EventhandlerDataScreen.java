@@ -24,7 +24,7 @@ import java.util.List;
  */
 public interface I_EventhandlerDataScreen {
 
-    ObservableList<Data> getAllData() throws NoFilesException;
+    ObservableList<Data> getAllData() throws NoFilesException, DbxException;
 
     void delete_data(ObservableList<Data> deletelist) throws DeleteException, ConnectionErrorException;
 
