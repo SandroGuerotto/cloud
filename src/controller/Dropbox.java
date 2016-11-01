@@ -31,13 +31,14 @@ import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.ServiceType;
 import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.User;
 
 /**
- * @author :   Sasa Markovic
- * @version :   1.0
- * @Created :   03.10.2016
- * @Project :   cloud
- * @Package :   controller
- * @LastUpdated :	Sandro - Grösse in Humansize(MB, GB) und Datum formatiert
- * @Description :   Connector/uploader/downloader/getter from Dropbox
+ * Dropbox core API
+ * @author          :   Sasa Markovic
+ * @Created          :   01.11.2016
+ * @Project          :   cloud
+ * @Package          :   controller
+ * @version         :   1.5
+ * @LastUpdated      :	Javadoc implemented
+ * @Description      :   Connector/uploader/downloader/getter from Dropbox
  */
 
 public class Dropbox {
@@ -52,7 +53,8 @@ public class Dropbox {
     private String currentPath;
 
     /**
-     * @param applicationInfo
+     * Constructor: Initializes the dropbox object.
+     * @param applicationInfo	Database Application Information
      * @throws IOException
      * @throws URISyntaxException
      * @throws DbxException
@@ -70,7 +72,8 @@ public class Dropbox {
     }
 
     /**
-     * @param foldername
+     * Updates the current directory, wich the user is in.
+     * @param foldername	Foldername without slash/backslash
      */
     public void updatecurrentPath(String foldername) {
         StringBuilder temp = new StringBuilder(currentPath);
@@ -81,6 +84,7 @@ public class Dropbox {
     }
 
     /**
+     * Creates a observable with metadata of all files in the current directory.
      * @throws DbxException
      */
     public void makearchives() throws DbxException {
@@ -112,6 +116,8 @@ public class Dropbox {
     }
 
     /**
+     * Firstlogin contains a userauthentication in dropbox, if the user is already authenticate, the
+	 * firstlogin is not necessary.
      * @throws IOException
      * @throws URISyntaxException
      * @throws DbxException
@@ -129,8 +135,9 @@ public class Dropbox {
     }
 
     /**
-     * @param args
-     * @return
+     * This method converts a "Long" variable in to a "String" variable.
+     * @param args		Long variable
+     * @return String	Long converted in to String
      */
     protected String convertLongtoString(Long args) {
 
@@ -140,8 +147,9 @@ public class Dropbox {
     }
 
     /**
-     * @param indate
-     * @return
+     * This method converts "Date" variable in to "String" variable.
+     * @param indate	Date variable
+     * @return String	Date converted into String
      */
     protected String convertDateToString(Date indate) {
         String dateString = null;
@@ -155,8 +163,9 @@ public class Dropbox {
     }
 
     /**
-     * @param fileName
-     * @return
+     * Returns the file extension.
+     * @param fileName	Full filename, without slash/backslash
+     * @return String	Extension of the file, example: '.jar, .zip, .docx'
      */
     public String getextension(String fileName) {
         String extension = "";
@@ -170,6 +179,7 @@ public class Dropbox {
     }
 
     /**
+     * Downloads a specific file from dropbox and returns the absolutdirectory of it.
      * @param path
      * @return
      */
@@ -187,6 +197,7 @@ public class Dropbox {
     }
 
     /**
+     * Uploads a file in dropbox.
      * @param path
      * @throws IOException
      * @throws DbxException
@@ -235,6 +246,7 @@ public class Dropbox {
     }
 
     /**
+     * If there's a service connected with the user, this method logs the user in.
      * @param token
      */
     public void login(String token) {
@@ -242,13 +254,14 @@ public class Dropbox {
     }
 
     /**
-     *
+     *Logs the client out.
      */
     public void logout() {
         client = null;
     }
 
     /**
+     * Setter
      * @param args
      */
     public void setappInfo(DbxAppInfo args) {
@@ -256,6 +269,7 @@ public class Dropbox {
     }
 
     /**
+     * Setter
      * @param args
      */
     public void setconfig(DbxRequestConfig args) {
@@ -263,6 +277,7 @@ public class Dropbox {
     }
 
     /**
+     * Setter
      * @param args
      */
     public void setwebAuth(DbxWebAuthNoRedirect args) {
@@ -270,6 +285,7 @@ public class Dropbox {
     }
 
     /**
+     * Setter
      * @param args
      */
     public void setauthtoken(String args) {
@@ -277,6 +293,7 @@ public class Dropbox {
     }
 
     /**
+     * Setter
      * @param args
      */
     public void setclient(DbxClient args) {
@@ -284,6 +301,7 @@ public class Dropbox {
     }
 
     /**
+     * Getter
      * @return
      */
     public DbxAppInfo getappInfo() {
@@ -291,6 +309,7 @@ public class Dropbox {
     }
 
     /**
+     * Getter
      * @return
      */
     public DbxRequestConfig getconfig() {
@@ -298,6 +317,7 @@ public class Dropbox {
     }
 
     /**
+     * Getter
      * @return
      */
     public DbxWebAuthNoRedirect getwebAuth() {
@@ -305,6 +325,7 @@ public class Dropbox {
     }
 
     /**
+     * Getter
      * @return
      */
     public String getauthtoken() {
@@ -312,6 +333,7 @@ public class Dropbox {
     }
 
     /**
+     * Getter
      * @return
      */
     public DbxClient getclient() {
@@ -319,6 +341,7 @@ public class Dropbox {
     }
 
     /**
+     * Getter
      * @return
      */
     public ObservableList<Data> getarchives() {
