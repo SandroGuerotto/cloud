@@ -3,8 +3,10 @@ package handler;
 import com.dropbox.core.DbxException;
 import com.jfoenix.controls.JFXButton;
 import controller.Controller;
+import exception.AddServiceFailException;
 import exception.LoadSupportedServicesException;
 import exception.NoServicesFoundException;
+import exception.NoUserLoggedInException;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
@@ -142,11 +144,7 @@ public class EventhandlerHomeScreen {
     @FXML
     private void setLoginVisible(ServiceType type) {
 
-        if (controller.getUsername().equals("Sandro")) {
-            controller.setCloudTypeInUse(type);
-            controller.gotoData(stage);
-        } else {
-
+        if (controller.getUsername().equals("StarLord")) {
             webEngine = wv_services.getEngine();
             progress.setVisible(true);
             progress.setStyle(" -fx-progress-color: white;");
@@ -155,11 +153,19 @@ public class EventhandlerHomeScreen {
 
             webEngine.load(controller.getLink(type));
             setWVProps();
-
-
-        }
-
-    }
+        } else {
+        	controller.setCloudTypeInUse(type);
+            try {
+				controller.gotoData(stage);
+			} catch (AddServiceFailException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoUserLoggedInException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}//-catch
+        }//-else
+    }//-setLoginVisible
 
     @FXML
     private void logout() {
