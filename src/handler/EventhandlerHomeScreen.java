@@ -143,6 +143,7 @@ public class EventhandlerHomeScreen {
     private void setLoginVisible(ServiceType type) {
 
         if (controller.getUsername().equals("Sandro")) {
+            controller.setCloudTypeInUse(type);
             controller.gotoData(stage);
         } else {
 

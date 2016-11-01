@@ -40,8 +40,7 @@ public interface I_EventhandlerDataScreen {
 
     void onWorkEnd(int value, int max, String msg);
 
-    void onWorkError(int value, int max);
-
+    void onWorkError(int value, int max, Exception e);
 
 
 

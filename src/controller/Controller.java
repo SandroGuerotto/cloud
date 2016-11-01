@@ -251,8 +251,10 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
                     dropbox.downloadFile(downloadlist.get(index).getdata_name());
                     encryption.decryptFile(new File(downloadlist.get(index).getdata_name()), servconnection.getUser().getEncryptionKey(), "C:/Cloud");
                     onWorkEnd(file, downloadlist.size(), "download");
-                } catch ( EncryptionInvalidKeyException | EncryptionFileNotFoundException |StreamCopyException e) {
+                } catch ( EncryptionInvalidKeyException | EncryptionFileNotFoundException | StreamCopyException e) {
                     onWorkError(file, downloadlist.size(), e);
+                } catch (DbxException | IOException e) {
+                    onWorkError(file, downloadlist.size(), null);
                 }
             }).start();
         }
@@ -334,21 +336,13 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
 
     /* END Home Screen Methode */
 
-    // TODO Test Methoden
-    public void dpxtestlogin() {
+    public void dpxtestlogin(){
         try {
-            dropbox = new Dropbox();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (DbxException e) {
+            dropbox = new Dropbox(this.getCloudTypeInUse());
+        } catch (IOException | URISyntaxException | DbxException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
-
 
 }
