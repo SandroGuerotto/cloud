@@ -12,6 +12,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
@@ -143,11 +144,24 @@
       </StackPane>
       <VBox alignment="BOTTOM_CENTER" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="4">
          <children>
-            <Hyperlink fx:id="btn_openDir" onAction="#openDir" styleClass="data-hyperlink, text" text="Ordner öffnen" underline="false">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Hyperlink>
+            <BorderPane>
+               <left>
+                  <StackPane BorderPane.alignment="CENTER">
+                     <children>
+                        <Label fx:id="lbl_status" prefHeight="35.0" prefWidth="350.0" styleClass="data-text" text="">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                        <Hyperlink fx:id="btn_openDir" onAction="#openDir" styleClass="data-hyperlink, text" text="Ordner öffnen" underline="false">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Hyperlink>
+                     </children>
+                  </StackPane>
+               </left>
+            </BorderPane>
             <JFXProgressBar fx:id="pb_downlad" prefWidth="1766.0" progress="0.29" />
          </children>
       </VBox>

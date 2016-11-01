@@ -87,6 +87,7 @@ public class AESEncryption {
 	 * @throws StreamCopyException 
 	 */
 	public void decryptFile(File file, byte[] key,String fileDestinationPath) throws EncryptionInvalidKeyException, EncryptionFileNotFoundException, StreamCopyException {
+		if (!file.getName().contains(".aes")) return;
 		try {
 			SecretKey aesKey = new SecretKeySpec(key, 0, AES_KEY_SIZE/8, ENCRYPTION_INSTANCE);
 			aesCipher.init(Cipher.DECRYPT_MODE, aesKey);

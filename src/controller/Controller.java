@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -14,6 +15,7 @@ import javax.xml.rpc.ServiceException;
 
 import com.dropbox.core.DbxWebAuth;
 import com.jfoenix.controls.JFXProgressBar;
+import handler.EventhandlerDataScreen;
 import message.Message;
 import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.CloudService;
 import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.ServiceType;
@@ -48,6 +50,8 @@ import javafx.stage.Stage;
 import model.AESEncryption;
 import model.Data;
 import model.ServerConnecter;
+import thread.DownloadThread;
+import thread.UploadThread;
 
 /**
  * @author :   Sandro Guerotto
@@ -68,6 +72,8 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
 
     private Message DataMessageClass;
     private JFXProgressBar progressbar;
+
+    private EventhandlerDataScreen handler;
 
     public Controller(String[] args) throws ConnectionErrorException, ServiceException, FailLoadingServicesException {
         this.args = args;
@@ -215,98 +221,33 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
 
     }
 
+    /**
+     * Creates for every entry in uploadlist a thread which uploads the file to the service
+     * @param uploadlist contains all files to upload
+     */
     @Override
-    public synchronized void upload_data(List<File> uploadlist) {
-        for (int i = 0; i < uploadlist.size(); i++) {
-            final int index = i;
-            final int file = i + 1;
-            new Thread(() -> {
-                onWorkStart(file, uploadlist.size(), "upload");
-                try {
-                    encryption.encryptFile(uploadlist.get(index), servconnection.getUser().getEncryptionKey());
-                    dropbox.uploadFile(uploadlist.get(index).getAbsolutePath() + ".aes");
-                    onWorkEnd(file, uploadlist.size(), "upload");
-                    dropbox.addFiletoList(uploadlist.get(index));
-                } catch ( EncryptionInvalidKeyException | EncryptionFileNotFoundException | StreamCopyException e) {
-                    e.printStackTrace();
-                    onWorkError(file, uploadlist.size(), e);
-                } catch (DbxException | IOException e) {
-                    e.printStackTrace();
-                    onWorkError(file, uploadlist.size(), null);
-                }
-            }).start();
+    public void upload_data(List<File> uploadlist) {
+        int i = 1;
+        for (File file: uploadlist){
+            UploadThread thread = new UploadThread(this.handler, this, file, uploadlist.size(), i);
+            thread.start();
+            i++;
         }
+
     }
 
-
+    /**
+     * Creates for every entry in downloadlist a thread which downloads the file from the service
+     * @param downloadlist  list contains all data to download
+     */
     @Override
-    public synchronized void download_data(ObservableList<Data> downloadlist) {
-
-        for (int i = 0; i < downloadlist.size(); i++) {
-            final int index = i;
-            final int file = i + 1;
-            new Thread(() -> {
-                onWorkStart(file, downloadlist.size(), "download");
-                try {
-                    dropbox.downloadFile(downloadlist.get(index).getdata_name());
-                    encryption.decryptFile(new File(downloadlist.get(index).getdata_name()), servconnection.getUser().getEncryptionKey(), "C:/Cloud");
-                    onWorkEnd(file, downloadlist.size(), "download");
-                } catch ( EncryptionInvalidKeyException | EncryptionFileNotFoundException | StreamCopyException e) {
-                    onWorkError(file, downloadlist.size(), e);
-                } catch (DbxException | IOException e) {
-                    onWorkError(file, downloadlist.size(), null);
-                }
-            }).start();
+    public void download_data(ObservableList<Data> downloadlist) {
+        int i = 1;
+        for (Data data: downloadlist){
+            DownloadThread thread = new DownloadThread(this.handler, this, data, downloadlist.size(), i);
+            thread.start();
+            i++;
         }
-    }
-
-    @Override
-    public void onWorkStart(int value, int max, String text) {
-        showWorkProgress();
-        String msg = "Datei " + value + " / " + max + " " + text + " gestartet";
-        DataMessageClass.showMessage('s', msg);
-    }
-
-    @Override
-    public void onWorkEnd(int value, int max, String text) {
-        String msg = "Datei " + value + " / " + max + " " + text + " beendet";
-        DataMessageClass.showMessage('s', msg);
-
-        double progress = (double) 1 / max + progressbar.getProgress();
-        progressbar.setProgress(progress);
-
-        if (value == max) {
-            ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-            service.schedule(() -> Platform.runLater(() -> progressbar.setVisible(false)), 10, TimeUnit.SECONDS);
-        }
-    }
-
-    @Override
-    public void onWorkError(int value, int max, Exception e) {
-        String msg = null;
-        if( e != null){
-            msg = "Datei " + value + " / " + max + " Ein Fehler ist aufgetreten \n" + e.getMessage();
-            e.getStackTrace();
-        }else{
-            msg = "Datei " + value + " / " + max + " Ein Fehler ist aufgetreten";
-        }
-        DataMessageClass.showMessage('e', msg);
-    }
-
-    @Override
-    public void setMessageClass(Message messageClass) {
-        this.DataMessageClass = messageClass;
-    }
-
-    @Override
-    public void setProgressbar(JFXProgressBar progressbar) {
-        this.progressbar = progressbar;
-    }
-
-    private void showWorkProgress() {
-        progressbar.setVisible(true);
-        progressbar.setDisable(false);
-        progressbar.setProgress(0.0);
     }
 
     /* END Data Screen Methode */
@@ -345,4 +286,17 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
         }
     }
 
-}
+    public void setHandler(EventhandlerDataScreen handler){
+        this.handler = handler;
+    }
+
+    public Dropbox getDropbox(){
+        return this.dropbox;
+    }
+    public AESEncryption getEncryption(){
+        return this.encryption;
+    }
+    public ServerConnecter getServconnection(){
+        return this.servconnection;
+    }
+ }

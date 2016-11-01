@@ -16,12 +16,12 @@ import model.Data;
 
 /**
  * @author :   Sandro Guerotto
- *         Created          :   23.09.2016
- *         Project          :   cloud
- *         Package          :   view
+ * Created          :   23.09.2016
+ * Project          :   cloud
+ * Package          :   view
  * @version :   1.0
- *          LastUpdated      :
- *          Description      :   Custom Cell  for Download button
+ * LastUpdated      :
+ * Description      :   Custom Cell  for Download button
  */
 
 public class ButtonCell extends TableCell<Disposer.Record, Boolean> {

@@ -32,16 +32,4 @@ public interface I_EventhandlerDataScreen {
 
     void download_data(ObservableList<Data> downloadlist);
 
-    void setMessageClass(Message messageClass);
-
-    void setProgressbar(JFXProgressBar progressbar);
-
-    void onWorkStart(int value, int max, String msg);
-
-    void onWorkEnd(int value, int max, String msg);
-
-    void onWorkError(int value, int max, Exception e);
-
-
-
 }

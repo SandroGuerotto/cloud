@@ -173,7 +173,7 @@ public class Dropbox {
      * @param path
      * @return
      */
-    public String downloadFile(String path) throws IOException, DbxException {
+    public String  downloadFile(String path) throws IOException, DbxException {
         String endPath = "";
         FileOutputStream outputStream = new FileOutputStream(path);
         DbxEntry.File downloadedFile = client.getFile("/" + path, null,

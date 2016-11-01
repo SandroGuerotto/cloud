@@ -27,6 +27,9 @@
 .data-subtitle{
     -fx-font-size: 24px;
 }
+.data-text{
+    -fx-font-size: 18px;
+}
 .data-hyperlink{
     -fx-font-size: 18px;
     -fx-underline: false;
