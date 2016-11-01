@@ -46,10 +46,11 @@ public class DownloadThread extends Thread {
         try {
             dropbox.downloadFile(data.getdata_name());
             controller.getEncryption().decryptFile(new File(data.getdata_name()), controller.getServconnection().getUser().getEncryptionKey(), "C:/Cloud");
+            eventhandlerDataScreen.onWorkEnd("download", size);
         } catch ( EncryptionInvalidKeyException | EncryptionFileNotFoundException | StreamCopyException | DbxException | IOException e) {
             eventhandlerDataScreen.onWorkError(e);
         } finally {
-            eventhandlerDataScreen.onWorkEnd("download", size);
+            //delete .aes file
         }
     }
 }

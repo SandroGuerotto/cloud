@@ -30,12 +30,12 @@ import java.nio.file.Paths;
 import java.util.List;
 
 /**
- * @author      :   Sandro Guerotto
- * @version     :   1.0
- * @created     :   20.09.2016
- * @project     :   cloud
- * @package     :   handler
- * @lastupdate  :   01.11.2016
+ * @author :   Sandro Guerotto
+ * @version :   1.0
+ * @created :   20.09.2016
+ * @project :   cloud
+ * @package :   handler
+ * @lastupdate :   01.11.2016
  * @description :   Contains all handler for DataScreen and init Screen
  */
 
@@ -337,14 +337,14 @@ public class EventhandlerDataScreen implements IWorkThread {
     public void onWorkEnd(String msg, int size) {
         Platform.runLater(() -> {
             updateDownloadFinish();
-            if (downloadFinish == size && msg.equals("download")){
+            if (downloadFinish == size && msg.equals("download")) {
                 showOpenDir();
                 downloadFinish = 0;
                 pb_downlad.setProgress(1.0);
                 lbl_status.setDisable(true);
                 lbl_status.setVisible(false);
                 lbl_status.setManaged(false);
-            }else{
+            } else {
                 String text = "Datei " + downloadFinish + " / " + size + " " + msg + " beendet";
                 setStatus(text);
                 double progress = (double) 1 / size + pb_downlad.getProgress();
@@ -355,14 +355,16 @@ public class EventhandlerDataScreen implements IWorkThread {
 
     @Override
     public void onWorkError(Exception e) {
-        String text = null;
-        if (e != null) {
-            text = " Ein Fehler ist aufgetreten: " + e.getMessage();
-            e.getStackTrace();
-        } else {
-            text = "Ein Fehler ist aufgetreten";
-        }
-        setStatus(text);
+        Platform.runLater(() -> {
+            String text = null;
+            if (e != null) {
+                text = " Ein Fehler ist aufgetreten: " + e.getMessage();
+                e.getStackTrace();
+            } else {
+                text = "Ein Fehler ist aufgetreten";
+            }
+            setStatus(text);
+        });
     }
 
     private void showWorkProgress() {
@@ -376,7 +378,8 @@ public class EventhandlerDataScreen implements IWorkThread {
         lbl_status.setText(text);
         lbl_status.setManaged(true);
     }
-    private void updateDownloadFinish(){
+
+    private void updateDownloadFinish() {
         this.downloadFinish++;
     }
 }

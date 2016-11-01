@@ -47,11 +47,11 @@ public class UploadThread extends Thread {
             controller.getEncryption().encryptFile(file, controller.getServconnection().getUser().getEncryptionKey());
             dropbox.uploadFile(file.getAbsolutePath() + ".aes");
             dropbox.addFiletoList(file);
-
+            eventhandlerDataScreen.onWorkEnd("upload", size);
         } catch ( EncryptionInvalidKeyException | EncryptionFileNotFoundException | StreamCopyException | DbxException | IOException e) {
             eventhandlerDataScreen.onWorkError(e);
         } finally {
-            eventhandlerDataScreen.onWorkEnd("upload", size);
+            //delete .aes file
         }
     }
 }
