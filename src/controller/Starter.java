@@ -1,35 +1,29 @@
 package controller;
 
-import javax.xml.rpc.ServiceException;
-
-import exception.ConnectionErrorException;
-import exception.FailLoadingServicesException;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
 /**
- * @author          :   Sandro Guerotto
- * Created          :   27.09.2016
- * Project          :   cloud
- * Package          :   controller
- * @version         :   1.0
- * LastUpdated      :
- * Description      :   Starter class für das Programm
+ * @author      :   Sandro Guerotto
+ * @version     :   3.0
+ * @created     :   27.09.2016
+ * @Project     :   cloud
+ * @Package     :   controller
+ * @LastUpdated :   02.11.2016
+ * @Description :   Starterclass for whole application
  */
-public class Starter {
+public class Starter extends Application {
 
-    public static void main(String[] args){
-        Controller controller;
-		try {
-			controller = new Controller(args);
-	        controller.start();
-		} catch (ConnectionErrorException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FailLoadingServicesException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    public static void main(String[] args) {
+
+        launch(args);
+
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        System.out.println("sdfasf");
+        Controller controller = new Controller();
+        controller.start(primaryStage);
     }
 }

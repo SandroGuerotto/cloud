@@ -40,6 +40,9 @@ public class DownloadThread extends Thread {
 
     }
 
+    /**
+     * Starts process to download files. Any error and progress will be showed at screen
+     */
     @Override
     public void run() {
         eventhandlerDataScreen.onWorkStart("download" , size, current);

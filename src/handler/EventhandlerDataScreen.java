@@ -112,7 +112,7 @@ public class EventhandlerDataScreen implements IWorkThread {
         message = new Message(lbl_msg);
         initView();
 
-        pb_loaddata.setStyle(" -fx-progress-color:  #38424b;");
+
 
         hideButton();
 
@@ -158,7 +158,7 @@ public class EventhandlerDataScreen implements IWorkThread {
                 pane_flowcontroll.setDisable(false);
                 itm_upload.setDisable(true);
                 itm_upload.setVisible(false);
-                // Spalten zur�cksetzen
+                // Spalten zurücksetzen
                 col_type.setVisible(true);
                 col_create.setVisible(true);
                 col_type.setPercentageWidth(0.05);
@@ -181,6 +181,8 @@ public class EventhandlerDataScreen implements IWorkThread {
         btn_openDir.setDisable(true);
         lbl_status.setVisible(false);
         lbl_status.setDisable(true);
+
+        pb_loaddata.setStyle(" -fx-progress-color:  #38424b;");
 
     }
 

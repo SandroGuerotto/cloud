@@ -31,7 +31,7 @@ public class ServerConnecter {
 	private CloudService cs; //service in use (Burims Connection to Dropbox TOKEN)
 		
 	/** Standard Constructor with no parameters*/
-	public ServerConnecter() throws ConnectionErrorException, ServiceException, FailLoadingServicesException{
+	public ServerConnecter() throws ConnectionErrorException, FailLoadingServicesException{
 		this.start_service();
 	}//-Standart Constructor
 	

@@ -16,6 +16,7 @@ import javax.xml.rpc.ServiceException;
 import com.dropbox.core.DbxWebAuth;
 import com.jfoenix.controls.JFXProgressBar;
 import handler.EventhandlerDataScreen;
+import handler.EventhandlerLogin;
 import message.Message;
 import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.CloudService;
 import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.ServiceType;
@@ -51,20 +52,21 @@ import model.AESEncryption;
 import model.Data;
 import model.ServerConnecter;
 import thread.DownloadThread;
+import thread.LoginThread;
+import thread.RegisterThread;
 import thread.UploadThread;
 
 /**
- * @author :   Sandro Guerotto
- * @version :   1.0
- * @created :   04.10.2016
- * @Project :   cloud
- * @Package :   controller
- * @LastUpdated :
- * @Description :   Allgemeiner Kontroller für das Programm
+ * @author      :   Sandro Guerotto
+ * @version     :   2.0
+ * @created     :   04.10.2016
+ * @Project     :   cloud
+ * @Package     :   controller
+ * @LastUpdated :   02.11.2016
+ * @Description :   used from gui handler to communicate with server and services
  */
 public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeScreen {
 
-    private String[] args;
     private Dropbox dropbox;
     private ServerConnecter servconnection;
     private AESEncryption encryption;
@@ -75,9 +77,7 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
 
     private EventhandlerDataScreen handler;
 
-    public Controller(String[] args) throws ConnectionErrorException, ServiceException, FailLoadingServicesException {
-        this.args = args;
-        this.servconnection = new ServerConnecter();
+    public Controller() {
         this.encryption = new AESEncryption();
     }
     
@@ -89,8 +89,10 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
      * @param username the name that the users identify himself
      * @param password the password from the user in clear-text
      */
-    public void login(String username, String password) throws LoginFailedException {
-        this.servconnection.loginApp(username, password);
+    public void login(String username, String password, EventhandlerLogin handler) {
+        LoginThread loginThread = new LoginThread(this.servconnection, username, password, handler);
+        loginThread.start();
+//        this.servconnection.loginApp(username, password);
     }//-logMeIn
 
     /**
@@ -99,8 +101,10 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
      * @param email the email adress of a user to contact him
      * @param password the password from the user in clear-text
      */
-    public void register(String username, String email, String password) throws RemoteException, UserExistException, EmailExistException {
-        this.servconnection.registerApp(username, email, password);
+    public void register(String username, String email, String password, EventhandlerLogin handler) throws RemoteException, UserExistException, EmailExistException {
+        RegisterThread registerThread = new RegisterThread(this.servconnection, username, password, email, handler);
+        registerThread.start();
+//        this.servconnection.registerApp(username, email, password);
     }//-register
 
     /**
@@ -169,7 +173,11 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
     public void setUserPw(String oldPassword, String newPassword) throws UpdateUserPwErrorException {
         this.servconnection.updateUserPw(oldPassword, newPassword);
     }//-setUserPW
-    
+
+
+    public void startServerConnecter() throws FailLoadingServicesException, ConnectionErrorException {
+        this.servconnection = new ServerConnecter();
+    }
     /*END SERVER DATA FUNCTIONS*/
 
     public String getUsername() {
@@ -178,16 +186,14 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
 
 
     //starter
-    public void start() {
+    public void start(Stage stage) {
         StarterLogin starterLogin = new StarterLogin();
-        starterLogin.show(args, this);
+        starterLogin.start(stage, this);
     }
 
     /* GoTO Methode */
     public void gotoHome(Stage stage) {
         StarterHome starterHome = new StarterHome();
-//    	starterHome.setController(this);
-//    	starterHome.start(stage);
         starterHome.start(stage, this);
     }
 
@@ -286,7 +292,7 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
         try {
             dropbox = new Dropbox(this.getCloudTypeInUse());
             dropbox.firstlogin();
-            dropbox.makearchives();
+//            dropbox.makearchives();
             dropbox.getarchives();
             connection_name = "TEST LOGIN AMK"; //anpassen wenn autofunktion von Florian fertig
             this.saveCloudConnection(connection_name, dropbox.getAccesstoken());
