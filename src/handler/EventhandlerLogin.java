@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import thread.IConnectorThread;
@@ -43,10 +44,10 @@ public class EventhandlerLogin implements IConnectorThread {
 	private Label lbl_login_error;
 
 	@FXML
-	private VBox pane_login, pane_progress;
+	private VBox pane_login, pane_progress, pane_agb;
 
 	@FXML
-	private VBox pane_agb;
+	private BorderPane pane_menu ;
 
 	@FXML
 	private JFXCheckBox btn_agb;
@@ -180,6 +181,7 @@ public class EventhandlerLogin implements IConnectorThread {
 			pane_progress.setVisible(true);
 
 			pane_login.setDisable(true);
+			pane_menu.setDisable(true);
 		});
 	}
 
@@ -193,6 +195,7 @@ public class EventhandlerLogin implements IConnectorThread {
 			pane_progress.setVisible(false);
 
 			pane_login.setDisable(false);
+			pane_menu.setDisable(false);
 		});
 	}
 

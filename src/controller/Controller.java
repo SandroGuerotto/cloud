@@ -144,6 +144,7 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
 
     public void startServerConnecter() throws FailLoadingServicesException, ConnectionErrorException {
         this.servconnection = new ServerConnecter();
+        this.servconnection.start_service();
     }
     /*END SERVER DATA FUNCTIONS*/
 

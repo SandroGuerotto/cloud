@@ -28,15 +28,14 @@ public class ServerConnecter {
 	private User user; //logged in User
 	private ServiceType[] services; //all supported Cloud-Services
 	private ServiceType serviceTypeInUse; //actual servicetype in use (Like DROPBOX)
-	private CloudService cs; //service in use (Burims Connection to Dropbox TOKEN)
 		
 	/** Standard Constructor with no parameters*/
-	public ServerConnecter() throws ConnectionErrorException, FailLoadingServicesException{
-		this.start_service();
+	public ServerConnecter() {
+
 	}//-Standart Constructor
 	
 	/** Starts the service to communicate with the server */
-	private void start_service() throws ConnectionErrorException, FailLoadingServicesException{
+	public void start_service() throws ConnectionErrorException, FailLoadingServicesException{
 		this.serviceLocator = new LoginServiceLocator();
 		try {
 			this.service = (BasicHttpsBinding_ILoginServiceStub) serviceLocator.getBasicHttpsBinding_ILoginService();

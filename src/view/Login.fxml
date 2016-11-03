@@ -34,7 +34,7 @@
       <RowConstraints fillHeight="false" percentHeight="8.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <VBox fx:id="pane_progress" alignment="CENTER" prefHeight="374.0" prefWidth="784.0" GridPane.columnSpan="3" GridPane.rowIndex="2" GridPane.rowSpan="4">
+      <VBox fx:id="pane_progress" alignment="CENTER" prefHeight="374.0" prefWidth="787.0" GridPane.columnSpan="3" GridPane.rowIndex="2" GridPane.rowSpan="4">
          <children>
             <ProgressIndicator fx:id="pb_loading" prefHeight="100.0" />
          </children>
@@ -115,7 +115,7 @@
             <Insets top="20.0" />
          </padding>
       </VBox>
-      <BorderPane GridPane.columnIndex="1" GridPane.rowIndex="4">
+      <BorderPane fx:id="pane_menu" GridPane.columnIndex="1" GridPane.rowIndex="4">
          <right>
             <StackPane BorderPane.alignment="CENTER">
                <children>
