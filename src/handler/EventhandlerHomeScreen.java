@@ -6,11 +6,14 @@ import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
 
 import controller.Controller;
+import exception.AddServiceFailException;
 import exception.LoadSupportedServicesException;
 import exception.LoginFailedException;
 import exception.NoServicesFoundException;
 import exception.NoUserLoggedInException;
+
 import exception.UpdateUserPwErrorException;
+
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -185,10 +188,7 @@ public class EventhandlerHomeScreen {
     @FXML
     private void setLoginVisible(ServiceType type) {
 
-        if (controller.getUsername().equals("Sandro")) {
-            controller.gotoData(stage);
-        } else {
-
+        if (controller.getUsername().equals("StarLord")) {
             webEngine = wv_services.getEngine();
             progress.setVisible(true);
             progress.setStyle(" -fx-progress-color: white;");
@@ -197,6 +197,7 @@ public class EventhandlerHomeScreen {
 
             webEngine.load(controller.getLink(type));
             setWVProps();
+
             Platform.runLater(() -> {
             	controller.setCloudTypeInUse(type);
             });
@@ -339,6 +340,8 @@ public class EventhandlerHomeScreen {
     	
     }
 
+
+
     @FXML
     private void logout() {
 
@@ -413,9 +416,7 @@ public class EventhandlerHomeScreen {
             for (ServiceType service : controller.getServices()) {
                 System.out.print(service.getName());
                 ServiceButton serviceButton = new ServiceButton(service.getName());
-                serviceButton.setOnAction((event) -> {
-                    setLoginVisible(service);
-                });
+                serviceButton.setOnAction((event) -> setLoginVisible(service));
                 pane_service.getChildren().add(serviceButton);
             }
         } catch (LoadSupportedServicesException e) {
