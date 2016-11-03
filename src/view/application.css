@@ -137,6 +137,10 @@
     -fx-background-color: transparent;
     -fx-background-radius: 10;
 }
+.btn-settings{
+	-fx-background-color: rgba(255,255,255,0.9);
+	-fx-background-radius: 0;
+}
 .btn-home:hover, .btn-home:focused{
     -fx-background-color: #ffffff4d;
     -fx-cursor: hand;
@@ -149,6 +153,82 @@
     -fx-underline: true;
 }
 
+.properties{
+	-fx-font-size: 24.0;
+	-fx-font-color: #38424b;
+	}
+.btn_properties{
+	-fx-font-size: 18.0;
+}
+
+#pane_pwreset{
+	-fx-background-color: rgba(255,255,255,0.9);
+
+}
+
+#pane_settings{
+	-fx-background-color: rgba(255,255,255,0.9);
+	
+}
+
+
+.list-cell:filled:selected:focused, .list-cell:filled:selected , .list-cell:selected{
+    /*-fx-background-color: gray;*/
+    -fx-text-fill: black;
+}
+
+.list-view .list-cell:even {
+	-fx-text-fill: black;
+	-fx-font-size: 24.0;
+
+
+}
+.list-view .list-cell:odd {
+	-fx-text-fill: black;
+	-fx-font-size: 24.0;
+
+
+	
+}
+#list_services .list-cell:odd:selected,
+#list_services .list-cell:even:selected{
+	 -fx-text-fill: black;
+	 -fx-background-color: lightgray;
+	 
+	
+}
+
+.list-cell:selected {
+  -fx-background-color: blue;
+}
+
+.properties_List:filled:even {
+    -fx-text-fill: black;
+    
+   /* -fx-font-size: 24.0;*/
+}
+
+
+#list_services  .list-cell:even,
+#list_services  .list-cell:odd{
+	-fx-background-color: transparent;
+	
+	
+}
+
+.passwort_color{
+	 -fx-text-fill: #38424b;
+	 -fx-font-size: 18px;
+	 
+}
+
+    
+.labelproperties{
+    -fx-font-size: 18px;
+    -fx-font-color: #d8000c;
+	
+}
+
 /* ===================================================================
 /* 							Login
  * ===================================================================
@@ -159,6 +239,7 @@
 #btn_agb{
     -fx-font-size: 18px;
 }
+
 
 /* ===================================================================
 /* 							Buttons  
