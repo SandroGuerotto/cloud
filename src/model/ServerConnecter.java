@@ -42,10 +42,10 @@ public class ServerConnecter {
 			try {
 				this.services = this.service.loadAllServices();
 			} catch (RemoteException e) {
-				throw new FailLoadingServicesException('e');
+				throw new FailLoadingServicesException(ExceptionType.ERROR);
 			}
 		} catch (ServiceException e) {
-			throw new ConnectionErrorException('e');
+			throw new ConnectionErrorException(ExceptionType.ERROR);
 		}//-catch
 	}//-start_service
 	
@@ -60,7 +60,7 @@ public class ServerConnecter {
 				this.user = this.service.login(username, password);
 				return this.user;
 			} catch (RemoteException e) {
-				throw new LoginFailedException('e');
+				throw new LoginFailedException(ExceptionType.ERROR);
 			}	
 	}//-loginApp
 	
@@ -79,11 +79,11 @@ public class ServerConnecter {
 				return this.user;
 			}//-if
 			else{
-				throw new EmailExistException('e');
+				throw new EmailExistException(ExceptionType.ERROR);
 			}//-else
 		}//-if
 		else{
-			throw new UserExistException('e');
+			throw new UserExistException(ExceptionType.ERROR);
 		}//-else
 	}//-registerApp
 	
@@ -97,7 +97,7 @@ public class ServerConnecter {
 		try {
 			this.service.addService(this.getLoggedInUser().getId(), service.getId(), name, usertoken);
 		} catch (RemoteException e) {
-			throw new AddServiceFailException('w');
+			throw new AddServiceFailException(ExceptionType.WARNING);
 		}
 	}//-addService
 	
@@ -109,7 +109,7 @@ public class ServerConnecter {
 		try {
 			this.services = this.service.loadAllServices();
 		} catch (RemoteException e) {
-			throw new LoadSupportedServicesException('e');
+			throw new LoadSupportedServicesException(ExceptionType.ERROR);
 		}
 	}//-loadServices
 	
@@ -131,7 +131,7 @@ public class ServerConnecter {
 		try {
 			this.service.updateService(service.getId(), newname);
 		} catch (RemoteException e) {
-			throw new UpdateServiceErrorException('w');
+			throw new UpdateServiceErrorException(ExceptionType.WARNING);
 		}//-catch
 	}//-updateService
 	
@@ -144,7 +144,7 @@ public class ServerConnecter {
 		try {
 			this.service.removeService(service.getId());
 		} catch (RemoteException e) {
-			throw new DeleteServiceConnectionErrorException('w');
+			throw new DeleteServiceConnectionErrorException(ExceptionType.WARNING);
 		}//-catch
 	}//-deleteService
 	
@@ -157,7 +157,7 @@ public class ServerConnecter {
 			return this.user;
 		}//-if
 		else{
-			throw new NoUserLoggedInException('e');
+			throw new NoUserLoggedInException(ExceptionType.ERROR);
 		}//-else
 	}//-getLoggInUser
 	
@@ -171,7 +171,7 @@ public class ServerConnecter {
 		try {
 			this.service.changePassword(this.user.getId(), oldPassword, newPassword);
 		} catch (RemoteException e) {
-			throw new UpdateUserPwErrorException('w');
+			throw new UpdateUserPwErrorException(ExceptionType.WARNING);
 		}//-catch
 	}//-updateUserPw
 	
