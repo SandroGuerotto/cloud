@@ -43,7 +43,7 @@ public class ButtonCell extends TableCell<Disposer.Record, Boolean> {
             ObservableList<Data> downloadList = FXCollections.observableArrayList();
             downloadList.add(data);
             controller.download_data(downloadList, eventhandlerDataScreen);
-            System.out.println("herunterladen " + data.getdata_name() + "." + data.getdata_type());
+            System.out.println("herunterladen " + data.getdata_name());
         });
     }
 
