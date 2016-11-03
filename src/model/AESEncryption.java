@@ -89,21 +89,25 @@ public class AESEncryption {
 	 */
 	public void decryptFile(File file, byte[] key,String fileDestinationPath) throws EncryptionInvalidKeyException, EncryptionFileNotFoundException, StreamCopyException {
 		if (!file.getName().contains(".aes")) return;
-		try {
-			SecretKey aesKey = new SecretKeySpec(key, 0, AES_KEY_SIZE/8, ENCRYPTION_INSTANCE);
-			aesCipher.init(Cipher.DECRYPT_MODE, aesKey);
-			CipherInputStream cis = new CipherInputStream(new FileInputStream(file), aesCipher);
-			FileOutputStream fos = new FileOutputStream(new File(fileDestinationPath+file.getName()
-					.substring(0, file.getName().length()-4)));
-			copyStreams(cis, fos);
-			cis.close();
-			fos.close();
-		} catch (InvalidKeyException e) {
-			throw new EncryptionInvalidKeyException(ExceptionType.ERROR);
-		} catch (FileNotFoundException e) {
+		if (new File(fileDestinationPath).isDirectory() && new File(fileDestinationPath).exists()) {
+			try {
+				SecretKey aesKey = new SecretKeySpec(key, 0, AES_KEY_SIZE / 8, ENCRYPTION_INSTANCE);
+				aesCipher.init(Cipher.DECRYPT_MODE, aesKey);
+				CipherInputStream cis = new CipherInputStream(new FileInputStream(file), aesCipher);
+				FileOutputStream fos = new FileOutputStream(
+						new File(fileDestinationPath + file.getName().substring(0, file.getName().length() - 4)));
+				copyStreams(cis, fos);
+				cis.close();
+				fos.close();
+			} catch (InvalidKeyException e) {
+				throw new EncryptionInvalidKeyException(ExceptionType.ERROR);
+			} catch (FileNotFoundException e) {
+				throw new EncryptionFileNotFoundException(ExceptionType.ERROR);
+			} catch (IOException e) {
+				throw new StreamCopyException(ExceptionType.ERROR);
+			}
+		}else{
 			throw new EncryptionFileNotFoundException(ExceptionType.ERROR);
-		} catch (IOException e) {
-			throw new StreamCopyException(ExceptionType.ERROR);
 		}
 	}//-decryptFile method
 
