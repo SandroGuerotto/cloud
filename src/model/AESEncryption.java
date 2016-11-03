@@ -18,6 +18,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 import exception.EncryptionInvalidKeyException;
+import exception.ExceptionType;
 import exception.StreamCopyException;
 import exception.EncryptionFileNotFoundException;
 
@@ -69,11 +70,11 @@ public class AESEncryption {
 			fis.close();
 			cos.close();
 		} catch (InvalidKeyException e) {
-			throw new EncryptionInvalidKeyException('e');
+			throw new EncryptionInvalidKeyException(ExceptionType.ERROR);
 		} catch (FileNotFoundException e) {
-			throw new EncryptionFileNotFoundException('e');
+			throw new EncryptionFileNotFoundException(ExceptionType.ERROR);
 		} catch (IOException e) {
-			throw new StreamCopyException('e');
+			throw new StreamCopyException(ExceptionType.ERROR);
 		}
 	}//-encryptFile method
 
@@ -98,11 +99,11 @@ public class AESEncryption {
 			cis.close();
 			fos.close();
 		} catch (InvalidKeyException e) {
-			throw new EncryptionInvalidKeyException('e');
+			throw new EncryptionInvalidKeyException(ExceptionType.ERROR);
 		} catch (FileNotFoundException e) {
-			throw new EncryptionFileNotFoundException('e');
+			throw new EncryptionFileNotFoundException(ExceptionType.ERROR);
 		} catch (IOException e) {
-			throw new StreamCopyException('e');
+			throw new StreamCopyException(ExceptionType.ERROR);
 		}
 	}//-decryptFile method
 
