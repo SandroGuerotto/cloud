@@ -148,7 +148,7 @@
                <left>
                   <StackPane BorderPane.alignment="CENTER">
                      <children>
-                        <Label fx:id="lbl_status" prefHeight="35.0" prefWidth="350.0" styleClass="data-text" text="">
+                        <Label fx:id="lbl_status" prefHeight="35.0" styleClass="data-text" text="">
                            <font>
                               <Font size="24.0" />
                            </font>

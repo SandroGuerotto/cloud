@@ -201,8 +201,16 @@ public class EventhandlerHomeScreen {
             Platform.runLater(() -> {
             	controller.setCloudTypeInUse(type);
             });
-            
 
+        }else{
+            try {
+                controller.setCloudTypeInUse(type);
+                controller.gotoData(stage);
+            } catch (AddServiceFailException e) {
+                e.printStackTrace();
+            } catch (NoUserLoggedInException e) {
+                e.printStackTrace();
+            }
         }
 
     }
@@ -309,7 +317,7 @@ public class EventhandlerHomeScreen {
     @FXML
     private void setPw(){
     	  if (txt_newPw.getText().isEmpty() || txt_oldPw.getText().isEmpty()){
-              errorlabel.setText("Beide Felder ausfüllen");
+              errorlabel.setText("Beide Felder ausfï¿½llen");
           }else{
              try {
 				controller.setUserPw(txt_oldPw.getText(), txt_newPw.getText());

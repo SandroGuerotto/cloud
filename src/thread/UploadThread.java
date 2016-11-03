@@ -3,9 +3,7 @@ package thread;
 import com.dropbox.core.DbxException;
 import controller.Controller;
 import controller.Dropbox;
-import exception.EncryptionFileNotFoundException;
-import exception.EncryptionInvalidKeyException;
-import exception.StreamCopyException;
+import exception.*;
 import handler.EventhandlerDataScreen;
 
 import java.io.File;
@@ -48,9 +46,11 @@ public class UploadThread extends Thread {
             dropbox.uploadFile(file.getAbsolutePath() + ".aes");
             dropbox.addFiletoList(file);
             eventhandlerDataScreen.onWorkEnd("upload", size);
-        } catch ( EncryptionInvalidKeyException | EncryptionFileNotFoundException | StreamCopyException | DbxException | IOException e) {
+        } catch ( EncryptionInvalidKeyException | EncryptionFileNotFoundException | StreamCopyException e) {
             eventhandlerDataScreen.onWorkError(e);
-        } finally {
+        } catch (DbxException | IOException e){
+            eventhandlerDataScreen.onWorkError(new ErrorException(ExceptionType.ERROR));
+        }finally {
             //delete .aes file
         }
     }

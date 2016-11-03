@@ -22,21 +22,18 @@ import com.dropbox.core.DbxWebAuthNoRedirect;
 import com.dropbox.core.DbxWriteMode;
 
 import javafx.collections.ObservableList;
-import javafx.collections.ListChangeListener;
 import javafx.collections.FXCollections;
 
 import model.Data;
-import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.CloudService;
 import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.ServiceType;
-import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.User;
 
 /**
  * Dropbox core API
- * @author          :   Sasa Markovic
+ * @author           :   Sasa Markovic
  * @Created          :   01.11.2016
  * @Project          :   cloud
  * @Package          :   controller
- * @version         :   1.5
+ * @version          :   1.5
  * @LastUpdated      :	Javadoc implemented
  * @Description      :   Connector/uploader/downloader/getter from Dropbox
  */
@@ -51,6 +48,8 @@ public class Dropbox {
     private DbxClient client;
     private ObservableList<Data> list = FXCollections.observableArrayList();
     private String currentPath;
+    private static final String downloadPath = System.getProperty("user.home")+"\\Downloads\\";
+    private static final String dbxPath = "/psc";
 
     /**
      * Constructor: Initializes the dropbox object.
@@ -107,7 +106,7 @@ public class Dropbox {
      */
     public void createdefaultFolderinDbx(){
     	try {
-			client.createFolder("/psc");
+			client.createFolder(dbxPath);
 		} catch (DbxException e) {
 			e.printStackTrace();
 		}
@@ -116,7 +115,7 @@ public class Dropbox {
         Scanner sc = new Scanner(System.in);
         Desktop.getDesktop().browse(new URI(webAuth.start()));
 
-        System.out.println("Kopieren Sie den Text und fï¿½gen Sie ihn ein!");
+        System.out.println("Kopieren Sie den Text und fügen Sie ihn ein!");
         authtoken = sc.nextLine();
         sc.close();
         accesstoken = webAuth.finish(authtoken).accessToken;
@@ -170,19 +169,19 @@ public class Dropbox {
 
     /**
      * Downloads a specific file from dropbox and returns the absolutdirectory of it.
-     * @param path
+     * @param dropboxfile
      * @return
      */
     public String  downloadFile(String dropboxfile) throws IOException, DbxException {
-        String endPath = "";
-        FileOutputStream outputStream = new FileOutputStream(System.getProperty("user.home")+"/Downloads/"+dropboxfile);
-        DbxEntry.File downloadedFile = client.getFile("/" + dropboxfile, null,
+        FileOutputStream outputStream = new FileOutputStream(downloadPath + dropboxfile);
+        DbxEntry.File downloadedFile = client.getFile(dbxPath + "/" + dropboxfile, null,
                 outputStream);
         outputStream.close();
 
-        File newfile = new File(System.getProperty("user.home")+"/Downloads/"+dropboxfile);
-        endPath = newfile.getAbsolutePath();
-        return endPath;
+        File newfile = new File(downloadPath + dropboxfile);
+//        System.out.println(newfile.getAbsolutePath());
+//        endPath = newfile.getAbsolutePath();
+        return newfile.getAbsolutePath();
     }
 
     /**
@@ -195,7 +194,7 @@ public class Dropbox {
         File inputFile = new File(path);
         FileInputStream inputStream = new FileInputStream(inputFile);
         try {
-            DbxEntry.File uploadedFile = client.uploadFile(currentPath+"/"+ inputFile.getName(),
+            DbxEntry.File uploadedFile = client.uploadFile(dbxPath + "/"  + inputFile.getName(),
                     DbxWriteMode.add(), inputFile.length(), inputStream);
             System.out.println("Uploaded: " + uploadedFile.toString());
         } finally {

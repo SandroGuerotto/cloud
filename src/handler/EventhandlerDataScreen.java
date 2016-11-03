@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXProgressBar;
 import com.sun.prism.impl.Disposer.Record;
 
 import controller.Controller;
+import exception.CloudException;
 import exception.ConnectionErrorException;
 import exception.DeleteException;
 import exception.NoFilesException;
@@ -114,6 +115,9 @@ public class EventhandlerDataScreen implements IWorkThread {
     private Message message;
     private int downloadFinish = 0;
 
+    /**
+     * Creates gui
+     */
     @FXML
     private void initialize() {
 
@@ -177,6 +181,9 @@ public class EventhandlerDataScreen implements IWorkThread {
 
     }
 
+    /**
+     * initalize the screen for the first time
+     */
     private void initView() {
         itm_upload.setDisable(true);
         itm_upload.setVisible(false);
@@ -191,6 +198,9 @@ public class EventhandlerDataScreen implements IWorkThread {
 
     }
 
+    /**
+     * load data from dropbox to tableview
+     */
     private synchronized void preloadData() {
         Platform.runLater(() -> {
             try {
@@ -208,7 +218,7 @@ public class EventhandlerDataScreen implements IWorkThread {
     }
 
     /**
-     * Zeigt das Dropdownmenü an und blendet das Standardmenü aus
+     * shows the drop down menu and hides standard buttons
      */
     private void hideButton() {
         itm_download.setDisable(true);
@@ -222,7 +232,7 @@ public class EventhandlerDataScreen implements IWorkThread {
     }
 
     /**
-     * Zeigt das Standardmenü wieder an und blendet das Dropdown aus
+     * shows the standard buttons and hides drop down menu
      */
     private void showButton() {
         btn_delete.setVisible(true);
@@ -236,8 +246,8 @@ public class EventhandlerDataScreen implements IWorkThread {
     }
 
     /**
-     * Methode um die Tabellenzellen zu initalisieren. Erstellt auch den
-     * Downloadbutton
+     * cellfactory of tableview.
+     * create a custom cell for download column
      */
     private void initCell() {
 
@@ -254,17 +264,28 @@ public class EventhandlerDataScreen implements IWorkThread {
         col_download.setCellFactory(p -> new view.ButtonCell(controller, this));
     }
 
+    /**
+     * start upload sequence via controller (Thread)
+     * @param event ActionEvent from Button click
+     */
     @FXML
     private void upload(ActionEvent event) {
         mediaChooser.setTitle("Datei hochladen");
         mediaChooser.setInitialDirectory(new File(DEFAULT_DIR));
         List<File> upload_list = mediaChooser.showOpenMultipleDialog(stage);
         if (upload_list != null) {
+            pb_downlad.setProgress(0.0);
+            downloadFinish = 0;
             controller.upload_data(upload_list, this);
         }
 
     }
 
+    /**
+     * start delete sequence via controller (Thread)
+     * !currently not available  !
+     * @param event ActionEvent from Button click
+     */
     @FXML
     private void delete(ActionEvent event) {
         ObservableList<Data> delete_list = tv_data.getSelectionModel().getSelectedItems();
@@ -277,59 +298,91 @@ public class EventhandlerDataScreen implements IWorkThread {
         }
     }
 
+    /**
+     * exit to homescreen
+     * @param event ActionEvent from Button click
+     */
     @FXML
     private void logout(ActionEvent event) {
         controller.gotoHome(stage);
     }
 
+    /**
+     *start download sequence via controller (Thread)
+     * @param event ActionEvent from Button click
+     */
     @FXML
     private void download(ActionEvent event) {
         ObservableList<Data> download_list = tv_data.getSelectionModel().getSelectedItems();
         pb_downlad.setProgress(0.0);
+        downloadFinish = 0;
         controller.download_data(download_list, this);
     }
 
+    /**
+     * after a successful download sequence the hyperlink
+     * to open the download dir gets visible
+     */
     private void showOpenDir() {
         btn_openDir.setDisable(false);
         btn_openDir.setVisible(true);
     }
 
+    /**
+     * hides the current displayed message
+     * @param event ActionEvent from click
+     */
     @FXML
     private void deletemsg(ActionEvent event) {
         lbl_msg.setVisible(false);
         lbl_msg.setDisable(true);
     }
 
+    /**
+     * first focus set after first load
+     */
     @FXML
     private void setFocus() {
         pane_data.requestFocus();
         tv_data.getSelectionModel().clearSelection();
     }
 
+    /**
+     * opens file explorer at the users Download folder
+     * @param event ActionEvent from click on hyperlink
+     */
     @FXML
     private void openDir(ActionEvent event) {
         try {
-            Runtime.getRuntime().exec("explorer.exe /select," + Paths.get("").toAbsolutePath().toString());
+            Runtime.getRuntime().exec("explorer.exe /open," + System.getProperty("user.home")+"\\Downloads\\");
         } catch (IOException e) {
             message.showMessage('e', "Ihr System unterstützt diese Funktion nicht!");
         }
     }
 
     /**
-     * Methode zum Setzen der Stage -> Popup. Aufgerufen von wird für Popups
-     * genutzt
+     * This methode save the primary stage that will be used switching screens
      *
-     * @param stage akutelle Stage
+     * @param stage primary stage. Usuage for all other screens
      */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
+    /**
+     * sets controller to get on loading all data
+     * @param controller controller to get data
+     */
     public void setController(Controller controller) {
-        System.out.println(controller);
         this.controller = controller;
     }
 
+    /**
+     * shows the user what the progress of download/upload is
+     * @param msg Message String
+     * @param size queued files
+     * @param current current file
+     */
     @Override
     public void onWorkStart(String msg, int size, int current) {
         Platform.runLater(() -> {
@@ -339,7 +392,11 @@ public class EventhandlerDataScreen implements IWorkThread {
         });
     }
 
-
+    /**
+     *
+     * @param msg Message String
+     * @param size queued files
+     */
     @Override
     public void onWorkEnd(String msg, int size) {
         Platform.runLater(() -> {
@@ -361,11 +418,11 @@ public class EventhandlerDataScreen implements IWorkThread {
     }
 
     @Override
-    public void onWorkError(Exception e) {
+    public void onWorkError(CloudException e) {
         Platform.runLater(() -> {
             String text = null;
             if (e != null) {
-                text = " Ein Fehler ist aufgetreten: " + e.getMessage();
+                text = " Ein Fehler ist aufgetreten: " + e.getMsg();
                 e.getStackTrace();
             } else {
                 text = "Ein Fehler ist aufgetreten";

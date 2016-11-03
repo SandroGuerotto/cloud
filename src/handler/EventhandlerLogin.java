@@ -31,277 +31,274 @@ import java.rmi.RemoteException;
  */
 public class EventhandlerLogin implements IConnectorThread {
 
-	@FXML
-	private JFXTextField tf_username, tf_email;
+    @FXML
+    private JFXTextField tf_username, tf_email;
 
-	@FXML
-	private JFXPasswordField tf_password;
+    @FXML
+    private JFXPasswordField tf_password;
 
-	@FXML
-	private Button btn_login, btn_signup, btn_back, btn_register;
+    @FXML
+    private Button btn_login, btn_signup, btn_back, btn_register;
 
-	@FXML
-	private Label lbl_login_error;
+    @FXML
+    private Label lbl_login_error;
 
-	@FXML
-	private VBox pane_login, pane_progress, pane_agb;
+    @FXML
+    private VBox pane_login, pane_progress, pane_agb;
 
-	@FXML
-	private BorderPane pane_menu ;
+    @FXML
+    private BorderPane pane_menu;
 
-	@FXML
-	private JFXCheckBox btn_agb;
+    @FXML
+    private JFXCheckBox btn_agb;
 
-	@FXML
-	private ProgressIndicator pb_loading;
+    @FXML
+    private ProgressIndicator pb_loading;
 
-	private Stage stage;
-	private Controller controller;
+    private Stage stage;
+    private Controller controller;
 
-	@FXML
-	private void initialize() {
-		init();
+    @FXML
+    private void initialize() {
+        init();
 
-		new Thread(() -> {
-			try {
-				onWorkStart();
-				controller.startServerConnecter();
-				onLoginEnd();
-			} catch (FailLoadingServicesException | ConnectionErrorException e) {
-				onWorkError(e);
-			}
-		}).start();
-	}
+        new Thread(() -> {
+            try {
+                onWorkStart();
+                controller.startServerConnecter();
+                onLoginEnd();
+            } catch (FailLoadingServicesException | ConnectionErrorException e) {
+                onWorkError(e);
+            }
+        }).start();
+    }
 
-	/**
-	 * calls login method for controller checks previously if all inputs are
-	 * filled out
-	 */
-	@FXML
-	private void login() {
+    /**
+     * calls login method for controller checks previously if all inputs are
+     * filled out
+     */
+    @FXML
+    private void login() {
 
-		if (tf_username.getText().isEmpty() || tf_password.getText().isEmpty()) {
-			lbl_login_error.setText("Bitte alles ausfüllen!");
-			lbl_login_error.setDisable(false);
-			lbl_login_error.setVisible(true);
-		} else {
-			controller.login(tf_username.getText(), tf_password.getText(), this);
-		}
+        if (tf_username.getText().isEmpty() || tf_password.getText().isEmpty()) {
+            lbl_login_error.setText("Bitte alles ausfüllen!");
+            lbl_login_error.setDisable(false);
+            lbl_login_error.setVisible(true);
+        } else {
+            controller.login(tf_username.getText(), tf_password.getText(), this);
+        }
 
-	}
+    }
 
-	/**
-	 * calls the signup screen
-	 *
-	 * @param event ActionEvent from button
-	 */
-	@FXML
-	private void signup(ActionEvent event) {
-		lbl_login_error.setDisable(true);
-		lbl_login_error.setVisible(false);
+    /**
+     * calls the signup screen
+     *
+     * @param event ActionEvent from button
+     */
+    @FXML
+    private void signup(ActionEvent event) {
+        lbl_login_error.setDisable(true);
+        lbl_login_error.setVisible(false);
 
-		tf_email.setManaged(true);
-		tf_email.setVisible(true);
-		tf_email.setDisable(false);
+        tf_email.setManaged(true);
+        tf_email.setVisible(true);
+        tf_email.setDisable(false);
 
-		btn_back.setVisible(true);
-		btn_back.setDisable(false);
+        btn_back.setVisible(true);
+        btn_back.setDisable(false);
 
-		btn_register.setVisible(true);
-		btn_register.setDisable(false);
+        btn_register.setVisible(true);
+        btn_register.setDisable(false);
 
-		btn_login.setVisible(false);
-		btn_login.setDisable(true);
+        btn_login.setVisible(false);
+        btn_login.setDisable(true);
 
-		btn_signup.setVisible(false);
-		btn_signup.setDisable(true);
+        btn_signup.setVisible(false);
+        btn_signup.setDisable(true);
 
-		tf_password.setText("");
-		tf_username.setText("");
+        tf_password.setText("");
+        tf_username.setText("");
 
-		pane_agb.setVisible(true);
-		pane_agb.setDisable(false);
+        pane_agb.setVisible(true);
+        pane_agb.setDisable(false);
 
-	}
+    }
 
-	/**
-	 * first checks if all inputs are provided and after all information are
-	 * sent to server if an error accoured, a message will show up
-	 *
-	 * @param event
-	 *            ActionEvent from button
-	 */
-	@FXML
-	private void register(ActionEvent event) {
+    /**
+     * first checks if all inputs are provided and after all information are
+     * sent to server if an error accoured, a message will show up
+     *
+     * @param event ActionEvent from button
+     */
+    @FXML
+    private void register(ActionEvent event) {
 
-		if (tf_username.getText().isEmpty() || tf_password.getText().isEmpty() || tf_email.getText().isEmpty()) {
-			lbl_login_error.setText("Bitte alles ausfüllen!");
-			lbl_login_error.setDisable(false);
-			lbl_login_error.setVisible(true);
-		} else {
-			if (!btn_agb.isSelected()) {
-				lbl_login_error.setText("Bitte AGBs akzeptieren");
-				lbl_login_error.setDisable(false);
-				lbl_login_error.setVisible(true);
-			} else {
-				try {
-					lockInput();
-					controller.register(tf_username.getText(), tf_email.getText(), tf_password.getText(), this);
-				} catch (RemoteException e) {
-					lbl_login_error.setText("Verbindung mit dem Server nicht möglich");
-					lbl_login_error.setDisable(false);
-					lbl_login_error.setVisible(true);
-				} catch (EmailExistException e) {
-					lbl_login_error.setText(e.getMsg());
-					lbl_login_error.setDisable(false);
-					lbl_login_error.setVisible(true);
-				} catch (UserExistException e) {
-					lbl_login_error.setText(e.getMsg());
-					lbl_login_error.setDisable(false);
-					lbl_login_error.setVisible(true);
-				}
-				unlockInput();
-			}
+        if (tf_username.getText().isEmpty() || tf_password.getText().isEmpty() || tf_email.getText().isEmpty()) {
+            lbl_login_error.setText("Bitte alles ausfüllen!");
+            lbl_login_error.setDisable(false);
+            lbl_login_error.setVisible(true);
+        } else {
+            if (!btn_agb.isSelected()) {
+                lbl_login_error.setText("Bitte AGBs akzeptieren");
+                lbl_login_error.setDisable(false);
+                lbl_login_error.setVisible(true);
+            } else {
+                try {
+                    lockInput();
+                    controller.register(tf_username.getText(), tf_email.getText(), tf_password.getText(), this);
+                } catch (RemoteException e) {
+                    lbl_login_error.setText("Verbindung mit dem Server nicht möglich");
+                    lbl_login_error.setDisable(false);
+                    lbl_login_error.setVisible(true);
+                } catch (EmailExistException e) {
+                    lbl_login_error.setText(e.getMsg());
+                    lbl_login_error.setDisable(false);
+                    lbl_login_error.setVisible(true);
+                } catch (UserExistException e) {
+                    lbl_login_error.setText(e.getMsg());
+                    lbl_login_error.setDisable(false);
+                    lbl_login_error.setVisible(true);
+                }
+                unlockInput();
+            }
 
-		}
-	}
+        }
+    }
 
-	/**
-	 * locks login/register screen till server responds
-	 */
-	private void lockInput() {
-		Platform.runLater(() -> {
-			pb_loading.setStyle(" -fx-progress-color:  #38424b;");
+    /**
+     * locks login/register screen till server responds
+     */
+    private void lockInput() {
+        Platform.runLater(() -> {
+            pb_loading.setStyle(" -fx-progress-color:  #38424b;");
 
-			pane_progress.setDisable(false);
-			pane_progress.setVisible(true);
+            pane_progress.setDisable(false);
+            pane_progress.setVisible(true);
 
-			pane_login.setDisable(true);
-			pane_menu.setDisable(true);
-		});
-	}
+            pane_login.setDisable(true);
+            pane_menu.setDisable(true);
+        });
+    }
 
-	/**
-	 * after sending information to the server and an error accoured screen will
-	 * be unlocked to correct inputs
-	 */
-	private void unlockInput() {
-		Platform.runLater(() -> {
-			pane_progress.setDisable(true);
-			pane_progress.setVisible(false);
+    /**
+     * after sending information to the server and an error accoured screen will
+     * be unlocked to correct inputs
+     */
+    private void unlockInput() {
+        Platform.runLater(() -> {
+            pane_progress.setDisable(true);
+            pane_progress.setVisible(false);
 
-			pane_login.setDisable(false);
-			pane_menu.setDisable(false);
-		});
-	}
+            pane_login.setDisable(false);
+            pane_menu.setDisable(false);
+        });
+    }
 
-	/**
-	 * setups login screen
-	 *
-	 * @param event
-	 *            ActionEvent from button
-	 */
-	@FXML
-	private void back(ActionEvent event) {
-		init();
+    /**
+     * setups login screen
+     *
+     * @param event ActionEvent from button
+     */
+    @FXML
+    private void back(ActionEvent event) {
+        init();
 
-	}
+    }
 
-	/**
-	 * initalizes screen when first called
-	 */
-	private void init() {
-		lbl_login_error.setDisable(true);
-		lbl_login_error.setVisible(false);
+    /**
+     * initalizes screen when first called
+     */
+    private void init() {
+        lbl_login_error.setDisable(true);
+        lbl_login_error.setVisible(false);
 
-		tf_email.setDisable(true);
-		tf_email.setVisible(false);
-		tf_email.setManaged(false);
-		tf_email.setText("");
+        tf_email.setDisable(true);
+        tf_email.setVisible(false);
+        tf_email.setManaged(false);
+        tf_email.setText("");
 
-		tf_password.setText("");
-		tf_username.setText("");
+        tf_password.setText("");
+        tf_username.setText("");
 
-		btn_back.setVisible(false);
-		btn_back.setDisable(true);
+        btn_back.setVisible(false);
+        btn_back.setDisable(true);
 
-		btn_register.setVisible(false);
-		btn_register.setDisable(true);
+        btn_register.setVisible(false);
+        btn_register.setDisable(true);
 
-		btn_login.setVisible(true);
-		btn_login.setDisable(false);
+        btn_login.setVisible(true);
+        btn_login.setDisable(false);
 
-		btn_signup.setVisible(true);
-		btn_signup.setDisable(false);
+        btn_signup.setVisible(true);
+        btn_signup.setDisable(false);
 
-		pane_agb.setVisible(false);
-		pane_agb.setDisable(true);
+        pane_agb.setVisible(false);
+        pane_agb.setDisable(true);
 
-		pane_progress.setDisable(true);
-		pane_progress.setVisible(false);
+        pane_progress.setDisable(true);
+        pane_progress.setVisible(false);
 
-		Platform.runLater(() -> pane_login.requestFocus());
-	}
+        Platform.runLater(() -> pane_login.requestFocus());
+    }
 
-	/**
-	 * automatically calls register or login depends on which option is selected
-	 *
-	 * @param ke Keyevent too listen on Enter
-	 */
-	@FXML
-	private void onEnter(KeyEvent ke) {
-		if (ke.getCode().equals(KeyCode.ENTER)) {
-			if (tf_email.isVisible()) {
-				register(new ActionEvent());
-			} else {
-				login();
-			}
-		}else{
-			return;
-		}
-	}
+    /**
+     * automatically calls register or login depends on which option is selected
+     *
+     * @param ke Keyevent too listen on Enter
+     */
+    @FXML
+    private void onEnter(KeyEvent ke) {
+        if (ke.getCode().equals(KeyCode.ENTER)) {
+            if (tf_email.isVisible()) {
+                register(new ActionEvent());
+            } else {
+                login();
+            }
+        } else {
+            return;
+        }
+    }
 
-	/**
-	 * This methode save the primary stage that will be used switching screens
-	 *
-	 * @param stage
-	 *            primary stage. Usuage for all other screens
-	 */
-	public void setStage(Stage stage) {
-		this.stage = stage;
-	}
+    /**
+     * This methode save the primary stage that will be used switching screens
+     *
+     * @param stage primary stage. Usuage for all other screens
+     */
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 
-	/**
-	 * Setting the controller for method calls
-	 *
-	 * @param controller
-	 *            actual controller. Created in Starter class
-	 */
-	public void setController(Controller controller) {
-		this.controller = controller;
-	}
+    /**
+     * Setting the controller for method calls
+     *
+     * @param controller actual controller. Created in Starter class
+     */
+    public void setController(Controller controller) {
+        this.controller = controller;
+    }
 
-	@Override
-	public void onWorkStart() {
-		lockInput();
-	}
+    @Override
+    public void onWorkStart() {
+        lockInput();
+    }
 
-	@Override
-	public void onWorkEnd() {
-		unlockInput();
-		Platform.runLater(() -> controller.gotoHome(this.stage));
-	}
+    @Override
+    public void onWorkEnd() {
+        unlockInput();
+        Platform.runLater(() -> controller.gotoHome(this.stage));
+    }
 
-	public void onLoginEnd() {
-		unlockInput();
-	}
-	@Override
-	public void onWorkError(CloudException e) {
-		Platform.runLater(() -> {
-			lbl_login_error.setText(e.getMsg());
-			lbl_login_error.setDisable(false);
-			lbl_login_error.setVisible(true);
-		});
-		unlockInput();
-	}
+    public void onLoginEnd() {
+        unlockInput();
+    }
+
+    @Override
+    public void onWorkError(CloudException e) {
+        Platform.runLater(() -> {
+            lbl_login_error.setText(e.getMsg());
+            lbl_login_error.setDisable(false);
+            lbl_login_error.setVisible(true);
+        });
+        unlockInput();
+    }
 }
