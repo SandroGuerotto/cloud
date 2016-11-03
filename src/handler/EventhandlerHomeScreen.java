@@ -2,32 +2,53 @@ package handler;
 
 import com.dropbox.core.DbxException;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
+import com.jfoenix.controls.JFXPasswordField;
+
 import controller.Controller;
 import exception.AddServiceFailException;
 import exception.LoadSupportedServicesException;
+import exception.LoginFailedException;
 import exception.NoServicesFoundException;
 import exception.NoUserLoggedInException;
+
+import exception.UpdateUserPwErrorException;
+
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Worker.State;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.ListView.EditEvent;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.GaussianBlur;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.CloudService;
 import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.ServiceType;
 import view.BackgroundWallpaper;
 import view.ServiceButton;
@@ -55,14 +76,35 @@ public class EventhandlerHomeScreen {
     private static final Effect frostEffect = new BoxBlur(BLUR_AMOUNT, BLUR_AMOUNT, 3);
 
     @FXML
+    private VBox pane_pwreset;
+   
+    
+    @FXML
+    private JFXPasswordField txt_newPw, txt_oldPw;
+    
+    @FXML
+    private GridPane pane_List;
+    
+    @FXML
     private AnchorPane pane_mainPane;
 
     @FXML
-    private Label lbl_title, lbl_username, lbl_time;
+    private ListView<String> list_services;
+    
+    @FXML
+    private JFXButton btn_back, btn_pwchange, btn_services, btn_ServiceSave, btn_serviceChange, btn_ServiceDelete;
+    
+    @FXML
+    private StackPane pane_properties, stackpane_pw;
+    
+    @FXML
+    private Label lbl_title, lbl_username, lbl_time, errorlabel, lbl_noService;
 
     @FXML
     private ProgressIndicator progress;
 
+    @FXML
+    private Button btn_settings, btn_newService;
 
     @FXML
     private Hyperlink btn_logout;
@@ -71,7 +113,7 @@ public class EventhandlerHomeScreen {
     private WebView wv_services;
 
     @FXML
-    private StackPane pane_login, pane_homeScreen;
+    private StackPane pane_login, pane_homeScreen, stackpane_newService;
 
     @FXML
     private Hyperlink btn_cancel;
@@ -99,15 +141,17 @@ public class EventhandlerHomeScreen {
     public void initialize() {
 
         customBackground = new BackgroundWallpaper();
+        list_services.setEditable(true);
+    	list_services.setCellFactory(TextFieldListCell.forListView());
 
         pane_homeScreen.setBackground(customBackground.getBackground());
 
         progress.setVisible(false);
-
+        
         Platform.runLater(() -> {
             loadservice();
         });
-
+        
 
         // Von Anfang an Zeit setzen und danach im 2 Sekundentakt
         lbl_title.setText(clock.getText());
@@ -153,19 +197,150 @@ public class EventhandlerHomeScreen {
 
             webEngine.load(controller.getLink(type));
             setWVProps();
-        } else {
-        	controller.setCloudTypeInUse(type);
-            try {
-				controller.gotoData(stage);
-			} catch (AddServiceFailException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NoUserLoggedInException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}//-catch
-        }//-else
-    }//-setLoginVisible
+
+            Platform.runLater(() -> {
+            	controller.setCloudTypeInUse(type);
+            });
+            
+
+        }
+
+    }
+    
+    @FXML
+    private void getNewService(){
+    	if(stackpane_pw.isVisible()){
+    		stackpane_newService.setVisible(false);
+
+    	}
+    	else{
+    		
+    		stackpane_newService.setVisible(true);
+    	}
+    	
+    }
+    
+    @FXML
+    private void hideNewService(){
+    	stackpane_newService.setVisible(false);
+    }
+    
+    
+    @FXML
+    private void showServices(){
+    	stackpane_pw.setVisible(false);
+    	list_services.setVisible(true);
+    	pane_List.setVisible(true);
+    	btn_ServiceDelete.setVisible(false);
+    	btn_serviceChange.setVisible(false);
+    	btn_ServiceSave.setVisible(false);
+    	ObservableList<String> items;
+//		try {
+			items = FXCollections.observableArrayList("Test1", "test2");
+			 list_services.setItems(items);
+//		} catch (NoUserLoggedInException e) {
+//			lbl_noService.setText("Es ist kein User angemeldet");
+//		}
+       
+        list_services.refresh();
+        list_services.setOnEditStart(new EventHandler<ListView.EditEvent<String>>()
+		{
+		  	@Override
+			public void handle(EditEvent<String> event) {
+				editStart(event);
+				
+			}
+		});
+
+    	
+    }
+    
+   
+    @FXML
+    private void selectServices(){
+    	
+    	btn_ServiceDelete.setVisible(true);
+        btn_ServiceSave.setVisible(true);
+        btn_serviceChange.setVisible(true);
+    	list_services.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    	if(list_services.getSelectionModel().getSelectedItems().size() >= 2){
+    		btn_serviceChange.setVisible(false);
+            btn_ServiceSave.setVisible(false);
+    	}
+    		
+             
+
+    }
+    
+    @FXML
+    public void editStart(ListView.EditEvent<String> e)
+    {
+
+    	list_services.setOnEditStart(new EventHandler<ListView.EditEvent<String>>()
+    			{
+    			  	@Override
+					public void handle(EditEvent<String> event) {
+						editStart(event);
+						
+					}
+    			});
+
+    }
+
+
+    @FXML
+    private void changePw(){
+    
+    	stackpane_pw.setVisible(true);
+    	list_services.setVisible(false);
+    	pane_List.setVisible(false);
+    }
+    
+    @FXML
+    private void goToHome(){
+    	pane_properties.setVisible(false);
+    	pane_homeScreen.setEffect(null);
+    	btn_settings.setVisible(true);
+    	stackpane_pw.setVisible(false);
+    	list_services.setVisible(false);
+    	pane_List.setVisible(false);
+    }
+    
+    @FXML
+    private void setPw(){
+    	  if (txt_newPw.getText().isEmpty() || txt_oldPw.getText().isEmpty()){
+              errorlabel.setText("Beide Felder ausfüllen");
+          }else{
+             try {
+				controller.setUserPw(txt_oldPw.getText(), txt_newPw.getText());
+				pane_pwreset.setVisible(false);
+			} catch (UpdateUserPwErrorException e) {
+				errorlabel.setText("Falsches Passwort");
+			}
+              }
+              
+          }
+    
+    @FXML
+    private void onEnter(KeyEvent ke){
+    	 if (ke.getCode().equals(KeyCode.ENTER))
+         {
+             setPw();
+         }
+    	
+    }
+ 
+    
+    @FXML 
+    private void showProperties(){
+    	
+    	pane_properties.setVisible(true);
+    	pane_homeScreen.setEffect(new GaussianBlur());
+    	btn_settings.setVisible(false);
+    	
+    }
+
+
 
     @FXML
     private void logout() {
