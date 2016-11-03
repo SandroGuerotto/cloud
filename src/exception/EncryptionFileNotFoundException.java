@@ -20,4 +20,6 @@ public class EncryptionFileNotFoundException extends CloudException {
     public char getType(){
     	return type;
     }
+
+    
 }
