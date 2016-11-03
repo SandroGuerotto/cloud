@@ -5,15 +5,15 @@ package exception;
  */
 public class ErrorException extends CloudException {
 
-    private final String msg = "Ein Fehler ist aufgetreten";
-    private char   type;
+	private final String msg = "Ein Fehler ist aufgetreten";
+	private char type;
 
-    public ErrorException(char type){
-        this.type = type;
-        setMsg(msg);
-    }
+	public ErrorException(char type) {
+		this.type = type;
+		setMsg(msg);
+	}
 
-    public char getType(){
-        return type;
-    }
+	public char getType() {
+		return type;
+	}
 }

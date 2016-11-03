@@ -10,17 +10,17 @@ package exception;
  * @LastUpdated      :   03.10.2016
  * @Description      :   Exception class for errors with the internet connection/ cloud services
  */
+public class ConnectionErrorException extends CloudException {
+	
+	private final String msg = "Ein Fehler mit der Verbindung ist aufgetreten!";
+	private char type;
 
-public class ConnectionErrorException extends  CloudException {
-    private final String msg = "Ein Fehler mit der Verbindung ist aufgetreten!";
-    private char   type;
+	public ConnectionErrorException(char type) {
+		this.type = type;
+		setMsg(msg);
+	}
 
-    public ConnectionErrorException(char type){
-        this.type = type;
-        setMsg(msg);
-    }
-    
-    public char getType(){
-    	return type;
-    }
+	public char getType() {
+		return type;
+	}
 }

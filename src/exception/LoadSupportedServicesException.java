@@ -1,3 +1,5 @@
+package exception;
+
 /**
  * @author :   Burim Cakolli
  * Turns coffee & pizza into Software
@@ -9,20 +11,17 @@
  * @Description      :
  * 
  */
-package exception;
-public class LoadSupportedServicesException extends Exception{
+public class LoadSupportedServicesException extends CloudException{
+	
     private final String msg = "Die von der Applikation unterstützten Servicedienste konnten nicht vom Server geladen werden";
     private char   type;
 
     public LoadSupportedServicesException(char type){
         this.type = type;
+        setMsg(msg);
     }
 
-    public String getMsg(){
-        return this.msg;
-    }
     public char getType(){
     	return type;
     }
-
 }

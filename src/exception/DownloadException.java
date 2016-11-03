@@ -9,20 +9,17 @@ package exception;
  * @LastUpdated      :
  * @Description      :   Excetion for general download errors
  */
-public class DownloadException extends Exception {
+public class DownloadException extends CloudException {
 
+	private final String msg = "Ein Fehler während dem Herunterladen ist aufgetreten!";
+	private char type;
 
-    private final String msg = "Ein Fehler während dem Herunterladen ist aufgetreten!";
-    private char type;
+	public DownloadException(char type) {
+		this.type = type;
+		setMsg(msg);
+	}
 
-    public DownloadException(char type) {
-        this.type = type;
-    }
-
-    public String getMsg() {
-        return this.msg;
-    }
-    public char getType(){
-    	return type;
-    }
+	public char getType() {
+		return type;
+	}
 }

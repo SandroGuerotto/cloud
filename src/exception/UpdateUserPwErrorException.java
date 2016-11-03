@@ -1,3 +1,5 @@
+package exception;
+
 /**
  * @author :   Burim Cakolli
  * Turns coffee & pizza into Software
@@ -9,21 +11,18 @@
  * @Description      :
  * 
  */
-package exception;
+public class UpdateUserPwErrorException extends CloudException {
+	
+	private final String msg = "Änderung des Userpassworts fehlgeschlagen";
+	private char type;
 
-public class UpdateUserPwErrorException extends Exception{
-    private final String msg = "Änderung des Userpassworts fehlgeschlagen";
-    private char   type;
+	public UpdateUserPwErrorException(char type) {
+		this.type = type;
+		setMsg(msg);
+	}
 
-    public UpdateUserPwErrorException(char type){
-        this.type = type;
-    }
-
-    public String getMsg(){
-        return this.msg;
-    }
-    public char getType(){
-    	return type;
-    }
+	public char getType() {
+		return type;
+	}
 
 }

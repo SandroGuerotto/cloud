@@ -1,3 +1,5 @@
+package exception;
+
 /**
  * @author :   Burim Cakolli
  * Turns coffee & pizza into Software
@@ -9,21 +11,17 @@
  * @Description      :
  * 
  */
-package exception;
+public class NoUserLoggedInException extends CloudException {
 
-public class NoUserLoggedInException extends Exception{
-    private final String msg = "Kein User ist eingeloggt!";
-    private char   type;
+	private final String msg = "Kein User ist eingeloggt!";
+	private char type;
 
-    public NoUserLoggedInException(char type){
-        this.type = type;
-    }
+	public NoUserLoggedInException(char type) {
+		this.type = type;
+		setMsg(msg);
+	}
 
-    public String getMsg(){
-        return this.msg;
-    }
-    public char getType(){
-    	return type;
-    }
-
+	public char getType() {
+		return type;
+	}
 }

@@ -9,18 +9,17 @@ package exception;
  * @LastUpdated      :
  * @Description      :   Exception class for error while deleting files
  */
-public class DeleteException extends Exception {
+public class DeleteException extends CloudException {
 
-    private final String msg = "Ein Fehler während dem Löschen ist aufgetreten!";
-    private char   type;
-    public DeleteException(char type){
-        this.type = type;
-    }
+	private final String msg = "Ein Fehler während dem Löschen ist aufgetreten!";
+	private char type;
 
-    public String getMsg(){
-        return this.msg;
-    }
-    public char getType(){
-    	return type;
-    }
+	public DeleteException(char type) {
+		this.type = type;
+		setMsg(msg);
+	}
+
+	public char getType() {
+		return type;
+	}
 }

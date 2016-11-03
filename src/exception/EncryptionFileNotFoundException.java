@@ -10,16 +10,16 @@ package exception;
  * @lastUpdate 25.10.2016 / by Tim Meier
  */
 public class EncryptionFileNotFoundException extends CloudException {
+
 	private final String msg = "Datei wurde nicht gefunden!";
-    private char   type;
+	private char type;
 
-    public EncryptionFileNotFoundException(char type){
-        this.type = type;
-        setMsg(msg);
-    }
-    public char getType(){
-    	return type;
-    }
+	public EncryptionFileNotFoundException(char type) {
+		this.type = type;
+		setMsg(msg);
+	}
 
-    
+	public char getType() {
+		return type;
+	}
 }

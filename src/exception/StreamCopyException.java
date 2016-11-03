@@ -10,15 +10,16 @@ package exception;
  * @lastUpdate 25.10.2016 / by Tim Meier
  */
 public class StreamCopyException extends CloudException {
+
 	private final String msg = "Es gab ein Problem mit dem kopieren der Streams!";
-    private char   type;
+	private char type;
 
-    public StreamCopyException(char type){
-        this.type = type;
-        setMsg(msg);
-    }
+	public StreamCopyException(char type) {
+		this.type = type;
+		setMsg(msg);
+	}
 
-    public char getType(){
-    	return type;
-    }
+	public char getType() {
+		return type;
+	}
 }

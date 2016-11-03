@@ -1,3 +1,5 @@
+package exception;
+
 /**
  * @author :   Burim Cakolli
  * Turns coffee & pizza into Software
@@ -9,18 +11,17 @@
  * @Description      :
  * 
  */
-package exception;
+public class UserExistException extends CloudException {
 
-public class UserExistException extends CloudException{
-    private final String msg = "Der Benutzername existiert bereits";
-    private char   type;
+	private final String msg = "Der Benutzername existiert bereits";
+	private char type;
 
-    public UserExistException(char type){
-        this.type = type;
-        setMsg(msg);
-    }
+	public UserExistException(char type) {
+		this.type = type;
+		setMsg(msg);
+	}
 
-    public char getType(){
-    	return type;
-    }
+	public char getType() {
+		return type;
+	}
 }

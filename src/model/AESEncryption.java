@@ -1,4 +1,5 @@
 package model;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -25,11 +26,11 @@ import exception.EncryptionFileNotFoundException;
 /**
  * Class for encrypting/decrypting files with AES.
  * @author Tim Meier
- * @version 4.0
+ * @version 6.0
  * @project cloud
  * @package model
  * @created 13.10.2016
- * @lastUpdate 25.10.2016 / by Tim Meier
+ * @lastUpdate 03.11.2016 / by Tim Meier
  */
 public class AESEncryption {
 	

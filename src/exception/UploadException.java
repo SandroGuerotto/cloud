@@ -1,6 +1,5 @@
 package exception;
 
-
 /**
  * @author          :   Sandro Guerotto
  * @Created          :   23.09.2016
@@ -10,19 +9,17 @@ package exception;
  * @LastUpdated      :
  * @Description      :   Excetion for general upload errors
  */
-public class UploadException extends Exception{
+public class UploadException extends CloudException {
 
-    private final String msg = "Ein Fehler während dem Hochladen ist aufgetreten!";
-    private char type;
+	private final String msg = "Ein Fehler während dem Hochladen ist aufgetreten!";
+	private char type;
 
-    public UploadException(char type) {
-        this.type = type;
-    }
+	public UploadException(char type) {
+		this.type = type;
+		setMsg(msg);
+	}
 
-    public String getMsg() {
-        return this.msg;
-    }
-    public char getType(){
-    	return type;
-    }
+	public char getType() {
+		return type;
+	}
 }

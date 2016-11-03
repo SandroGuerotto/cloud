@@ -1,3 +1,5 @@
+package exception;
+
 /**
  * @author :   Burim Cakolli
  * Turns coffee & pizza into Software
@@ -9,20 +11,17 @@
  * @Description      :
  * 
  */
-package exception;
+public class UsernameHasToBeFilledOutException extends CloudException {
+	
+	private final String msg = "Es muss ein Benutzername, Email & Passwort angegeben werden";
+	private char type;
 
-public class UsernameHasToBeFilledOutException extends  Exception {
-    private final String msg = "Es muss ein Benutzername, Email & Passwort angegeben werden";
-    private char   type;
+	public UsernameHasToBeFilledOutException(char type) {
+		this.type = type;
+		setMsg(msg);
+	}
 
-    public UsernameHasToBeFilledOutException(char type){
-        this.type = type;
-    }
-
-    public String getMsg(){
-        return this.msg;
-    }
-    public char getType(){
-    	return type;
-    }
+	public char getType() {
+		return type;
+	}
 }
