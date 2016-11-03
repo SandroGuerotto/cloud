@@ -1,6 +1,7 @@
 package thread;
 
 import exception.LoginFailedException;
+import exception.CloudRemoteException;
 import handler.EventhandlerLogin;
 import model.ServerConnecter;
 
@@ -33,9 +34,14 @@ public class LoginThread extends Thread {
     public void run(){
         try {
             eventhandlerLogin.onWorkStart();
-            serverConnecter.loginApp(username, password);
-            eventhandlerLogin.onWorkEnd();
-        } catch (LoginFailedException e) {
+            if( serverConnecter != null){
+            	serverConnecter.loginApp(username, password);
+                eventhandlerLogin.onWorkEnd();
+            }else{
+            	throw new CloudRemoteException('e');
+            }
+            
+        } catch (LoginFailedException | CloudRemoteException e) {
             eventhandlerLogin.onWorkError(e);
         }
     }

@@ -56,7 +56,7 @@ public class StarterData {
                 boolean success = false;
                 if (db.hasFiles()) {
                     success = true;
-                    controller.upload_data(db.getFiles());
+                    controller.upload_data(db.getFiles(), eventhandlerDataScreen);
                 }
                 event.setDropCompleted(success);
                 event.consume();

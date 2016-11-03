@@ -11,17 +11,15 @@
  */
 package exception;
 
-public class FailLoadingServicesException extends Exception{
+public class FailLoadingServicesException extends CloudException{
     private final String msg = "Fehler beim laden der Services ist aufgetreten";
     private char   type;
 
     public FailLoadingServicesException(char type){
         this.type = type;
+        setMsg(msg);
     }
 
-    public String getMsg(){
-        return this.msg;
-    }
     public char getType(){
     	return type;
     }

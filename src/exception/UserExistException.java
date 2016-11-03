@@ -11,17 +11,15 @@
  */
 package exception;
 
-public class UserExistException extends Exception{
+public class UserExistException extends CloudException{
     private final String msg = "Der Benutzername existiert bereits";
     private char   type;
 
     public UserExistException(char type){
         this.type = type;
+        setMsg(msg);
     }
 
-    public String getMsg(){
-        return this.msg;
-    }
     public char getType(){
     	return type;
     }

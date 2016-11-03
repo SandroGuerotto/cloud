@@ -5,44 +5,17 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
-import javax.xml.rpc.ServiceException;
-
-import com.dropbox.core.DbxWebAuth;
-import com.jfoenix.controls.JFXProgressBar;
-import handler.EventhandlerDataScreen;
-import handler.EventhandlerLogin;
-import message.Message;
 import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.CloudService;
 import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.ServiceType;
 import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.User;
 
 import com.dropbox.core.DbxException;
 
-import exception.AddServiceFailException;
-import exception.ConnectionErrorException;
-import exception.DeleteException;
-import exception.DeleteServiceConnectionErrorException;
-import exception.DownloadException;
-import exception.EmailExistException;
-import exception.EncryptionFileNotFoundException;
-import exception.EncryptionInvalidKeyException;
-import exception.FailLoadingServicesException;
-import exception.LoadSupportedServicesException;
-import exception.LoginFailedException;
-import exception.NoFilesException;
-import exception.NoServicesFoundException;
-import exception.NoUserLoggedInException;
-import exception.StreamCopyException;
-import exception.UpdateServiceErrorException;
-import exception.UpdateUserPwErrorException;
-import exception.UploadException;
-import exception.UserExistException;
+import exception.*;
+import handler.EventhandlerDataScreen;
+import handler.EventhandlerLogin;
 import handler.I_EventhandlerDataScreen;
 import handler.I_EventhandlerHomeScreen;
 import javafx.application.Platform;
@@ -70,12 +43,6 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
     private Dropbox dropbox;
     private ServerConnecter servconnection;
     private AESEncryption encryption;
-
-
-    private Message DataMessageClass;
-    private JFXProgressBar progressbar;
-
-    private EventhandlerDataScreen handler;
 
     public Controller() {
         this.encryption = new AESEncryption();
@@ -237,10 +204,10 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
      * @param uploadlist contains all files to upload
      */
     @Override
-    public void upload_data(List<File> uploadlist) {
+    public void upload_data(List<File> uploadlist, EventhandlerDataScreen handler) {
         int i = 1;
         for (File file: uploadlist){
-            UploadThread thread = new UploadThread(this.handler, this, file, uploadlist.size(), i);
+            UploadThread thread = new UploadThread(handler, this, file, uploadlist.size(), i);
             thread.start();
             i++;
         }
@@ -252,10 +219,10 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
      * @param downloadlist  list contains all data to download
      */
     @Override
-    public void download_data(ObservableList<Data> downloadlist) {
+    public void download_data(ObservableList<Data> downloadlist, EventhandlerDataScreen handler) {
         int i = 1;
         for (Data data: downloadlist){
-            DownloadThread thread = new DownloadThread(this.handler, this, data, downloadlist.size(), i);
+            DownloadThread thread = new DownloadThread(handler, this, data, downloadlist.size(), i);
             thread.start();
             i++;
         }
@@ -301,10 +268,6 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-    }
-
-    public void setHandler(EventhandlerDataScreen handler){
-        this.handler = handler;
     }
 
     public Dropbox getDropbox(){

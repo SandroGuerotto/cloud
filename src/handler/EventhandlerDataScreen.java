@@ -1,7 +1,13 @@
 package handler;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.List;
+
 import com.jfoenix.controls.JFXProgressBar;
 import com.sun.prism.impl.Disposer.Record;
+
 import controller.Controller;
 import exception.ConnectionErrorException;
 import exception.DeleteException;
@@ -11,7 +17,15 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.SplitMenuButton;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
@@ -23,11 +37,6 @@ import message.Message;
 import model.Data;
 import thread.IWorkThread;
 import view.PTableColumn;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.List;
 
 /**
  * @author :   Sandro Guerotto
@@ -119,10 +128,6 @@ public class EventhandlerDataScreen implements IWorkThread {
         // Cell factory
         initCell();
         preloadData();
-
-        Platform.runLater(() -> {
-            controller.setHandler(this);
-        });
 
         tv_data.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
@@ -246,7 +251,7 @@ public class EventhandlerDataScreen implements IWorkThread {
 
         col_download.setCellValueFactory(
                 p -> new SimpleBooleanProperty(p.getValue() != null));
-        col_download.setCellFactory(p -> new view.ButtonCell(controller));
+        col_download.setCellFactory(p -> new view.ButtonCell(controller, this));
     }
 
     @FXML
@@ -255,7 +260,7 @@ public class EventhandlerDataScreen implements IWorkThread {
         mediaChooser.setInitialDirectory(new File(DEFAULT_DIR));
         List<File> upload_list = mediaChooser.showOpenMultipleDialog(stage);
         if (upload_list != null) {
-            controller.upload_data(upload_list);
+            controller.upload_data(upload_list, this);
         }
 
     }
@@ -281,7 +286,7 @@ public class EventhandlerDataScreen implements IWorkThread {
     private void download(ActionEvent event) {
         ObservableList<Data> download_list = tv_data.getSelectionModel().getSelectedItems();
         pb_downlad.setProgress(0.0);
-        controller.download_data(download_list);
+        controller.download_data(download_list, this);
     }
 
     private void showOpenDir() {

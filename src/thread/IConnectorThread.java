@@ -1,5 +1,6 @@
 package thread;
 
+import exception.CloudException;
 
 public interface IConnectorThread {
 
@@ -7,5 +8,5 @@ public interface IConnectorThread {
 
     void onWorkEnd();
 
-    void onWorkError(Exception e);
+    void onWorkError(CloudException e);
 }

@@ -1,7 +1,7 @@
 package thread;
 
 import exception.EmailExistException;
-import exception.MyRemoteException;
+import exception.CloudRemoteException;
 import exception.UserExistException;
 import handler.EventhandlerLogin;
 import model.ServerConnecter;
@@ -38,11 +38,16 @@ public class RegisterThread extends Thread {
     public void run(){
         try {
             eventhandlerLogin.onWorkStart();
-            serverConnecter.registerApp(username, email, password);
-            eventhandlerLogin.onWorkEnd();
+            if(serverConnecter != null){
+            	serverConnecter.registerApp(username, email, password);
+                eventhandlerLogin.onWorkEnd();
+            }else{
+            	throw new CloudRemoteException('e');
+            }
+            
         } catch (RemoteException e) {
-            eventhandlerLogin.onWorkError(new MyRemoteException('e'));
-        } catch (EmailExistException | UserExistException e) {
+            eventhandlerLogin.onWorkError(new CloudRemoteException('e'));
+        } catch (EmailExistException | UserExistException | CloudRemoteException e) {
             eventhandlerLogin.onWorkError(e);
         }
     }

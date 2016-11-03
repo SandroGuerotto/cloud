@@ -11,17 +11,15 @@
  */
 package exception;
 
-public class LoginFailedException extends Exception{
+public class LoginFailedException extends CloudException{
 	    private final String msg = "Benutzername oder Passwort falsch";
 	    private char   type;
 
 	    public LoginFailedException(char type){
 	        this.type = type;
+	        setMsg(msg);
 	    }
 
-	    public String getMsg(){
-	        return this.msg;
-	    }
 	    public char getType(){
 	    	return type;
 	    }
