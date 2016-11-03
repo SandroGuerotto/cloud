@@ -64,21 +64,8 @@ public class Dropbox {
         appInfo = new DbxAppInfo(applicationInfo.getKey(), applicationInfo.getSecret());
         config = new DbxRequestConfig("Pretty Secure Cloud", Locale.getDefault().toString());
         webAuth = new DbxWebAuthNoRedirect(config, appInfo);
-        currentPath = "/";
+        currentPath = "/psc";
     }
-
-    /**
-     * Updates the current directory, wich the user is in.
-     * @param foldername	Foldername without slash/backslash
-     */
-    public void updatecurrentPath(String foldername) {
-        StringBuilder temp = new StringBuilder(currentPath);
-        temp.append(foldername);
-        temp.append("/");
-
-        this.currentPath = temp.toString();
-    }
-
     /**
      * Creates a observable with metadata of all files in the current directory.
      * @throws DbxException
@@ -118,6 +105,13 @@ public class Dropbox {
      * @throws URISyntaxException
      * @throws DbxException
      */
+    public void createdefaultFolderinDbx(){
+    	try {
+			client.createFolder("/psc");
+		} catch (DbxException e) {
+			e.printStackTrace();
+		}
+    }
     public void firstlogin() throws IOException, URISyntaxException, DbxException {
         Scanner sc = new Scanner(System.in);
         Desktop.getDesktop().browse(new URI(webAuth.start()));
@@ -128,6 +122,7 @@ public class Dropbox {
         accesstoken = webAuth.finish(authtoken).accessToken;
         
         client = new DbxClient(config, accesstoken);
+        createdefaultFolderinDbx();
     }
 
     /**
@@ -178,15 +173,14 @@ public class Dropbox {
      * @param path
      * @return
      */
-    public String  downloadFile(String path) throws IOException, DbxException {
+    public String  downloadFile(String dropboxfile) throws IOException, DbxException {
         String endPath = "";
-        FileOutputStream outputStream = new FileOutputStream(path);
-        DbxEntry.File downloadedFile = client.getFile("/" + path, null,
+        FileOutputStream outputStream = new FileOutputStream(System.getProperty("user.home")+"/Downloads/"+dropboxfile);
+        DbxEntry.File downloadedFile = client.getFile("/" + dropboxfile, null,
                 outputStream);
         outputStream.close();
 
-        String currentDir = System.getProperty("user.dir");
-        File newfile = new File(currentDir + "\\" + path);
+        File newfile = new File(System.getProperty("user.home")+"/Downloads/"+dropboxfile);
         endPath = newfile.getAbsolutePath();
         return endPath;
     }
@@ -201,7 +195,7 @@ public class Dropbox {
         File inputFile = new File(path);
         FileInputStream inputStream = new FileInputStream(inputFile);
         try {
-            DbxEntry.File uploadedFile = client.uploadFile("/" + inputFile.getName(),
+            DbxEntry.File uploadedFile = client.uploadFile(currentPath+"/"+ inputFile.getName(),
                     DbxWriteMode.add(), inputFile.length(), inputStream);
             System.out.println("Uploaded: " + uploadedFile.toString());
         } finally {
