@@ -11,17 +11,15 @@
  */
 package exception;
 
-public class EmailExistException extends Exception{
+public class EmailExistException extends CloudException{
 	    private final String msg = "Die Email wurde bereits für ein Konto verwendet";
 	    private char   type;
 
 	    public EmailExistException(char type){
 	        this.type = type;
+	        setMsg(msg);
 	    }
 
-	    public String getMsg(){
-	        return this.msg;
-	    }
 	    public char getType(){
 	    	return type;
 	    }

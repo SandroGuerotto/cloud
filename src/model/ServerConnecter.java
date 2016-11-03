@@ -6,7 +6,7 @@
  * @Package         :   model
  * @version 		:   1.0
  * @LastUpdated     :   02.10.2016 / by Burim Cakolli
- * @Description     :
+ * @Description     :	The Controller for all functions that includes the internal Database 
  * 
  */
 package model;
@@ -28,15 +28,14 @@ public class ServerConnecter {
 	private User user; //logged in User
 	private ServiceType[] services; //all supported Cloud-Services
 	private ServiceType serviceTypeInUse; //actual servicetype in use (Like DROPBOX)
-	private CloudService cs; //service in use (Burims Connection to Dropbox TOKEN)
 		
-	/* Standard Constructor with no parameters*/
-	public ServerConnecter() throws ConnectionErrorException, ServiceException, FailLoadingServicesException{
-		this.start_service();
+	/** Standard Constructor with no parameters*/
+	public ServerConnecter() {
+
 	}//-Standart Constructor
 	
-	/* Starts the service to communicate with the server */
-	private void start_service() throws ConnectionErrorException, FailLoadingServicesException{
+	/** Starts the service to communicate with the server */
+	public void start_service() throws ConnectionErrorException, FailLoadingServicesException{
 		this.serviceLocator = new LoginServiceLocator();
 		try {
 			this.service = (BasicHttpsBinding_ILoginServiceStub) serviceLocator.getBasicHttpsBinding_ILoginService();
@@ -50,7 +49,7 @@ public class ServerConnecter {
 		}//-catch
 	}//-start_service
 	
-	/*
+	/**
 	 * Tries to log in the user into the application and set him as applicationUser
 	 * @param username the name that the users identify himself
 	 * @param password the password from the user in clear-text
@@ -65,7 +64,7 @@ public class ServerConnecter {
 			}	
 	}//-loginApp
 	
-	/*
+	/**
 	 * Register a new user into the application if the username and email is unique
 	 * @param username the name that the users identify himself
 	 * @param email the email adress of a user to contact him
@@ -88,7 +87,7 @@ public class ServerConnecter {
 		}//-else
 	}//-registerApp
 	
-	/*
+	/**
 	 * Inserts a Service into the Database that allows the Connection between User and Service (Like Dropbox)
 	 * @param service is the ServiceType that we want to Save (Dropbox)
 	 * @param name is the name of the connection ("My Connection-name")
@@ -102,7 +101,7 @@ public class ServerConnecter {
 		}
 	}//-addService
 	
-	/*
+	/**
 	 * Loads all supported Services from the Server into the Application
 	 * @return void Because this only loads the Data into the ServerConnecter-Object
 	 */
@@ -114,7 +113,7 @@ public class ServerConnecter {
 		}
 	}//-loadServices
 	
-	/*
+	/**
 	 * Loads all supported Services return them
 	 * @return ServiceType[] Returns ArrayList with Objects ServiceType in it
 	 */
@@ -123,7 +122,7 @@ public class ServerConnecter {
 		return this.services;
 	}//-getServices
 
-	/*
+	/**
 	 * This method updates the name of a existing Service-connection
 	 * @param service is the Connection between User and Service that we want to update
 	 * @param name is the new name/alias that we want to give this connection 
@@ -136,7 +135,7 @@ public class ServerConnecter {
 		}//-catch
 	}//-updateService
 	
-	/*
+	/**
 	 * Deletes a existing ServiceConnection of a User
 	 * @param service is the Service that we want to remove from db
 	 * @return void 
@@ -149,7 +148,7 @@ public class ServerConnecter {
 		}//-catch
 	}//-deleteService
 	
-	/*
+	/**
 	 * Good practice for Checking if a user is logged in 
 	 * @return User This returns the Logged In User as a Object
 	 */
@@ -162,7 +161,7 @@ public class ServerConnecter {
 		}//-else
 	}//-getLoggInUser
 	
-	/*
+	/**
 	 * This function updates the user password for our application
 	 * @param user Is the User that we want to update
 	 * @param oldPassword Is the old password that we need to make this update
@@ -176,7 +175,7 @@ public class ServerConnecter {
 		}//-catch
 	}//-updateUserPw
 	
-	/*
+	/**
 	 * Sets the selected ServiceType
 	 * @param ServiceType service is the ServiceType that we want to use
 	 */
@@ -185,7 +184,7 @@ public class ServerConnecter {
 		return this.serviceTypeInUse;
 	}//-setActualServiceType
 	
-	/*
+	/**
 	 * Gets the actual ServiceType that is set
 	 * @return ServiceType That Service that is in use
 	 */
@@ -193,7 +192,7 @@ public class ServerConnecter {
 		return this.serviceTypeInUse;
 	}//-getActualServiceType
 
-	/*
+	/**
 	 * Gets the logged in User
 	 * @return User The user who is logged in	
 	 */

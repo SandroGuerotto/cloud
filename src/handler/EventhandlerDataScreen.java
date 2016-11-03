@@ -1,16 +1,31 @@
 package handler;
 
-import com.dropbox.core.DbxException;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.List;
+
+import com.jfoenix.controls.JFXProgressBar;
 import com.sun.prism.impl.Disposer.Record;
+
 import controller.Controller;
-import exception.*;
+import exception.ConnectionErrorException;
+import exception.DeleteException;
+import exception.NoFilesException;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.SplitMenuButton;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
@@ -20,23 +35,20 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import message.Message;
 import model.Data;
+import thread.IWorkThread;
 import view.PTableColumn;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
 /**
- * @author           :   Sandro Guerotto
- * @Created          :   20.09.2016
- * @Project          :   cloud
- * @Package          :   handler
- * @version          :   1.0
- * @LastUpdated      :
- * @Description      :   Contains all handler for DataScreen and init Screen
+ * @author :   Sandro Guerotto
+ * @version :   1.0
+ * @created :   20.09.2016
+ * @project :   cloud
+ * @package :   handler
+ * @lastupdate :   01.11.2016
+ * @description :   Contains all handler for DataScreen and init Screen
  */
 
-public class EventhandlerDataScreen {
+public class EventhandlerDataScreen implements IWorkThread {
 
     @FXML
     private GridPane pane_data;
@@ -66,7 +78,7 @@ public class EventhandlerDataScreen {
     private TableColumn<Record, Boolean> col_download;
 
     @FXML
-    private Label lbl_title, lbl_path, lbl_msg;
+    private Label lbl_title, lbl_path, lbl_msg, lbl_status;
 
     @FXML
     private Button btn_upload, btn_delete, btn_logout, btn_download;
@@ -88,20 +100,28 @@ public class EventhandlerDataScreen {
     @FXML
     private ImageView iv_logo;
 
+    @FXML
+    private JFXProgressBar pb_downlad;
+
+    @FXML
+    private Hyperlink btn_openDir;
+
+
     private FileChooser mediaChooser;
     private Stage stage;
     private static final String DEFAULT_DIR = "../";
     private Controller controller;
     private Message message;
+    private int downloadFinish = 0;
 
     @FXML
     private void initialize() {
 
         mediaChooser = new FileChooser();
         message = new Message(lbl_msg);
-        itm_upload.setDisable(true);
-        itm_upload.setVisible(false);
-        pb_loaddata.setStyle(" -fx-progress-color:  #38424b;");
+        initView();
+
+
 
         hideButton();
 
@@ -143,7 +163,7 @@ public class EventhandlerDataScreen {
                 pane_flowcontroll.setDisable(false);
                 itm_upload.setDisable(true);
                 itm_upload.setVisible(false);
-                // Spalten zur�cksetzen
+                // Spalten zurücksetzen
                 col_type.setVisible(true);
                 col_create.setVisible(true);
                 col_type.setPercentageWidth(0.05);
@@ -154,35 +174,37 @@ public class EventhandlerDataScreen {
                 lbl_title.setText("Dropbox");
             }
         });
-//		pane_data.heightProperty().addListener(new ChangeListener<Number>() {
-//			@Override
-//			public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight,
-//					Number newSceneHeight) {
-//				System.out.println("Height: " + newSceneHeight);
-//			}
-//		});
 
     }
 
-    private void preloadData() {
+    private void initView() {
+        itm_upload.setDisable(true);
+        itm_upload.setVisible(false);
+        pb_downlad.setVisible(false);
+        pb_downlad.setDisable(true);
+        btn_openDir.setVisible(false);
+        btn_openDir.setDisable(true);
+        lbl_status.setVisible(false);
+        lbl_status.setDisable(true);
 
-        //    tv_data.setItems(testload());
+        pb_loaddata.setStyle(" -fx-progress-color:  #38424b;");
 
-            Platform.runLater(() -> {
-                try {
+    }
 
-                    pb_loaddata.setDisable(false);
-                    pb_loaddata.setVisible(true);
-                    tv_data.setItems(controller.getAllData());
-                } catch (NoFilesException e) {
-                    message.showMessage(e.getType(), e.getMsg());
-                } finally {
-                    pb_loaddata.setDisable(true);
-                    pb_loaddata.setVisible(false);
-                }
+    private synchronized void preloadData() {
+        Platform.runLater(() -> {
+            try {
+                pb_loaddata.setDisable(false);
+                pb_loaddata.setVisible(true);
+                tv_data.setItems(controller.getAllData());
+            } catch (NoFilesException e) {
+                message.showMessage(e.getType(), e.getMsg());
+            } finally {
+                pb_loaddata.setDisable(true);
+                pb_loaddata.setVisible(false);
+            }
 
-            });
-
+        });
     }
 
     /**
@@ -229,8 +251,7 @@ public class EventhandlerDataScreen {
 
         col_download.setCellValueFactory(
                 p -> new SimpleBooleanProperty(p.getValue() != null));
-        col_download.setCellFactory(p -> new view.ButtonCell());
-
+        col_download.setCellFactory(p -> new view.ButtonCell(controller, this));
     }
 
     @FXML
@@ -239,16 +260,7 @@ public class EventhandlerDataScreen {
         mediaChooser.setInitialDirectory(new File(DEFAULT_DIR));
         List<File> upload_list = mediaChooser.showOpenMultipleDialog(stage);
         if (upload_list != null) {
-            try {
-                controller.upload_data(upload_list);
-                refresh();
-            } catch (UploadException e) {
-                message.showMessage('e', e.getMsg());
-            } catch (ConnectionErrorException e) {
-                message.showMessage('e', e.getMsg());
-            } catch (IOException | DbxException e) {
-                message.showMessage('e', "Fehler ist aufgetreten");
-            }
+            controller.upload_data(upload_list, this);
         }
 
     }
@@ -273,13 +285,13 @@ public class EventhandlerDataScreen {
     @FXML
     private void download(ActionEvent event) {
         ObservableList<Data> download_list = tv_data.getSelectionModel().getSelectedItems();
-        try {
-            controller.download_data(download_list);
-        } catch (DownloadException e) {
-            message.showMessage(e.getType(), e.getMsg());
-        } catch (ConnectionErrorException e) {
-            message.showMessage(e.getType(), e.getMsg());
-        }
+        pb_downlad.setProgress(0.0);
+        controller.download_data(download_list, this);
+    }
+
+    private void showOpenDir() {
+        btn_openDir.setDisable(false);
+        btn_openDir.setVisible(true);
     }
 
     @FXML
@@ -289,9 +301,18 @@ public class EventhandlerDataScreen {
     }
 
     @FXML
-    private void setFocus(ActionEvent event) {
+    private void setFocus() {
         pane_data.requestFocus();
         tv_data.getSelectionModel().clearSelection();
+    }
+
+    @FXML
+    private void openDir(ActionEvent event) {
+        try {
+            Runtime.getRuntime().exec("explorer.exe /select," + Paths.get("").toAbsolutePath().toString());
+        } catch (IOException e) {
+            message.showMessage('e', "Ihr System unterstützt diese Funktion nicht!");
+        }
     }
 
     /**
@@ -309,35 +330,63 @@ public class EventhandlerDataScreen {
         this.controller = controller;
     }
 
-
-    private void refresh(){
-//        try {
-////            tv_data.getItems().clear();
-////            tv_data.refresh();
-////            tv_data.setItems(controller.getAllData());
-//        } catch (NoFilesException e) {
-//            e.printStackTrace();
-//        }
+    @Override
+    public void onWorkStart(String msg, int size, int current) {
+        Platform.runLater(() -> {
+            showWorkProgress();
+            String text = "Datei " + current + " / " + size + " " + msg + " gestartet";
+            setStatus(text);
+        });
     }
 
-    private ObservableList<Data> testload() {
-        ObservableList<Data> list = FXCollections.observableArrayList();
-        Data dummy = new Data();
-        dummy.setdata_name("kjsafsafas");
-        dummy.setdata_type(".docx");
-        dummy.setdata_size("30Gb");
-        dummy.setdata_last("07.10.2016");
-        dummy.setdatacreate("09.09.2016");
 
-        list.add(dummy);
-        dummy = new Data();
-        dummy.setdata_name("asfsf");
-        dummy.setdata_type("Folder");
-        dummy.setdata_size("");
-        dummy.setdata_last("");
-        dummy.setdatacreate("");
+    @Override
+    public void onWorkEnd(String msg, int size) {
+        Platform.runLater(() -> {
+            updateDownloadFinish();
+            if (downloadFinish == size && msg.equals("download")) {
+                showOpenDir();
+                downloadFinish = 0;
+                pb_downlad.setProgress(1.0);
+                lbl_status.setDisable(true);
+                lbl_status.setVisible(false);
+                lbl_status.setManaged(false);
+            } else {
+                String text = "Datei " + downloadFinish + " / " + size + " " + msg + " beendet";
+                setStatus(text);
+                double progress = (double) 1 / size + pb_downlad.getProgress();
+                pb_downlad.setProgress(progress);
+            }
+        });
+    }
 
-        list.add(dummy);
-        return list;
+    @Override
+    public void onWorkError(Exception e) {
+        Platform.runLater(() -> {
+            String text = null;
+            if (e != null) {
+                text = " Ein Fehler ist aufgetreten: " + e.getMessage();
+                e.getStackTrace();
+            } else {
+                text = "Ein Fehler ist aufgetreten";
+            }
+            setStatus(text);
+        });
+    }
+
+    private void showWorkProgress() {
+        pb_downlad.setVisible(true);
+        pb_downlad.setDisable(false);
+    }
+
+    private void setStatus(String text) {
+        lbl_status.setDisable(false);
+        lbl_status.setVisible(true);
+        lbl_status.setText(text);
+        lbl_status.setManaged(true);
+    }
+
+    private void updateDownloadFinish() {
+        this.downloadFinish++;
     }
 }

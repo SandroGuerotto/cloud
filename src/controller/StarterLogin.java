@@ -4,13 +4,12 @@ package controller;
  * Created          :   04.10.2016
  * Project          :   cloud
  * Package          :   controller
- * @version         :   1.0
- * LastUpdated      :
+ * @version         :   2.0
+ * LastUpdated      :	02.11.2016
  * Description      :   Starter class für das Login GUI
  */
 
 import handler.EventhandlerLogin;
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,11 +17,10 @@ import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-public class StarterLogin extends Application {
+public class StarterLogin {
 	
-	protected static Controller controller;
 
-	public void start(Stage stage) {
+	public void start(Stage stage, Controller controller) {
 		try {
 
 			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/Login.fxml"));
@@ -47,7 +45,7 @@ public class StarterLogin extends Application {
 			stage.setTitle("Secure Cloud"); // Titel
 			stage.setScene(scene);
 
-			stage.setResizable(true);
+			stage.setResizable(false);
 			stage.show();
 		} catch (Exception var5) {
 			var5.printStackTrace();
@@ -55,9 +53,4 @@ public class StarterLogin extends Application {
 
 	}
 
-	
-	public void show(String[] args, Controller controller) {
-		StarterLogin.controller = controller;
-		launch(args);
-	}
 }
