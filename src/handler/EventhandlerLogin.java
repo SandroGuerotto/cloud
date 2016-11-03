@@ -66,7 +66,7 @@ public class EventhandlerLogin implements IConnectorThread {
 			try {
 				onWorkStart();
 				controller.startServerConnecter();
-				onWorkEnd();
+				onLoginEnd();
 			} catch (FailLoadingServicesException | ConnectionErrorException e) {
 				onWorkError(e);
 				e.printStackTrace();
@@ -250,8 +250,7 @@ public class EventhandlerLogin implements IConnectorThread {
 	/**
 	 * automatically calls register or login depends on which option is selected
 	 *
-	 * @param ke
-	 *            Keyevent too listen on Enter
+	 * @param ke Keyevent too listen on Enter
 	 */
 	@FXML
 	private void onEnter(KeyEvent ke) {
@@ -261,6 +260,8 @@ public class EventhandlerLogin implements IConnectorThread {
 			} else {
 				login();
 			}
+		}else{
+			return;
 		}
 	}
 
@@ -295,6 +296,9 @@ public class EventhandlerLogin implements IConnectorThread {
 		Platform.runLater(() -> controller.gotoHome(this.stage));
 	}
 
+	public void onLoginEnd() {
+		unlockInput();
+	}
 	@Override
 	public void onWorkError(CloudException e) {
 		Platform.runLater(() -> {
