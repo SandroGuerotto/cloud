@@ -121,7 +121,7 @@ public class AESEncryption {
 				outputStream.write(b, 0, i);
 			}
 		} catch (IOException e) {
-			throw new StreamCopyException('e');
+			throw new StreamCopyException(ExceptionType.ERROR);
 		}
 	}//-copyStreams method
 	
