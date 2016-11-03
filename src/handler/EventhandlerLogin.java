@@ -69,10 +69,8 @@ public class EventhandlerLogin implements IConnectorThread {
 				onLoginEnd();
 			} catch (FailLoadingServicesException | ConnectionErrorException e) {
 				onWorkError(e);
-				e.printStackTrace();
 			}
 		}).start();
-
 	}
 
 	/**
@@ -95,8 +93,7 @@ public class EventhandlerLogin implements IConnectorThread {
 	/**
 	 * calls the signup screen
 	 *
-	 * @param event
-	 *            ActionEvent from button
+	 * @param event ActionEvent from button
 	 */
 	@FXML
 	private void signup(ActionEvent event) {
@@ -150,7 +147,6 @@ public class EventhandlerLogin implements IConnectorThread {
 				try {
 					lockInput();
 					controller.register(tf_username.getText(), tf_email.getText(), tf_password.getText(), this);
-					controller.gotoHome(stage);
 				} catch (RemoteException e) {
 					lbl_login_error.setText("Verbindung mit dem Server nicht möglich");
 					lbl_login_error.setDisable(false);

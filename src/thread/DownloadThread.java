@@ -48,7 +48,7 @@ public class DownloadThread extends Thread {
         eventhandlerDataScreen.onWorkStart("download" , size, current);
         try {
             String path = dropbox.downloadFile(data.getdata_name());
-            controller.getEncryption().decryptFile(new File(path), controller.getServconnection().getUser().getEncryptionKey(), "C:/Users/Tim/Desktop");
+            controller.getEncryption().decryptFile(new File(path), controller.getServconnection().getUser().getEncryptionKey(), "");
             eventhandlerDataScreen.onWorkEnd("download", size);
         } catch ( EncryptionInvalidKeyException | EncryptionFileNotFoundException | StreamCopyException | DbxException | IOException e) {
             eventhandlerDataScreen.onWorkError(e);

@@ -6,11 +6,10 @@ package controller;
  * Package          :   controller
  * @version         :   2.0
  * LastUpdated      :	02.11.2016
- * Description      :   Starter class for login gui
+ * Description      :   Starter class für das Login GUI
  */
 
 import handler.EventhandlerLogin;
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
