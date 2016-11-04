@@ -1,19 +1,24 @@
 package exception;
 
 /**
- * Created by Sandro on 21.10.2016.
+ * @author           :   Sandro Guerotto
+ * @created          :   23.09.2016
+ * @project          :   cloud
+ * @package          :   exception
+ * @version          :   1.0
+ * @lastUpdated      :	 04.11.2016 / by Sandro Guerotto
+ * @description      :   Exception class when no Service is found
  */
 public class NoServicesFoundException extends CloudException {
 	
 	private final String msg = "Es sind noch keine Service eingetragen";
-	private char type;
 
 	public NoServicesFoundException(char type) {
-		this.type = type;
+		setType(type);
 		setMsg(msg);
 	}
 
-	public char getType() {
-		return type;
+	public NoServicesFoundException() {
+		setMsg(msg);
 	}
 }

@@ -1,9 +1,6 @@
 package thread;
 
-import exception.EmailExistException;
-import exception.ExceptionType;
-import exception.CloudRemoteException;
-import exception.UserExistException;
+import exception.*;
 import handler.EventhandlerLogin;
 import model.ServerConnecter;
 
@@ -15,7 +12,7 @@ import java.rmi.RemoteException;
  * @created     :   01.11.2016
  * @project     :   cloud
  * @package     :   thread
- * @lastupdate  :
+ * @lastupdate  :   04.11.2016 by / Sandro Guerotto
  * @description :   Handles sign up to the server. callback to login screen
  */
 public class RegisterThread extends Thread {
@@ -43,12 +40,12 @@ public class RegisterThread extends Thread {
             	serverConnecter.registerApp(username, email, password);
                 eventhandlerLogin.onWorkEnd();
             }else{
-            	throw new CloudRemoteException(ExceptionType.ERROR);
+            	throw new ConnectionErrorException();
             }
             
         } catch (RemoteException e) {
-            eventhandlerLogin.onWorkError(new CloudRemoteException(ExceptionType.ERROR));
-        } catch (EmailExistException | UserExistException | CloudRemoteException e) {
+            eventhandlerLogin.onWorkError(new ConnectionErrorException());
+        } catch (CloudException e) {
             eventhandlerLogin.onWorkError(e);
         }
     }

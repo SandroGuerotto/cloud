@@ -30,13 +30,13 @@ import exception.EncryptionFileNotFoundException;
  * @project cloud
  * @package model
  * @created 13.10.2016
- * @lastUpdate 03.11.2016 / by Tim Meier
+ * @lastUpdate 04.11.2016 / by Sandro Guerotto
  */
 public class AESEncryption {
 	
 	private static final int AES_KEY_SIZE = 256;
 	private static final String ENCRYPTION_INSTANCE = "AES";
-	
+
 	Cipher aesCipher;
 	byte[] aesKey;
 	SecretKeySpec aeskeySpec;
@@ -54,8 +54,8 @@ public class AESEncryption {
 
 	/**
 	 * Encrypts and then copies the contents of a given file.
-	 * @paramFile cloudFile the encrypted File
-	 * @param byte[] key the aes 256 bit key
+	 * @param file File the encrypted File
+	 * @param key byte[]  the aes 256 bit key
 	 * @throws EncryptionInvalidKeyException 
 	 * @throws EncryptionFileNotFoundException 
 	 * @throws StreamCopyException 
@@ -81,13 +81,13 @@ public class AESEncryption {
 
 	/**
 	 * Decrypts and then copies the content of a given file.
-	 * @param File cloudFile the encrypted File
-	 * @param byte[] key the aes 256 bit key
-	 * @param String fileDestinationPath the directory path of the new decrypted file
-	 * @throws EncryptionInvalidKeyException 
-	 * @throws EncryptionFileNotFoundException 
-	 * @throws StreamCopyException 
-	 */
+	 * @param file File cloudFile the encrypted File
+	 * @param key  byte[] key the aes 256 bit key
+	 * @param fileDestinationPath String the directory path of the new decrypted file
+	 * @throws EncryptionInvalidKeyException
+	 * @throws EncryptionFileNotFoundException
+	 * @throws StreamCopyException
+     */
 	public void decryptFile(File file, byte[] key,String fileDestinationPath) throws EncryptionInvalidKeyException, EncryptionFileNotFoundException, StreamCopyException {
 		if (!file.getName().contains(".aes")) return;
 		if (new File(fileDestinationPath).isDirectory() && new File(fileDestinationPath).exists()) {
@@ -96,7 +96,7 @@ public class AESEncryption {
 				aesCipher.init(Cipher.DECRYPT_MODE, aesKey);
 				CipherInputStream cis = new CipherInputStream(new FileInputStream(file), aesCipher);
 				FileOutputStream fos = new FileOutputStream(
-						new File(fileDestinationPath + file.getName().substring(0, file.getName().length() - 4)));
+						new File(fileDestinationPath + file.getName().replace(".aes", "")));
 				copyStreams(cis, fos);
 				cis.close();
 				fos.close();
@@ -114,8 +114,8 @@ public class AESEncryption {
 
 	/**
 	 * Copies a stream, so that the file content will be copied.
-	 * @param InputStream inputStream
-	 * @param OutputStream outputStream
+	 * @param inputStream InputStream
+	 * @param outputStream OutputStream
 	 * @throws StreamCopyException 
 	 */
 	private void copyStreams(InputStream inputStream, OutputStream outputStream) throws StreamCopyException {
@@ -132,7 +132,7 @@ public class AESEncryption {
 	
 	/**
 	 * Creates a new AES 265 bit key and saves it to a directory.
-	 * @param String keyDirectoryPath the directory path for the new aes 256 bit key
+	 * @param keyDirectoryPath String the directory path for the new aes 256 bit key
 	 */
 	public void createNewKey(String keyDirectoryPath) {
 		KeyGenerator kgen;

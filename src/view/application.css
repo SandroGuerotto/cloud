@@ -38,6 +38,11 @@
     -fx-text-fill: #38424b;
     -fx-underline: true;
 }
+.data-btn-transparent{
+    -fx-background-color: transparent;
+ }
+
+
 #itm_upload > .label{
     -fx-background-color:
             #090a0c,
@@ -72,15 +77,6 @@
     -fx-text-fill: linear-gradient(white, #d0d0d0);
 }
 
-
-
-/*.menu-item:focused {*/
-    /*-fx-background-color: transparent;*/
-/*}*/
-
-/*.menu-item:focused .label {*/
-    /*-fx-background-color: transparent;*/
-/*}*/
 .menu-item:hover, .menu-item:focused{
     -fx-background-color: #38424b;
 }

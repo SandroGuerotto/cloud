@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXProgressBar?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
@@ -72,7 +73,7 @@
                   </ImageView>
                </graphic>
             </Label>
-            <Label fx:id="lbl_path" prefHeight="35.0" prefWidth="753.0" styleClass="data-subtitle" text="Dropbox/User/Ordner" textFill="#404040">
+            <Label fx:id="lbl_path" prefHeight="35.0" prefWidth="753.0" styleClass="data-subtitle" text="/psc" textFill="#404040">
                <font>
                   <Font size="24.0" />
                </font>
@@ -84,8 +85,8 @@
             <SplitMenuButton fx:id="itm_upload" maxHeight="45.0" minHeight="45.0" minWidth="45.0" mnemonicParsing="false" onAction="#upload" prefHeight="45.0" text="Upload">
               <items>
                 <MenuItem fx:id="itm_download" mnemonicParsing="false" onAction="#download" text="Download" />
-                  <MenuItem fx:id="itm_delete" mnemonicParsing="false" onAction="#delete" text="Delete" />
-                  <MenuItem fx:id="itm_logout" mnemonicParsing="false" onAction="#logout" text="Logout" />
+                <MenuItem fx:id="itm_delete" mnemonicParsing="false" onAction="#delete" text="Delete" />
+                <MenuItem fx:id="itm_logout" mnemonicParsing="false" onAction="#logout" text="Logout" />
               </items>
             </SplitMenuButton>
             <FlowPane fx:id="pane_flowcontroll" alignment="CENTER_RIGHT" hgap="30.0" prefHeight="200.0" prefWidth="200.0" vgap="20.0">
@@ -94,7 +95,7 @@
                      <graphic>
                         <ImageView fitHeight="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../icons/white/PNG/download.png" />
+                              <Image url="@../icons/white/download.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -103,7 +104,7 @@
                      <graphic>
                         <ImageView fitHeight="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../icons/white/PNG/upload.png" />
+                              <Image url="@../icons/white/upload.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -112,16 +113,25 @@
                      <graphic>
                         <ImageView fitHeight="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../icons/white/PNG/bin.png" />
+                              <Image url="@../icons/white/bin.png" />
                            </image>
                         </ImageView>
                      </graphic>
                   </Button>
+                   <Button fx:id="btn_refresh" alignment="CENTER" contentDisplay="CENTER" maxHeight="45.0" maxWidth="45.0" minHeight="45.0" minWidth="45.0" mnemonicParsing="false" onAction="#refresh" prefHeight="45.0" prefWidth="45.0" styleClass="dark-blue">
+                       <graphic>
+                           <ImageView fitHeight="30.0" pickOnBounds="true" preserveRatio="true">
+                               <image>
+                                   <Image url="@../icons/white/refresh.png" />
+                               </image>
+                           </ImageView>
+                       </graphic>
+                   </Button>
                   <Button fx:id="btn_logout" alignment="CENTER" contentDisplay="CENTER" maxHeight="45.0" maxWidth="45.0" minHeight="45.0" minWidth="45.0" mnemonicParsing="false" onAction="#logout" prefHeight="45.0" prefWidth="45.0" styleClass="dark-blue">
                      <graphic>
                         <ImageView fitHeight="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../icons/white/PNG/exit.png" />
+                              <Image url="@../icons/white/exit.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -142,7 +152,7 @@
             </Label>
          </children>
       </StackPane>
-      <VBox alignment="BOTTOM_CENTER" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="4">
+      <VBox fx:id="pane_progress" alignment="BOTTOM_CENTER" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="4">
          <children>
             <BorderPane>
                <left>
@@ -161,6 +171,20 @@
                      </children>
                   </StackPane>
                </left>
+               <right>
+                  <Button fx:id="btn_hideprogress" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#hideProgress" styleClass="data-btn-transparent" BorderPane.alignment="CENTER">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/dark-blue/close.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </right>
             </BorderPane>
             <JFXProgressBar fx:id="pb_downlad" prefWidth="1766.0" progress="0.29" />
          </children>

@@ -7,21 +7,19 @@ package exception;
  * @Project          :   cloud
  * @Package          :   exception
  * @version 		:   1.0
- * @LastUpdated      :   08.10.2016 / by Burim Cakolli
+ * @LastUpdated      :   04.11.2016 / by Sandro Guerotto
  * @Description      :
  * 
  */
 public class FailLoadingServicesException extends CloudException {
 	
 	private final String msg = "Fehler beim laden der Services ist aufgetreten";
-	private char type;
-
 	public FailLoadingServicesException(char type) {
-		this.type = type;
+		setType(type);
 		setMsg(msg);
 	}
 
-	public char getType() {
-		return type;
+	public FailLoadingServicesException() {
+		setMsg(msg);
 	}
 }

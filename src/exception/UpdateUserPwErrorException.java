@@ -7,22 +7,21 @@ package exception;
  * @Project          :   cloud
  * @Package          :   exception
  * @version 		:   1.0
- * @LastUpdated      :   17.10.2016 / by Burim Cakolli
+ * @LastUpdated      :   04.11.2016 / by Sandro Guerotto
  * @Description      :
  * 
  */
 public class UpdateUserPwErrorException extends CloudException {
 	
 	private final String msg = "Änderung des Userpassworts fehlgeschlagen";
-	private char type;
 
 	public UpdateUserPwErrorException(char type) {
-		this.type = type;
+		setType(type);
 		setMsg(msg);
 	}
 
-	public char getType() {
-		return type;
+	public UpdateUserPwErrorException(){
+		setMsg(msg);
 	}
 
 }

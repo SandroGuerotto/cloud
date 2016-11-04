@@ -1,8 +1,6 @@
 package thread;
 
-import exception.LoginFailedException;
-import exception.CloudRemoteException;
-import exception.ExceptionType;
+import exception.*;
 import handler.EventhandlerLogin;
 import model.ServerConnecter;
 
@@ -12,7 +10,7 @@ import model.ServerConnecter;
  * @created     :   01.11.2016
  * @project     :   cloud
  * @package     :   thread
- * @lastupdate  :
+ * @lastupdate  :   04.11.2016 / by Sandro Guerotto
  * @description :   Handles login to the server. callback to login screen
  */
 public class LoginThread extends Thread {
@@ -39,10 +37,10 @@ public class LoginThread extends Thread {
             	serverConnecter.loginApp(username, password);
                 eventhandlerLogin.onWorkEnd();
             }else{
-            	throw new CloudRemoteException(ExceptionType.ERROR);
+            	throw new ConnectionErrorException();
             }
             
-        } catch (LoginFailedException | CloudRemoteException e) {
+        } catch (CloudException e) {
             eventhandlerLogin.onWorkError(e);
         }
     }

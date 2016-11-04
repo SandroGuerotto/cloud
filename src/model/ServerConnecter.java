@@ -42,10 +42,10 @@ public class ServerConnecter {
 			try {
 				this.services = this.service.loadAllServices();
 			} catch (RemoteException e) {
-				throw new FailLoadingServicesException(ExceptionType.ERROR);
+				throw new FailLoadingServicesException();
 			}
 		} catch (ServiceException e) {
-			throw new ConnectionErrorException(ExceptionType.ERROR);
+			throw new ConnectionErrorException();
 		}//-catch
 	}//-start_service
 	
@@ -60,7 +60,7 @@ public class ServerConnecter {
 				this.user = this.service.login(username, password);
 				return this.user;
 			} catch (RemoteException e) {
-				throw new LoginFailedException(ExceptionType.ERROR);
+				throw new LoginFailedException();
 			}	
 	}//-loginApp
 	
@@ -79,11 +79,11 @@ public class ServerConnecter {
 				return this.user;
 			}//-if
 			else{
-				throw new EmailExistException(ExceptionType.ERROR);
+				throw new EmailExistException();
 			}//-else
 		}//-if
 		else{
-			throw new UserExistException(ExceptionType.ERROR);
+			throw new UserExistException();
 		}//-else
 	}//-registerApp
 	
@@ -109,7 +109,7 @@ public class ServerConnecter {
 		try {
 			this.services = this.service.loadAllServices();
 		} catch (RemoteException e) {
-			throw new LoadSupportedServicesException(ExceptionType.ERROR);
+			throw new LoadSupportedServicesException();
 		}
 	}//-loadServices
 	

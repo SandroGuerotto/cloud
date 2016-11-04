@@ -36,7 +36,7 @@ public class ServiceButton extends Button {
     }
 
     private void setImage(){
-        image = new Image(getClass().getResource("../icons/white/PNG/" + path + ".png").toString());
+        image = new Image(getClass().getResource("../icons/white/" + path + ".png").toString());
     }
 
 

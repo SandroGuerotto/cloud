@@ -1,37 +1,23 @@
 package handler;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.List;
-
 import com.jfoenix.controls.JFXProgressBar;
 import com.sun.prism.impl.Disposer.Record;
-
 import controller.Controller;
 import exception.CloudException;
-import exception.ConnectionErrorException;
 import exception.DeleteException;
+import exception.ExceptionType;
 import exception.NoFilesException;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.SplitMenuButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import message.Message;
@@ -39,13 +25,17 @@ import model.Data;
 import thread.IWorkThread;
 import view.PTableColumn;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
 /**
- * @author :   Sandro Guerotto
- * @version :   1.0
- * @created :   20.09.2016
- * @project :   cloud
- * @package :   handler
- * @lastupdate :   01.11.2016
+ * @author      :   Sandro Guerotto
+ * @version     :   1.0
+ * @created     :   20.09.2016
+ * @project     :   cloud
+ * @package     :   handler
+ * @lastupdate  :   04.11.2016 / by Sandro Guerotto
  * @description :   Contains all handler for DataScreen and init Screen
  */
 
@@ -82,7 +72,7 @@ public class EventhandlerDataScreen implements IWorkThread {
     private Label lbl_title, lbl_path, lbl_msg, lbl_status;
 
     @FXML
-    private Button btn_upload, btn_delete, btn_logout, btn_download;
+    private Button btn_upload, btn_delete, btn_logout, btn_download, btn_refresh, btn_hideprogress;
 
     @FXML
     private FlowPane pane_flowcontroll;
@@ -107,6 +97,9 @@ public class EventhandlerDataScreen implements IWorkThread {
     @FXML
     private Hyperlink btn_openDir;
 
+    @FXML
+    private VBox pane_progress;
+
 
     private FileChooser mediaChooser;
     private Stage stage;
@@ -124,8 +117,6 @@ public class EventhandlerDataScreen implements IWorkThread {
         mediaChooser = new FileChooser();
         message = new Message(lbl_msg);
         initView();
-
-
 
         hideButton();
 
@@ -193,6 +184,7 @@ public class EventhandlerDataScreen implements IWorkThread {
         btn_openDir.setDisable(true);
         lbl_status.setVisible(false);
         lbl_status.setDisable(true);
+        hideProgress();
 
         pb_loaddata.setStyle(" -fx-progress-color:  #38424b;");
 
@@ -207,7 +199,7 @@ public class EventhandlerDataScreen implements IWorkThread {
                 pb_loaddata.setDisable(false);
                 pb_loaddata.setVisible(true);
                 tv_data.setItems(controller.getAllData());
-            } catch (NoFilesException e) {
+            } catch (CloudException e) {
                 message.showMessage(e.getType(), e.getMsg());
             } finally {
                 pb_loaddata.setDisable(true);
@@ -266,56 +258,66 @@ public class EventhandlerDataScreen implements IWorkThread {
 
     /**
      * start upload sequence via controller (Thread)
-     * @param event ActionEvent from Button click
      */
     @FXML
-    private void upload(ActionEvent event) {
+    private void upload() {
         mediaChooser.setTitle("Datei hochladen");
         mediaChooser.setInitialDirectory(new File(DEFAULT_DIR));
         List<File> upload_list = mediaChooser.showOpenMultipleDialog(stage);
         if (upload_list != null) {
             pb_downlad.setProgress(0.0);
             downloadFinish = 0;
+            hideOpenDir();
             controller.upload_data(upload_list, this);
         }
 
     }
 
     /**
-     * start delete sequence via controller (Thread)
-     * !currently not available  !
-     * @param event ActionEvent from Button click
+     * start delete sequence via controller
      */
     @FXML
-    private void delete(ActionEvent event) {
+    private void delete() {
         ObservableList<Data> delete_list = tv_data.getSelectionModel().getSelectedItems();
         try {
             controller.delete_data(delete_list);
-        } catch (DeleteException e) {
-            message.showMessage(e.getType(), e.getMsg());
-        } catch (ConnectionErrorException e) {
+            tv_data.refresh();
+        }  catch (DeleteException e) {
             message.showMessage(e.getType(), e.getMsg());
         }
     }
 
     /**
-     * exit to homescreen
-     * @param event ActionEvent from Button click
+     * logout from service and exit to homescreen
      */
     @FXML
-    private void logout(ActionEvent event) {
+    private void logout() {
+        controller.logout();
         controller.gotoHome(stage);
     }
 
     /**
-     *start download sequence via controller (Thread)
-     * @param event ActionEvent from Button click
+     * Loads content in tableview new from dropbox
      */
     @FXML
-    private void download(ActionEvent event) {
+    private void refresh(){
+        tv_data.getItems().clear();
+        try {
+            tv_data.setItems(controller.getAllData());
+        } catch (CloudException e) {
+           message.showMessage(e.getType(), e.getMsg());
+        }
+    }
+
+    /**
+     *start download sequence via controller (Thread)
+     */
+    @FXML
+    private void download() {
         ObservableList<Data> download_list = tv_data.getSelectionModel().getSelectedItems();
         pb_downlad.setProgress(0.0);
         downloadFinish = 0;
+        hideOpenDir();
         controller.download_data(download_list, this);
     }
 
@@ -327,13 +329,20 @@ public class EventhandlerDataScreen implements IWorkThread {
         btn_openDir.setDisable(false);
         btn_openDir.setVisible(true);
     }
+    /**
+     * after a successful download sequence the hyperlink
+     * to open the download dir gets visible
+     */
+    private void hideOpenDir() {
+        btn_openDir.setDisable(true);
+        btn_openDir.setVisible(false);
+    }
 
     /**
      * hides the current displayed message
-     * @param event ActionEvent from click
      */
     @FXML
-    private void deletemsg(ActionEvent event) {
+    private void deletemsg() {
         lbl_msg.setVisible(false);
         lbl_msg.setDisable(true);
     }
@@ -349,14 +358,13 @@ public class EventhandlerDataScreen implements IWorkThread {
 
     /**
      * opens file explorer at the users Download folder
-     * @param event ActionEvent from click on hyperlink
      */
     @FXML
-    private void openDir(ActionEvent event) {
+    private void openDir( ) {
         try {
             Runtime.getRuntime().exec("explorer.exe /open," + System.getProperty("user.home")+"\\Downloads\\");
         } catch (IOException e) {
-            message.showMessage('e', "Ihr System unterstützt diese Funktion nicht!");
+            message.showMessage(ExceptionType.ERROR, "Ihr System unterstützt diese Funktion nicht!");
         }
     }
 
@@ -431,11 +439,29 @@ public class EventhandlerDataScreen implements IWorkThread {
         });
     }
 
+    /**
+     * Sets progressbar and pane visible for Download/Upload
+     */
     private void showWorkProgress() {
+        pane_progress.setVisible(true);
+        pane_progress.setDisable(false);
         pb_downlad.setVisible(true);
         pb_downlad.setDisable(false);
     }
 
+    /**
+     * User can manually close progressbar
+     */
+    @FXML
+    private void hideProgress( ){
+        pane_progress.setVisible(false);
+        pane_progress.setDisable(true);
+    }
+
+    /**
+     * Displays a given message as feedback for the user
+     * @param text String message
+     */
     private void setStatus(String text) {
         lbl_status.setDisable(false);
         lbl_status.setVisible(true);

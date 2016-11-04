@@ -7,21 +7,19 @@ package exception;
  * @Project          :   cloud
  * @Package          :   exception
  * @version 		:   1.0
- * @LastUpdated      :   17.10.2016 / by Burim Cakolli
+ * @LastUpdated      :   04.11.2016 / by Sandro Guerotto
  * @Description      :
  * 
  */
 public class LoadSupportedServicesException extends CloudException{
 	
     private final String msg = "Die von der Applikation unterstützten Servicedienste konnten nicht vom Server geladen werden";
-    private char   type;
-
     public LoadSupportedServicesException(char type){
-        this.type = type;
+        setType(type);
         setMsg(msg);
     }
 
-    public char getType(){
-    	return type;
+    public LoadSupportedServicesException(){
+        setMsg(msg);
     }
 }
