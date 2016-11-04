@@ -44,6 +44,7 @@ public class UploadThread extends Thread {
         try {
             controller.getEncryption().encryptFile(file, controller.getServconnection().getUser().getEncryptionKey());
             dropbox.uploadFile(file.getAbsolutePath() + ".aes");
+            new File(file.getAbsolutePath() + ".aes").delete();
             dropbox.addFiletoList(file);
             eventhandlerDataScreen.onWorkEnd("upload", size);
         } catch ( EncryptionInvalidKeyException | EncryptionFileNotFoundException | StreamCopyException e) {

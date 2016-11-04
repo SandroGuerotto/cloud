@@ -28,10 +28,10 @@ public class Time {
             setText("Guten Tag, ");
         } else if (getTimeOfDay() >= 17 && getTimeOfDay() < 21) {
             setText("Guten Abend, ");
-        } else if (getTimeOfDay() >= 21 && getTimeOfDay() < 24 && getTimeOfDay() >= 0 && getTimeOfDay() > 3) {
+        } else if ((getTimeOfDay() >= 21 && getTimeOfDay() < 24) || (getTimeOfDay() >= 0 && getTimeOfDay() < 3)) {
             setText("Guten Nacht, ");
         }
-        return text;
+        return this.text;
     }
 
     public void setText(String text) {

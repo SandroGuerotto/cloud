@@ -68,10 +68,9 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
      * @param email the email adress of a user to contact him
      * @param password the password from the user in clear-text
      */
-    public void register(String username, String email, String password, EventhandlerLogin handler) throws RemoteException, UserExistException, EmailExistException {
+    public void register(String username, String email, String password, EventhandlerLogin handler) {
         RegisterThread registerThread = new RegisterThread(this.servconnection, username, password, email, handler);
         registerThread.start();
-//        this.servconnection.registerApp(username, email, password);
     }//-register
 
     /**

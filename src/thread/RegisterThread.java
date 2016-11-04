@@ -3,6 +3,7 @@ package thread;
 import exception.*;
 import handler.EventhandlerLogin;
 import model.ServerConnecter;
+import model.Validator;
 
 import java.rmi.RemoteException;
 
@@ -37,6 +38,7 @@ public class RegisterThread extends Thread {
         try {
             eventhandlerLogin.onWorkStart();
             if(serverConnecter != null){
+                Validator.validate(email);
             	serverConnecter.registerApp(username, email, password);
                 eventhandlerLogin.onWorkEnd();
             }else{

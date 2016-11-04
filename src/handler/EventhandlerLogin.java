@@ -143,23 +143,7 @@ public class EventhandlerLogin implements IConnectorThread {
                 lbl_login_error.setDisable(false);
                 lbl_login_error.setVisible(true);
             } else {
-                try {
-                    lockInput();
-                    controller.register(tf_username.getText(), tf_email.getText(), tf_password.getText(), this);
-                } catch (RemoteException e) {
-                    lbl_login_error.setText("Verbindung mit dem Server nicht möglich");
-                    lbl_login_error.setDisable(false);
-                    lbl_login_error.setVisible(true);
-                } catch (EmailExistException e) {
-                    lbl_login_error.setText(e.getMsg());
-                    lbl_login_error.setDisable(false);
-                    lbl_login_error.setVisible(true);
-                } catch (UserExistException e) {
-                    lbl_login_error.setText(e.getMsg());
-                    lbl_login_error.setDisable(false);
-                    lbl_login_error.setVisible(true);
-                }
-                unlockInput();
+                controller.register(tf_username.getText(), tf_email.getText(), tf_password.getText(), this);
             }
 
         }

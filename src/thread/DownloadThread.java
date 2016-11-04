@@ -9,6 +9,7 @@ import model.Data;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 /**
  * @author      :   Sandro Guerotto
@@ -47,6 +48,7 @@ public class DownloadThread extends Thread {
         try {
             String path = dropbox.downloadFile(data.getdata_name());
             controller.getEncryption().decryptFile(new File(path), controller.getServconnection().getUser().getEncryptionKey(), System.getProperty("user.home")+"\\Downloads\\");
+            new File(path).delete();
             eventhandlerDataScreen.onWorkEnd("download", size);
         } catch ( EncryptionInvalidKeyException | EncryptionFileNotFoundException | StreamCopyException e) {
             eventhandlerDataScreen.onWorkError(e);
