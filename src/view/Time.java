@@ -29,7 +29,9 @@ public class Time {
         } else if (getTimeOfDay() >= 17 && getTimeOfDay() < 21) {
             setText("Guten Abend, ");
         } else if (getTimeOfDay() >= 21 && getTimeOfDay() < 24 && getTimeOfDay() >= 0 && getTimeOfDay() > 3) {
-            setText("Guten Nacht, ");
+            setText("Gute Nacht, ");
+        } else {
+        	setText("Gute Nacht, ");
         }
         return text;
     }

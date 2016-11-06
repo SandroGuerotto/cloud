@@ -177,6 +177,10 @@
 
 }
 
+#pane_createSettings{
+	-fx-background-color: rgba(255,255,255,0.9);
+}
+
 #pane_settings{
 	-fx-background-color: rgba(255,255,255,0.9);
 	
@@ -209,6 +213,20 @@
 	
 }
 
+#list_serviceChooser .list-cell:odd:selected,
+#list_serviceChooser .list-cell:even:selected{
+	 -fx-text-fill: black;
+	 -fx-background-color: lightgray;
+	
+	
+}
+
+.list_serviceBorder{
+	 -fx-border-radius: 10 10 0 0;
+	 -fx-background-radius: 0 10 10 10;
+	 -fx-background-color: rgba(255,255,255,0.9);
+}
+
 .list-cell:selected {
   -fx-background-color: blue;
 }
@@ -227,6 +245,14 @@
 	
 }
 
+#list_serviceChooser  .list-cell:even,
+#list_serviceChooser  .list-cell:odd{
+	-fx-background-color: transparent;
+	-fx-text-fill: black;
+	
+	
+}
+
 .passwort_color{
 	 -fx-text-fill: #38424b;
 	 -fx-font-size: 18px;
@@ -236,7 +262,7 @@
     
 .labelproperties{
     -fx-font-size: 18px;
-    -fx-font-color: #d8000c;
+    -fx-text-fill: #d8000c;
 	
 }
 
