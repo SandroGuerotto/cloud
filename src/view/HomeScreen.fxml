@@ -173,11 +173,11 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </JFXButton>
-                              <JFXButton fx:id="btn_newService" ellipsisString="" onAction="#createNewService" onMouseEntered="#getNewService" onMouseExited="#hideNewService" prefHeight="66.0" prefWidth="80.0" style="-fx-background-color: transparent;" visible="false" GridPane.columnIndex="1">
+                              <JFXButton fx:id="btn_newService" ellipsisString="" onAction="#createNewService" onMouseEntered="#getNewService" onMouseExited="#hideNewService" prefHeight="66.0" prefWidth="59.0" style="-fx-background-color: transparent;" visible="false" GridPane.columnIndex="1">
                                  <graphic>
-                                    <ImageView fitHeight="30.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fitHeight="46.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../icons/black/PNG/plus.png" />
+                                          <Image url="@../icons/black/plus.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -286,11 +286,6 @@
                                           <Font size="18.0" />
                                        </font>
                                     </JFXTextField>
-                                    <JFXTextField promptText="Irgendwas">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                    </JFXTextField>
                                     <GridPane alignment="CENTER_RIGHT">
                                        <columnConstraints>
                                           <ColumnConstraints hgrow="SOMETIMES" maxWidth="260.0" minWidth="10.0" prefWidth="260.0" />
@@ -310,19 +305,6 @@
                                     </GridPane>
                                  </children>
                               </VBox>
-
-                              <Button fx:id="btn_newService" mnemonicParsing="false" onMouseEntered="#getNewService" onMouseExited="#hideNewService" prefHeight="49.0" prefWidth="50.0" styleClass="btn-settings">
-                                 <graphic>
-                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../icons/black/plus.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                                 <StackPane.margin>
-                                    <Insets top="35.0" />
-                                 </StackPane.margin>
-                              </Button>
 
                            </children>
                         </StackPane>

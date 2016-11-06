@@ -12,7 +12,7 @@ import exception.LoadSupportedServicesException;
 
 import exception.NoServicesFoundException;
 import exception.NoUserLoggedInException;
-
+import exception.UpdateServiceErrorException;
 import exception.UpdateUserPwErrorException;
 
 import javafx.animation.FadeTransition;
@@ -48,6 +48,7 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.util.StringConverter;
 
 import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.CloudService;
 import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.ServiceType;
@@ -93,7 +94,7 @@ public class EventhandlerHomeScreen {
     private AnchorPane pane_mainPane;
 
     @FXML
-    private ListView<String> list_services, list_serviceChooser;
+    private ListView<CloudService> list_services, list_serviceChooser;
     
     @FXML
     private JFXButton btn_back, btn_pwchange, btn_services, btn_ServiceDelete, btn_SaveNewService;
@@ -145,10 +146,10 @@ public class EventhandlerHomeScreen {
 
     //loads everything that is needed at the start
     public void initialize() {
-    	ObservableList<String> items;
-		items = FXCollections.observableArrayList("Item1", "Item2");
-		list_services.setItems(items);
-		list_serviceChooser.setItems(items);
+    	
+			
+		
+		
 			
 		
 
@@ -156,7 +157,36 @@ public class EventhandlerHomeScreen {
         list_services.refresh();
         customBackground = new BackgroundWallpaper();
         list_services.setEditable(true);
-    	list_services.setCellFactory(TextFieldListCell.forListView());
+//    	list_services.setCellFactory(TextFieldListCell.forListView());
+        list_services.setCellFactory(lv -> {
+            TextFieldListCell<CloudService> cell = new TextFieldListCell<CloudService>();
+            cell.setConverter(new StringConverter<CloudService>() {
+                public String toString(CloudService cloud) {
+                    return cloud.getName();
+                }
+                public CloudService fromString(String string) {
+                    CloudService service = cell.getItem();
+                    service.setName(string);
+                    return service ;
+                }
+            });
+            return cell;
+        });
+        
+        list_serviceChooser.setCellFactory(lv -> {
+            TextFieldListCell<CloudService> cell = new TextFieldListCell<CloudService>();
+            cell.setConverter(new StringConverter<CloudService>() {
+                public String toString(CloudService cloud) {
+                    return cloud.getName();
+                }
+                public CloudService fromString(String string) {
+                    CloudService service = cell.getItem();
+                    service.setName(string);
+                    return service ;
+                }
+            });
+            return cell;
+        });
 
         pane_homeScreen.setBackground(customBackground.getBackground());
 
@@ -188,6 +218,16 @@ public class EventhandlerHomeScreen {
             	 Platform.runLater(() -> {
                      lbl_username.setText(controller.getUsername());
                      pane_mainPane.requestFocus(); // Fokus holen, damit am anfangen nichts selektiert ist
+                     ObservableList<CloudService> items;
+             		
+     				try {
+     					items = FXCollections.observableArrayList(controller.getLoggedInUser().getServices());
+     					list_services.setItems(items);
+     					list_serviceChooser.setItems(items);
+     				} catch (NoUserLoggedInException e) {
+     					// TODO Auto-generated catch block
+     					e.printStackTrace();
+     				}
                  });
             }
        });  
@@ -222,14 +262,14 @@ public class EventhandlerHomeScreen {
         	pane_serviceChooser.setLayoutX(bound.getMaxX());
         	pane_serviceChooser.setLayoutY(bound.getMinY());
         	buttonClicked = true;
-        	try {
-    			if(controller.getLoggedInUser().getServices().length == 0){
-    				showLoginWithNoServices(type);
-    				pane_serviceChooser.setVisible(false);
-    			}
-    		} catch (NoUserLoggedInException e) {
-    			lbl_mainError.setText(e.getMessage());
-    		}
+//        	try {
+//    			if(controller.getLoggedInUser().getServices().length == 0){
+//    				showLoginWithNoServices(type);
+//    				pane_serviceChooser.setVisible(false);
+//    			}
+//    		} catch (NoUserLoggedInException e) {
+//    			lbl_mainError.setText(e.getMessage());
+//    		}
         	
     	}
     	list_serviceChooser.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -238,8 +278,7 @@ public class EventhandlerHomeScreen {
             public void handle(MouseEvent event) {
                 System.out.println("clicked on " + list_serviceChooser.getSelectionModel().getSelectedItem());
                pane_serviceChooser.setVisible(false);
-                if (controller.getUsername().equals("StarLord")) {
-                    webEngine = wv_services.getEngine();
+                   webEngine = wv_services.getEngine();
                     progress.setVisible(true);
                     progress.setStyle(" -fx-progress-color: white;");
 
@@ -251,9 +290,7 @@ public class EventhandlerHomeScreen {
                     Platform.runLater(() -> {
                     	controller.setCloudTypeInUse(type);
                     });
-                    
-
-                }
+             
             }
         });	
     	
@@ -302,14 +339,9 @@ public class EventhandlerHomeScreen {
     
     @FXML
     private void getNewService(){
-    	if(stackpane_pw.isVisible()){
-    		btn_newService.setVisible(false);
-
-    	}
-    	else{
-    		
+    	   		
     		btn_newService.setVisible(true);
-    	}
+    
     	
     }
     
@@ -342,25 +374,26 @@ public class EventhandlerHomeScreen {
 		} catch (NoUserLoggedInException e) {
 			lbl_Service.setText("Kein User eingeloggt");
 		}
-        list_services.setOnEditStart(new EventHandler<ListView.EditEvent<String>>()
+        list_services.setOnEditStart(new EventHandler<ListView.EditEvent<CloudService>>()
 		{
 		  	@Override
-			public void handle(EditEvent<String> event) {
+			public void handle(EditEvent<CloudService> event) {
 				editStart(event);
 				
 			}
 		});
-        list_services.setOnEditCommit(new EventHandler<ListView.EditEvent<String>>()
+        list_services.setOnEditCommit(new EventHandler<ListView.EditEvent<CloudService>>()
         		{
         		    @Override
-        		    public void handle(EditEvent<String> event)
+        		    public void handle(EditEvent<CloudService> event)
                		    {
         		    		list_services.getItems().set(event.getIndex(), event.getNewValue());
               		        editCommit(event);
               		        lbl_Service.setStyle("-fx-text-fill: green");
               		        lbl_Service.setText("Service wurde geändert");
         	        		    }
-     	        		});
+
+				});
 
 
     	
@@ -378,13 +411,13 @@ public class EventhandlerHomeScreen {
     }
     
     @FXML
-    public void editStart(ListView.EditEvent<String> e)
+    public void editStart(ListView.EditEvent<CloudService> e)
     {
 
-    	list_services.setOnEditStart(new EventHandler<ListView.EditEvent<String>>()
+    	list_services.setOnEditStart(new EventHandler<ListView.EditEvent<CloudService>>()
     			{
     			  	@Override
-					public void handle(EditEvent<String> event) {
+					public void handle(EditEvent<CloudService> event) {
 						editStart(event);
 						lbl_Service.setText(null);
 					}
@@ -393,9 +426,15 @@ public class EventhandlerHomeScreen {
     }
     
     @FXML
-    public void editCommit(ListView.EditEvent<String> e)
+    public void editCommit(ListView.EditEvent<CloudService> e)
     {
-    	
+    	CloudService serviceEdited = list_services.getItems().get(e.getIndex());
+    	try {
+			controller.updateCloudConnection(serviceEdited, e.getNewValue().getName());
+		} catch (UpdateServiceErrorException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
     	list_services.getItems().set(e.getIndex(), e.getNewValue());
     	
     
