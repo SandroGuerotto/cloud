@@ -21,24 +21,24 @@ import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.DbxWebAuthNoRedirect;
 import com.dropbox.core.DbxWriteMode;
 
+import exception.DeleteException;
+import exception.ExceptionType;
 import javafx.collections.ObservableList;
-import javafx.collections.ListChangeListener;
 import javafx.collections.FXCollections;
 
 import model.Data;
-import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.CloudService;
 import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.ServiceType;
-import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.User;
 
 /**
  * Dropbox core API
- * @author          :   Sasa Markovic
- * @Created          :   01.11.2016
- * @Project          :   cloud
- * @Package          :   controller
- * @version         :   1.5
- * @LastUpdated      :	Javadoc implemented
- * @Description      :   Connector/uploader/downloader/getter from Dropbox
+ *
+ * @author :   Sasa Markovic
+ * @version :   1.5
+ * @Created :   01.11.2016
+ * @Project :   cloud
+ * @Package :   controller
+ * @LastUpdated :	04.11.2016 / by Sandro Guerotto
+ * @Description :   Connector/uploader/downloader/getter from Dropbox
  */
 
 public class Dropbox {
@@ -50,11 +50,14 @@ public class Dropbox {
     private String accesstoken;
     private DbxClient client;
     private ObservableList<Data> list = FXCollections.observableArrayList();
-    private String currentPath;
+    private static final String downloadPath = System.getProperty("user.home") + "\\Downloads\\";
+    private static final String dbxPath = "/psc";
+    private static final String encryptExtension = ".aes";
 
     /**
      * Constructor: Initializes the dropbox object.
-     * @param applicationInfo	Database Application Information
+     *
+     * @param applicationInfo Database Application Information
      * @throws IOException
      * @throws URISyntaxException
      * @throws DbxException
@@ -64,39 +67,25 @@ public class Dropbox {
         appInfo = new DbxAppInfo(applicationInfo.getKey(), applicationInfo.getSecret());
         config = new DbxRequestConfig("Pretty Secure Cloud", Locale.getDefault().toString());
         webAuth = new DbxWebAuthNoRedirect(config, appInfo);
-        currentPath = "/";
-    }
-
-    /**
-     * Updates the current directory, wich the user is in.
-     * @param foldername	Foldername without slash/backslash
-     */
-    public void updatecurrentPath(String foldername) {
-        StringBuilder temp = new StringBuilder(currentPath);
-        temp.append(foldername);
-        temp.append("/");
-
-        this.currentPath = temp.toString();
     }
 
     /**
      * Creates a observable with metadata of all files in the current directory.
+     *
      * @throws DbxException
      */
     public void makearchives() throws DbxException {
         list.removeAll();
-        DbxEntry.WithChildren files = client.getMetadataWithChildren(currentPath);
+        DbxEntry.WithChildren files = client.getMetadataWithChildren(dbxPath);
         for (DbxEntry file : files.children) {
             if (!file.isFolder()) {
-
                 Data dummy = new Data();
-                dummy.setdata_type(getextension(file.name));
+                dummy.setdata_type(getExtension(file.name.replace( encryptExtension, "")));
                 dummy.setdata_size(file.asFile().humanSize);
-                dummy.setdata_name(file.name);
+                dummy.setdata_name(file.name.replace(".aes", ""));
                 dummy.setdatacreate(convertDateToString(file.asFile().clientMtime));
                 dummy.setdata_last(convertDateToString(file.asFile().lastModified));
                 list.add(dummy);
-                dummy = null;
             } else {
                 Data dummy = new Data();
                 dummy.setdata_type("Folder");
@@ -105,47 +94,41 @@ public class Dropbox {
                 dummy.setdatacreate("");
                 dummy.setdata_last("");
                 list.add(dummy);
-                dummy = null;
             }
         }
 
     }
 
     /**
-     * Firstlogin contains a userauthentication in dropbox, if the user is already authenticate, the
-	 * firstlogin is not necessary.
-     * @throws IOException
-     * @throws URISyntaxException
-     * @throws DbxException
+     * at firstlogin a new folder gets created if its not existing
      */
+    public void createdefaultFolderinDbx() {
+        try {
+            client.createFolder(dbxPath);
+        } catch (DbxException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void firstlogin() throws IOException, URISyntaxException, DbxException {
         Scanner sc = new Scanner(System.in);
         Desktop.getDesktop().browse(new URI(webAuth.start()));
 
-        System.out.println("Kopieren Sie den Text und fï¿½gen Sie ihn ein!");
+        System.out.println("Kopieren Sie den Text und fügen Sie ihn ein!");
         authtoken = sc.nextLine();
         sc.close();
         accesstoken = webAuth.finish(authtoken).accessToken;
-        
+
         client = new DbxClient(config, accesstoken);
+        createdefaultFolderinDbx();
     }
 
-    /**
-     * This method converts a "Long" variable in to a "String" variable.
-     * @param args		Long variable
-     * @return String	Long converted in to String
-     */
-    protected String convertLongtoString(Long args) {
-
-        String temp = Long.toString(args);
-
-        return temp;
-    }
 
     /**
      * This method converts "Date" variable in to "String" variable.
-     * @param indate	Date variable
-     * @return String	Date converted into String
+     *
+     * @param indate Date variable
+     * @return String    Date converted into String
      */
     protected String convertDateToString(Date indate) {
         String dateString = null;
@@ -160,39 +143,35 @@ public class Dropbox {
 
     /**
      * Returns the file extension.
-     * @param fileName	Full filename, without slash/backslash
-     * @return String	Extension of the file, example: '.jar, .zip, .docx'
+     *
+     * @param fileName Full filename, without slash/backslash
+     * @return String    Extension of the file, example: '.jar, .zip, .docx'
      */
-    public String getextension(String fileName) {
-        String extension = "";
+    public String getExtension(String fileName) {
         int i = fileName.lastIndexOf('.');
-        if (i > 0) {
-            extension = fileName.substring(i + 1);
-            return extension;
+        if (fileName.lastIndexOf('.') > 0) {
+            return fileName.substring(i + 1);
         }
         return null;
     }
 
     /**
      * Downloads a specific file from dropbox and returns the absolutdirectory of it.
-     * @param path
-     * @return
+     *
+     * @param dropboxfile
+     * @return apsolutePath of the downloaded file
      */
-    public String  downloadFile(String path) throws IOException, DbxException {
-        String endPath = "";
-        FileOutputStream outputStream = new FileOutputStream(path);
-        DbxEntry.File downloadedFile = client.getFile("/" + path, null,
-                outputStream);
+    public String downloadFile(String dropboxfile) throws IOException, DbxException {
+        String fullpath = downloadPath + dropboxfile + encryptExtension;
+        FileOutputStream outputStream = new FileOutputStream(fullpath);
+        client.getFile(dbxPath + "/" + dropboxfile + encryptExtension, null, outputStream);
         outputStream.close();
-
-        String currentDir = System.getProperty("user.dir");
-        File newfile = new File(currentDir + "\\" + path);
-        endPath = newfile.getAbsolutePath();
-        return endPath;
+        return fullpath;
     }
 
     /**
      * Uploads a file in dropbox.
+     *
      * @param path
      * @throws IOException
      * @throws DbxException
@@ -201,13 +180,21 @@ public class Dropbox {
         File inputFile = new File(path);
         FileInputStream inputStream = new FileInputStream(inputFile);
         try {
-            DbxEntry.File uploadedFile = client.uploadFile("/" + inputFile.getName(),
-                    DbxWriteMode.add(), inputFile.length(), inputStream);
-            System.out.println("Uploaded: " + uploadedFile.toString());
+            client.uploadFile(dbxPath + "/" + inputFile.getName(), DbxWriteMode.add(), inputFile.length(), inputStream);
         } finally {
             inputStream.close();
         }
     }
+
+    public void deleteFile(Data data) throws DeleteException {
+        try {
+            client.delete(dbxPath + "/" + data.getdata_name() + encryptExtension);
+            list.remove(data);
+        } catch (DbxException e) {
+            throw new DeleteException();
+        }
+    }
+
 
     /**
      * adds an uploaded file to the obeservable list
@@ -217,9 +204,9 @@ public class Dropbox {
      */
     public void addFiletoList(File file) {
         Data dummy = new Data();
-        dummy.setdata_type(getextension(file.getName()));
+        dummy.setdata_type(getExtension(file.getName()));
         dummy.setdata_size(humanReadableByteCount(file.length(), true));
-        dummy.setdata_name(file.getName() + ".aes");
+        dummy.setdata_name(file.getName().replace(encryptExtension, ""));
         dummy.setdatacreate(convertDateToString(new Date()));
         dummy.setdata_last("");
         list.add(dummy);
@@ -242,6 +229,7 @@ public class Dropbox {
 
     /**
      * If there's a service connected with the user, this method logs the user in.
+     *
      * @param token
      */
     public void login(String token) {
@@ -249,7 +237,7 @@ public class Dropbox {
     }
 
     /**
-     *Logs the client out.
+     * Logs the client out.
      */
     public void logout() {
         client = null;
@@ -257,6 +245,7 @@ public class Dropbox {
 
     /**
      * Setter
+     *
      * @param args
      */
     public void setappInfo(DbxAppInfo args) {
@@ -265,6 +254,7 @@ public class Dropbox {
 
     /**
      * Setter
+     *
      * @param args
      */
     public void setconfig(DbxRequestConfig args) {
@@ -273,6 +263,7 @@ public class Dropbox {
 
     /**
      * Setter
+     *
      * @param args
      */
     public void setwebAuth(DbxWebAuthNoRedirect args) {
@@ -281,6 +272,7 @@ public class Dropbox {
 
     /**
      * Setter
+     *
      * @param args
      */
     public void setauthtoken(String args) {
@@ -289,6 +281,7 @@ public class Dropbox {
 
     /**
      * Setter
+     *
      * @param args
      */
     public void setclient(DbxClient args) {
@@ -297,6 +290,7 @@ public class Dropbox {
 
     /**
      * Getter
+     *
      * @return
      */
     public DbxAppInfo getappInfo() {
@@ -305,6 +299,7 @@ public class Dropbox {
 
     /**
      * Getter
+     *
      * @return
      */
     public DbxRequestConfig getconfig() {
@@ -313,6 +308,7 @@ public class Dropbox {
 
     /**
      * Getter
+     *
      * @return
      */
     public DbxWebAuthNoRedirect getwebAuth() {
@@ -321,6 +317,7 @@ public class Dropbox {
 
     /**
      * Getter
+     *
      * @return
      */
     public String getauthtoken() {
@@ -329,6 +326,7 @@ public class Dropbox {
 
     /**
      * Getter
+     *
      * @return
      */
     public DbxClient getclient() {
@@ -337,19 +335,20 @@ public class Dropbox {
 
     /**
      * Getter
+     *
      * @return
      */
     public ObservableList<Data> getarchives() {
         return list;
     }
 
-	public String getAccesstoken() {
-		return accesstoken;
-	}
+    public String getAccesstoken() {
+        return accesstoken;
+    }
 
-	public void setAccesstoken(String accesstoken) {
-		this.accesstoken = accesstoken;
-	}
-    
-    
+    public void setAccesstoken(String accesstoken) {
+        this.accesstoken = accesstoken;
+    }
+
+
 }

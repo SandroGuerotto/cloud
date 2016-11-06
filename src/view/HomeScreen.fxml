@@ -80,7 +80,7 @@
                            <graphic>
                               <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                <image>
-                                    <Image url="@../icons/white/PNG/settings.png" />
+                                    <Image url="@../icons/white/settings.png" />
                            	</image>
                         </ImageView>
                            </graphic>
@@ -273,6 +273,7 @@
                         </StackPane>
                         <StackPane fx:id="pane_createSettings" prefHeight="208.0" prefWidth="401.0" visible="false">
                            <children>
+<<<<<<< HEAD
                               <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0">
                                  <children>
                                     <JFXTextField promptText="ServiceName">
@@ -309,6 +310,20 @@
                                     </GridPane>
                                  </children>
                               </VBox>
+=======
+                              <Button fx:id="btn_newService" mnemonicParsing="false" onMouseEntered="#getNewService" onMouseExited="#hideNewService" prefHeight="49.0" prefWidth="50.0" styleClass="btn-settings">
+                                 <graphic>
+                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../icons/black/plus.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <StackPane.margin>
+                                    <Insets top="35.0" />
+                                 </StackPane.margin>
+                              </Button>
+>>>>>>> fa62c9505f7f55ab83986be442d46fe2faf70a4f
                            </children>
                         </StackPane>
                      </children>

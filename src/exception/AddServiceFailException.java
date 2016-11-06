@@ -1,3 +1,5 @@
+package exception;
+
 /**
  * @author :   Burim Cakolli
  * Turns coffee & pizza into Software
@@ -5,25 +7,20 @@
  * @Project          :   cloud
  * @Package          :   exception
  * @version 		:   1.0
- * @LastUpdated      :   08.10.2016 / by Burim Cakolli
+ * @LastUpdated      :   04.11.2016 / by Sandro Guerotto
  * @Description      :
  * 
  */
-package exception;
+public class AddServiceFailException extends CloudException {
+	
+	private final String msg = "Speicherung der Service-Verbindung fehlgeschlagen";
 
-public class AddServiceFailException extends Exception{
-    private final String msg = "Speicherung der Service-Verbindung fehlgeschlagen";
-    private char   type;
-
-    public AddServiceFailException(char type){
-        this.type = type;
-    }
-
-    public String getMsg(){
-        return this.msg;
-    }
-    public char getType(){
-    	return type;
-    }
+	public AddServiceFailException(char type) {
+		setType(type);
+		setMsg(msg);
+	}
+	public AddServiceFailException(){
+		setMsg(msg);
+	}
 
 }

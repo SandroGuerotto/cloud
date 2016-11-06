@@ -1,27 +1,26 @@
+package exception;
+
 /**
  * @author :   Burim Cakolli
  * Turns coffee & pizza into Software
  * @Created          :   03.10.2016
  * @Project          :   cloud
  * @Package          :   exception
- * @version 		:   1.0
- * @LastUpdated      :   03.10.2016 / by Burim Cakolli
+ * @version 		 :   1.0
+ * @LastUpdated      :   04.11.2016 / by Sandro Guerotto
  * @Description      :
  * 
  */
-package exception;
+public class LoginFailedException extends CloudException {
 
-public class LoginFailedException extends CloudException{
-	    private final String msg = "Benutzername oder Passwort falsch";
-	    private char   type;
+	private final String msg = "Benutzername oder Passwort falsch";
 
-	    public LoginFailedException(char type){
-	        this.type = type;
-	        setMsg(msg);
-	    }
+	public LoginFailedException(char type) {
+		setType(type);
+		setMsg(msg);
+	}
 
-	    public char getType(){
-	    	return type;
-	    }
-
+	public LoginFailedException(){
+		setMsg(msg);
+	}
 }

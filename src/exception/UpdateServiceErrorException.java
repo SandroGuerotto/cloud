@@ -1,29 +1,26 @@
+package exception;
+
 /**
  * @author :   Burim Cakolli
  * Turns coffee & pizza into Software
  * @Created          :   17.10.2016
  * @Project          :   cloud
  * @Package          :   exception
- * @version 		:   1.0
- * @LastUpdated      :   17.10.2016 / by Burim Cakolli
+ * @version 		 :   1.0
+ * @LastUpdated      :   04.11.2016 / by Sandro Guerotto
  * @Description      :
- * 
  */
-package exception;
-
-public class UpdateServiceErrorException extends Exception{
+public class UpdateServiceErrorException extends CloudException{
+	
     private final String msg = "Aktualisierung der Service-Verbindung fehlgeschlagen";
-    private char   type;
 
     public UpdateServiceErrorException(char type){
-        this.type = type;
+        setType(type);
+        setMsg(msg);
     }
-
-    public String getMsg(){
-        return this.msg;
-    }
-    public char getType(){
-    	return type;
+    
+    public UpdateServiceErrorException(){
+        setMsg(msg);
     }
 
 }

@@ -3,14 +3,13 @@ package thread;
 import com.dropbox.core.DbxException;
 import controller.Controller;
 import controller.Dropbox;
-import exception.EncryptionFileNotFoundException;
-import exception.EncryptionInvalidKeyException;
-import exception.StreamCopyException;
+import exception.*;
 import handler.EventhandlerDataScreen;
 import model.Data;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 /**
  * @author      :   Sandro Guerotto
@@ -48,12 +47,13 @@ public class DownloadThread extends Thread {
         eventhandlerDataScreen.onWorkStart("download" , size, current);
         try {
             String path = dropbox.downloadFile(data.getdata_name());
-            controller.getEncryption().decryptFile(new File(path), controller.getServconnection().getUser().getEncryptionKey(), "");
+            controller.getEncryption().decryptFile(new File(path), controller.getServconnection().getUser().getEncryptionKey(), System.getProperty("user.home")+"\\Downloads\\");
+            new File(path).delete();
             eventhandlerDataScreen.onWorkEnd("download", size);
-        } catch ( EncryptionInvalidKeyException | EncryptionFileNotFoundException | StreamCopyException | DbxException | IOException e) {
+        } catch ( EncryptionInvalidKeyException | EncryptionFileNotFoundException | StreamCopyException e) {
             eventhandlerDataScreen.onWorkError(e);
-        } finally {
-            //delete .aes file
+        } catch (DbxException | IOException e){
+            eventhandlerDataScreen.onWorkError(new ErrorException(ExceptionType.ERROR));
         }
     }
 }

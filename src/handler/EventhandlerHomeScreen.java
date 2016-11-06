@@ -269,6 +269,7 @@ public class EventhandlerHomeScreen {
              progress.setVisible(true);
              progress.setStyle(" -fx-progress-color: white;");
 
+<<<<<<< HEAD
 //             webEngine.load("https://www.dropbox.com/1/oauth2/authorize?locale=de_DE&client_id=4ib2r751sawik1x&response_type=code");
 
              webEngine.load(controller.getLink(type));
@@ -278,6 +279,22 @@ public class EventhandlerHomeScreen {
              	controller.setCloudTypeInUse(type);
              });
              
+=======
+            Platform.runLater(() -> {
+            	controller.setCloudTypeInUse(type);
+            });
+
+        }else{
+            try {
+                controller.setCloudTypeInUse(type);
+                controller.gotoData(stage);
+            } catch (AddServiceFailException e) {
+                e.printStackTrace();
+            } catch (NoUserLoggedInException e) {
+                e.printStackTrace();
+            }
+        }
+>>>>>>> fa62c9505f7f55ab83986be442d46fe2faf70a4f
 
          }
     }
@@ -413,10 +430,15 @@ public class EventhandlerHomeScreen {
     
     @FXML
     private void setPw(){
+<<<<<<< HEAD
     	try{
     	  if (txt_newPw.getText().trim().isEmpty() || 
     		  txt_oldPw.getText().trim().isEmpty()){
               errorlabel.setText("Beide Felder ausfüllen");
+=======
+    	  if (txt_newPw.getText().isEmpty() || txt_oldPw.getText().isEmpty()){
+              errorlabel.setText("Beide Felder ausfï¿½llen");
+>>>>>>> fa62c9505f7f55ab83986be442d46fe2faf70a4f
           }else{
              try {
 				controller.setUserPw(txt_oldPw.getText(), txt_newPw.getText());

@@ -6,22 +6,19 @@ package exception;
  * @Project          :   cloud
  * @Package          :   exception
  * @version         :   1.0
- * @LastUpdated      :
+ * @LastUpdated      :	04.11.2016 / by Sandro Guerotto
  * @Description      :   Exception class for error while deleting files
  */
-public class NoFilesException extends Exception {
+public class NoFilesException extends CloudException {
 
-    private final String msg = "Es sind keine Daten vorhanden!";
-    private char   type;
-    public NoFilesException(char type){
-        this.type = type;
-    }
+	private final String msg = "Es sind keine Daten vorhanden!";
 
-    public String getMsg(){
-        return this.msg;
-    }
-    
-    public char getType(){
-    	return type;
-    }
+	public NoFilesException(char type) {
+		setType(type);
+		setMsg(msg);
+	}
+	public NoFilesException() {
+		setMsg(msg);
+	}
+
 }

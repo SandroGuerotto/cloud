@@ -35,7 +35,7 @@ import thread.UploadThread;
  * @created     :   04.10.2016
  * @Project     :   cloud
  * @Package     :   controller
- * @LastUpdated :   02.11.2016
+ * @LastUpdated :   04.11.2016 / by Sandro Guerotto
  * @Description :   used from gui handler to communicate with server and services
  */
 public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeScreen {
@@ -68,10 +68,9 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
      * @param email the email adress of a user to contact him
      * @param password the password from the user in clear-text
      */
-    public void register(String username, String email, String password, EventhandlerLogin handler) throws RemoteException, UserExistException, EmailExistException {
+    public void register(String username, String email, String password, EventhandlerLogin handler) {
         RegisterThread registerThread = new RegisterThread(this.servconnection, username, password, email, handler);
         registerThread.start();
-//        this.servconnection.registerApp(username, email, password);
     }//-register
 
     /**
@@ -83,7 +82,7 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
 
     /**
      * Sets the selected ServiceType
-	 * @param ServiceType service is the ServiceType that we want to use
+	 * @param servicetype  ServiceType is the ServiceType that we want to use
 	 */
     public void setCloudTypeInUse(ServiceType servicetype) {
         this.servconnection.setActualServiceType(servicetype);
@@ -100,7 +99,7 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
     /**
      * Inserts a Service into the Database that allows the Connection between User and Service (Like Dropbox)
      * @param service is the ServiceType that we want to Save (Dropbox)
-     * @param name is the name of the connection ("My Connection-name")
+     * @param connection_name is the name of the connection ("My Connection-name")
      */
     public void saveCloudConnection(String connection_name, String usertoken) throws AddServiceFailException, NoUserLoggedInException {
         this.servconnection.addService(this.servconnection.getActualServiceType(), connection_name, usertoken);
@@ -109,7 +108,7 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
     /**
      * This method updates the name of a existing Service-connection
 	 * @param service is the Connection between User and Service that we want to update
-	 * @param name is the new name/alias that we want to give this connection 
+	 * @param newname is the new name/alias that we want to give this connection
 	 */
     public void updateCloudConnection(CloudService service, String newname) throws UpdateServiceErrorException {
         this.servconnection.updateService(service, newname);
@@ -117,7 +116,7 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
 
     /**
      * Deletes a existing ServiceConnection of a User
-     * @param CloudService is the Service that we want to remove from db
+     * @param service is the Service that we want to remove from db
      */
     public void deleteCloudConnection(CloudService service) throws DeleteServiceConnectionErrorException {
         this.servconnection.deleteService(service);
@@ -133,7 +132,6 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
 
     /**
      * This function updates the user password for our application
-     * @param user Is the User that we want to update
      * @param oldPassword Is the old password that we need to make this update
      * @param newPassword Is the password that we want to set as current pw
      */
@@ -180,12 +178,12 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
     }
 
     @Override
-    public ObservableList<Data> getAllData() throws NoFilesException {
+    public ObservableList<Data> getAllData() throws NoFilesException, ErrorException{
     	try {
 			dropbox.makearchives();
 		} catch (DbxException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+            throw new ErrorException();
 		}
         if (dropbox.getarchives() == null) {
             throw new NoFilesException('i');
@@ -196,8 +194,10 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
     }
 
     @Override
-    public void delete_data(ObservableList<Data> deletelist) throws DeleteException, ConnectionErrorException {
-
+    public void delete_data(ObservableList<Data> deletelist) throws DeleteException {
+        for (Data data : deletelist){
+            dropbox.deleteFile(data);
+        }
     }
 
     /**
@@ -229,13 +229,19 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
         }
     }
 
+    /**
+     * logout from current dropbox session
+     */
+    public void logout(){
+        dropbox.logout();
+    }
     /* END Data Screen Methode */
 
     /*  Home Screen Methode  */
     @Override
     public ServiceType[] getServices() throws LoadSupportedServicesException, NoServicesFoundException {
         if (servconnection.getAllServices() == null) {
-            throw new NoServicesFoundException('i');
+            throw new NoServicesFoundException(ExceptionType.INFORMATION);
         } else {
             return servconnection.getAllServices();
         }
