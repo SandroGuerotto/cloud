@@ -28,15 +28,12 @@ public class Time {
             setText("Guten Tag, ");
         } else if (getTimeOfDay() >= 17 && getTimeOfDay() < 21) {
             setText("Guten Abend, ");
-<<<<<<< HEAD
+
         } else if (getTimeOfDay() >= 21 && getTimeOfDay() < 24 && getTimeOfDay() >= 0 && getTimeOfDay() > 3) {
             setText("Gute Nacht, ");
         } else {
         	setText("Gute Nacht, ");
-=======
-        } else if ((getTimeOfDay() >= 21 && getTimeOfDay() < 24) || (getTimeOfDay() >= 0 && getTimeOfDay() < 3)) {
-            setText("Guten Nacht, ");
->>>>>>> fa62c9505f7f55ab83986be442d46fe2faf70a4f
+
         }
         return this.text;
     }
