@@ -17,6 +17,8 @@ import exception.UpdateUserPwErrorException;
 
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -25,6 +27,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
@@ -64,13 +67,15 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/*
+/**
  * @Name			: EventhandlerHomeScreen.java
  * @Author		    : Sandro Guerotto & Toshiki Hennig
  * @Describtion	    : Handler class for all Event from the Home Screen
+ * @project			: cloud
+ * @package			: handler
  * @Create on 	    : 20.09.2016
- * @Last modify     : 06.10.2016 Sandro Zeit angepasst und controllmethoden eingefügt
- */
+ * @Last modify     : 07.11.2016 Toshiki Resizing verbessert
+ **/
 
 public class EventhandlerHomeScreen {
 	//@BLUR_AMOUNT is a variable that declares how blurry the picture should be
@@ -88,10 +93,10 @@ public class EventhandlerHomeScreen {
     private JFXPasswordField txt_newPw, txt_oldPw;
     
     @FXML
-    private GridPane pane_List, grid_mainPane, grid_Service, pane_settings;
+    private GridPane pane_List, grid_mainPane, grid_Service, pane_settings, gridpane, pane_properties;
     
     @FXML
-    private AnchorPane pane_mainPane;
+    private AnchorPane pane_mainPane, anchorpane;
 
     @FXML
     private ListView<CloudService> list_services, list_serviceChooser;
@@ -100,10 +105,10 @@ public class EventhandlerHomeScreen {
     private JFXButton btn_back, btn_pwchange, btn_services, btn_ServiceDelete, btn_SaveNewService;
     
     @FXML
-    private StackPane pane_properties, stackpane_pw, pane_createSettings;
+    private StackPane stackpane_pw, pane_createSettings;
     
     @FXML
-    private Label lbl_title, lbl_username, lbl_time, errorlabel, lbl_Service, lbl_mainError;
+    private Label lbl_title, lbl_username, lbl_time, errorlabel, lbl_Service, lbl_mainError, lbl_mainErrorMessage;
 
     @FXML
     private ProgressIndicator progress;
@@ -118,7 +123,7 @@ public class EventhandlerHomeScreen {
     private WebView wv_services;
 
     @FXML
-    private StackPane pane_login, pane_homeScreen, pane_serviceChooser, pane_btnServices;
+    private StackPane pane_login, pane_serviceChooser, pane_btnServices;
 
     Stage stage;
     ServiceButton serviceButton;
@@ -143,17 +148,15 @@ public class EventhandlerHomeScreen {
     Timer timer = new Timer();
     Time clock = new Time();
 
-
+    /**
+     * Initializes all necessary elements after opening HomeScreen.fxml
+     * @throws NoUserLoggedInException
+     * 
+     */
     //loads everything that is needed at the start
     public void initialize() {
     	
-			
-		
-		
-			
-		
-
-       
+    	
         list_services.refresh();
         customBackground = new BackgroundWallpaper();
         list_services.setEditable(true);
@@ -188,7 +191,7 @@ public class EventhandlerHomeScreen {
             return cell;
         });
 
-        pane_homeScreen.setBackground(customBackground.getBackground());
+        grid_mainPane.setBackground(customBackground.getBackground());
 
         progress.setVisible(false);
         
@@ -212,8 +215,7 @@ public class EventhandlerHomeScreen {
             	            }
             	        }, 0, 2000);
       
-       
-        Thread loadUser = new Thread(new Runnable() {
+            Thread loadUser = new Thread(new Runnable() {
             public void run() {
             	 Platform.runLater(() -> {
                      lbl_username.setText(controller.getUsername());
@@ -236,15 +238,13 @@ public class EventhandlerHomeScreen {
        
     }
 
+    
+   
     /**
      * 
-     * Sets everything visible that is needed to show in the WebView
-     * For testing we call Username Sandro, that we can load another stage while we're implementing the dropbox-service
+     * Method that redirects to the DataScreen
      * @param type is the website that we need as a string
-     * getUsername().equals() looks if the Username is available
-     * progress.serVisible() shows the progressindicator while loading the Website
-     * webEngine.load() loads the Site that we need
-     * setWVProps() shows the Webview only if the site is loaded
+     * @throws NoUserLoggedInException
      * 
      */
     @FXML
@@ -262,14 +262,14 @@ public class EventhandlerHomeScreen {
         	pane_serviceChooser.setLayoutX(bound.getMaxX());
         	pane_serviceChooser.setLayoutY(bound.getMinY());
         	buttonClicked = true;
-//        	try {
-//    			if(controller.getLoggedInUser().getServices().length == 0){
-//    				showLoginWithNoServices(type);
-//    				pane_serviceChooser.setVisible(false);
-//    			}
-//    		} catch (NoUserLoggedInException e) {
-//    			lbl_mainError.setText(e.getMessage());
-//    		}
+        	try {
+    			if(controller.getLoggedInUser().getServices().length == 0){
+    				showLoginWithNoServices(type);
+    				pane_serviceChooser.setVisible(false);
+    			}
+    		} catch (NoUserLoggedInException e) {
+    			lbl_mainError.setText(e.getMessage());
+    		}
         	
     	}
     	list_serviceChooser.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -298,7 +298,14 @@ public class EventhandlerHomeScreen {
        
 
     }
-    
+    /**
+     * 
+     * opens the Webview if the User has no Services
+     * @param type is the website that we need as a string
+     * @throws AddServiceFailException
+     * @throws NoUserLoggedInException
+     * 
+     */
     @FXML
     private void showLoginWithNoServices(ServiceType type){
     	pane_serviceChooser.setVisible(false);
@@ -317,11 +324,7 @@ public class EventhandlerHomeScreen {
              	controller.setCloudTypeInUse(type);
              });
              
-
-            Platform.runLater(() -> {
-            	controller.setCloudTypeInUse(type);
-            });
-
+             onPageFinished(wv_services, controller.getLink(type));
         }else{
             try {
                 controller.setCloudTypeInUse(type);
@@ -335,8 +338,14 @@ public class EventhandlerHomeScreen {
 
 
          }
+    public void onPageFinished(final WebView webView, final String url) {
 
+    	
+    }
     
+    /**
+     * shows the button for adding a new Service
+     */
     @FXML
     private void getNewService(){
     	   		
@@ -344,11 +353,17 @@ public class EventhandlerHomeScreen {
     
     	
     }
+    /**
+     * hides the button for adding a new Service
+     */
     
     @FXML
     private void hideNewService(){
     	btn_newService.setVisible(false);
     }
+    /**
+     * shows the pane for the Services
+     */
     @FXML
     private void createNewService(){
     	pane_createSettings.setVisible(true);
@@ -357,6 +372,10 @@ public class EventhandlerHomeScreen {
     }
     
     
+    /**
+     * shows all Services the user has
+     * @throws NoUserLoggedInException
+     */
     @FXML
     private void showServices(){
     	pane_createSettings.setVisible(false);
@@ -410,6 +429,11 @@ public class EventhandlerHomeScreen {
 
     }
     
+    /**
+     * 
+     * on doubleclick lets you edit the service
+     * @param e is the Service from CloudService
+     */
     @FXML
     public void editStart(ListView.EditEvent<CloudService> e)
     {
@@ -425,6 +449,11 @@ public class EventhandlerHomeScreen {
 
     }
     
+    /**
+     * 
+     * after method editstart the changes will be commited(saved)
+     * @param e is the Service from CloudService
+     */
     @FXML
     public void editCommit(ListView.EditEvent<CloudService> e)
     {
@@ -443,7 +472,9 @@ public class EventhandlerHomeScreen {
      
 
 
-
+    /**
+     * shows the pane to edit the password
+     */
     @FXML
     private void changePw(){
     	stackpane_pw.setVisible(true);
@@ -456,10 +487,13 @@ public class EventhandlerHomeScreen {
     	pane_createSettings.setVisible(false);
     }
     
+    /**
+     * closes the settings menu
+     */
     @FXML
     private void goToHome(){
     	pane_properties.setVisible(false);
-    	pane_homeScreen.setEffect(null);
+    	grid_mainPane.setEffect(null);
     	btn_settings.setVisible(true);
     	stackpane_pw.setVisible(false);
     	list_services.setVisible(false);
@@ -468,6 +502,13 @@ public class EventhandlerHomeScreen {
     	errorlabel.setText(null);
     }
     
+    
+    /**
+     * updates the old password to new password
+     * @throws UpdateUserPwErrorException
+     * @throws NullPointerException
+     * 
+     */
     @FXML
     private void setPw(){
 
@@ -495,6 +536,10 @@ public class EventhandlerHomeScreen {
               
           }
     
+    /**
+     * if enter is pressed calls the method setPw()
+     * @param ke gets the pressed key
+     */
     @FXML
     private void onEnter(KeyEvent ke){
     	 if (ke.getCode().equals(KeyCode.ENTER))
@@ -504,18 +549,24 @@ public class EventhandlerHomeScreen {
     	
     }
  
-    
+    /**
+     * shows the properties
+     */
     @FXML 
     private void showProperties(){
     	
     	pane_properties.setVisible(true);
-    	pane_homeScreen.setEffect(new GaussianBlur());
+    	grid_mainPane.setEffect(new GaussianBlur());
     	btn_settings.setVisible(false);
+    	pane_settings.setVisible(true);
+    	
     	
     }
 
 
-
+    /**
+     * calls the method kill()
+     */
     @FXML
     private void logout() {
 
@@ -523,11 +574,14 @@ public class EventhandlerHomeScreen {
 
     }
 
+    /**
+     * while logging in to dropbox lets you cancel the webview
+     */
     @FXML
     private void setLoginCancel() {
         pane_login.setVisible(false);
         fadeIn.play();
-        pane_homeScreen.setEffect(null);
+        grid_mainPane.setEffect(null);
         btn_logout.setVisible(true);
         lbl_title.setVisible(true);
         lbl_time.setVisible(true);
@@ -535,13 +589,18 @@ public class EventhandlerHomeScreen {
 
     }
 
+    /**
+     * changes the current background
+     */
     @FXML
     private void changebackground() {
         customBackground.setResult(customBackground.getResult() + 1);
-        pane_homeScreen.setBackground(customBackground.getBackground());
+        grid_mainPane.setBackground(customBackground.getBackground());
     }
 
-
+    /**
+     * created the fadein used while opening the webview
+     */
     private void createfadeIn() {
         fadeIn = new FadeTransition(
                 Duration.millis(800)
@@ -553,6 +612,9 @@ public class EventhandlerHomeScreen {
         fadeIn.setAutoReverse(true);
     }
 
+    /**
+     * sets all necessary properties while calling the webview
+     */
     private void setWVProps() {
         //fadeIn erstellen
         createfadeIn();
@@ -574,7 +636,7 @@ public class EventhandlerHomeScreen {
 
                         pane_login.setVisible(true);
                         fadeIn.play();
-                        pane_homeScreen.setEffect(new GaussianBlur());
+                        grid_mainPane.setEffect(new GaussianBlur());
                         progress.setVisible(false);
                         btn_logout.setVisible(false);
                         lbl_title.setVisible(false);
@@ -584,6 +646,12 @@ public class EventhandlerHomeScreen {
                 });
     }
 
+    /**
+     * loads all the services a user has
+     * @throws LoadSupportedServiceException
+     * @throws NoServiceFoundException
+     * 
+     */
     private void loadservice(){
         try {
 

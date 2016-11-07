@@ -26,88 +26,85 @@
 
 <AnchorPane fx:id="pane_mainPane" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="handler.EventhandlerHomeScreen">
   <children>
-    <StackPane fx:id="pane_homeScreen" layoutX="0.0" layoutY="0.0" prefHeight="1040.0" prefWidth="1920.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-      <children>
-        <GridPane fx:id="grid_mainPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-          <children>
-            <VBox alignment="BOTTOM_LEFT" GridPane.columnIndex="2" GridPane.rowIndex="2">
-              <children>
-                <Label fx:id="lbl_time" styleClass="home-time, home-color" text="21:39">
-                  <font>
-                    <Font size="54.0" />
-                  </font>
-                  <textFill>
-                    <Color blue="1.000" green="1.000" opacity="0.898" red="1.000" fx:id="x2" />
-                  </textFill>
-                </Label>
-                <FlowPane>
-                  <children>
-                    <Label fx:id="lbl_title" styleClass="home-title, home-color" text="Guten Morgen, " textFill="WHITE">
-                      <font>
-                        <Font size="48.0" fx:id="x1" />
-                      </font>
-                    </Label>
-                    <Label fx:id="lbl_username" font="$x1" styleClass="home-title, home-color" text="" textFill="$x2" />
-                  </children>
-                </FlowPane>
-              </children>
-            </VBox>
-            <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
-              <children>
-                <ProgressIndicator fx:id="progress" maxWidth="90.0" prefHeight="50.0" prefWidth="50.0" />
-                <FlowPane fx:id="pane_service" hgap="30.0" vgap="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <StackPane fx:id="pane_btnServices" />
-                           </children></FlowPane>
-              </children>
-              <GridPane.margin>
-                <Insets />
-              </GridPane.margin>
-            </StackPane>
-            <HBox alignment="BOTTOM_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="4">
-              <children>
-                <Hyperlink id="btn_cancel" fx:id="btn_logout" onAction="#logout" styleClass="btn-cancel-whtie" text="Logout">
-                  <font>
-                    <Font size="36.0" fx:id="x3" />
-                  </font>
-                </Hyperlink>
-              </children>
-            </HBox>
-                  <JFXButton fx:id="btn_background" onAction="#changebackground" prefHeight="55.0" prefWidth="100.0" ripplerFill="#ab1f1f" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                  <FlowPane alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+  <GridPane fx:id="grid_mainPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <children>
+      <VBox alignment="BOTTOM_LEFT" GridPane.columnIndex="2" GridPane.rowIndex="2">
+        <children>
+          <Label fx:id="lbl_time" styleClass="home-time, home-color" text="21:39">
+            <font>
+              <Font size="54.0" />
+            </font>
+            <textFill>
+              <Color blue="1.000" green="1.000" opacity="0.898" red="1.000" fx:id="x2" />
+            </textFill>
+          </Label>
+          <FlowPane>
+            <children>
+              <Label fx:id="lbl_title" styleClass="home-title, home-color" text="Guten Morgen, " textFill="WHITE">
+                <font>
+                  <Font size="48.0" fx:id="x1" />
+                </font>
+              </Label>
+              <Label fx:id="lbl_username" font="$x1" styleClass="home-title, home-color" text="" textFill="$x2" />
+            </children>
+          </FlowPane>
+        </children>
+      </VBox>
+      <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+        <children>
+          <ProgressIndicator fx:id="progress" maxWidth="90.0" prefHeight="50.0" prefWidth="50.0" />
+          <FlowPane fx:id="pane_service" hgap="30.0" vgap="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Button fx:id="btn_settings" alignment="CENTER" contentDisplay="RIGHT" maxHeight="45.0" maxWidth="45.0" minHeight="45.0" minWidth="45.0" mnemonicParsing="false" onAction="#showProperties" prefHeight="45.0" prefWidth="45.0" styleClass="btn-home">
-                           <graphic>
-                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                               <image>
-                                    <Image url="@../icons/white/settings.png" />
-                           	</image>
-                        </ImageView>
-                           </graphic>
-                        </Button>
+                        <StackPane fx:id="pane_btnServices" />
                      </children>
                   </FlowPane>
-                  <Label fx:id="lbl_mainError" prefHeight="76.0" prefWidth="35.0" styleClass="labelproperties" GridPane.columnIndex="2" />
-                  
+        </children>
+        <GridPane.margin>
+          <Insets />
+        </GridPane.margin>
+      </StackPane>
+      <HBox alignment="BOTTOM_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="4">
+        <children>
+          <Hyperlink id="btn_cancel" fx:id="btn_logout" onAction="#logout" styleClass="btn-cancel-whtie" text="Logout">
+            <font>
+              <Font size="36.0" fx:id="x3" />
+            </font>
+          </Hyperlink>
+        </children>
+      </HBox>
+            <FlowPane alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Button fx:id="btn_settings" alignment="CENTER" contentDisplay="RIGHT" maxHeight="45.0" maxWidth="45.0" minHeight="45.0" minWidth="45.0" mnemonicParsing="false" onAction="#showProperties" prefHeight="45.0" prefWidth="45.0" styleClass="btn-home">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                         <image>
+                              <Image url="@../icons/white/settings.png" />
+                     	</image>
+                  </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </FlowPane>
+            <Label fx:id="lbl_mainErrorMessage" prefHeight="76.0" prefWidth="35.0" styleClass="labelproperties" GridPane.columnIndex="2" />
+            <Label fx:id="lbl_mainError" GridPane.columnIndex="2" />
+            
           </children>
-          <columnConstraints>
-            <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" percentWidth="4.0" />
-            <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" percentWidth="22.0" />
-            <ColumnConstraints hgrow="SOMETIMES" percentWidth="61.0" />
-            <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
-            <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" percentWidth="4.0" />
-          </columnConstraints>
-          <rowConstraints>
-            <RowConstraints fillHeight="false" percentHeight="7.5" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="248.0" minHeight="0.0" percentHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
-            <RowConstraints percentHeight="50.0" vgrow="SOMETIMES" />
-            <RowConstraints percentHeight="18.0" vgrow="SOMETIMES" />
-            <RowConstraints percentHeight="48.0" vgrow="SOMETIMES" />
-            <RowConstraints fillHeight="false" percentHeight="7.5" vgrow="SOMETIMES" />
-          </rowConstraints>
-        </GridPane>
-      </children>
-    </StackPane>
+    <columnConstraints>
+      <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" percentWidth="4.0" />
+      <ColumnConstraints hgrow="SOMETIMES" percentWidth="22.0" />
+      <ColumnConstraints hgrow="SOMETIMES" percentWidth="61.0" />
+      <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
+      <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" percentWidth="4.0" />
+    </columnConstraints>
+    <rowConstraints>
+      <RowConstraints fillHeight="false" percentHeight="7.5" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="248.0" minHeight="0.0" percentHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+      <RowConstraints percentHeight="50.0" vgrow="SOMETIMES" />
+      <RowConstraints percentHeight="18.0" vgrow="SOMETIMES" />
+      <RowConstraints percentHeight="48.0" vgrow="SOMETIMES" />
+      <RowConstraints fillHeight="false" percentHeight="7.5" vgrow="SOMETIMES" />
+    </rowConstraints>
+  </GridPane>
     <StackPane fx:id="pane_login" alignment="BOTTOM_LEFT" layoutX="579.0" layoutY="144.0" prefHeight="731.0" prefWidth="806.0" style="" visible="false">
       <children>
         <WebView fx:id="wv_services" prefHeight="200.0" prefWidth="200.0" style="&#10;" />
@@ -118,9 +115,15 @@
         </Hyperlink>
       </children>
     </StackPane>
-      <StackPane fx:id="pane_properties" prefHeight="1082.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <GridPane fx:id="pane_properties" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+         </rowConstraints>
          <children>
-            <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <GridPane fx:id="gridpane">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" percentWidth="26.8" />
                 <ColumnConstraints hgrow="SOMETIMES" percentWidth="73.2" />
@@ -129,9 +132,9 @@
                 <RowConstraints percentHeight="100.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <GridPane fx:id="pane_settings" maxWidth="566.0" prefHeight="531.0" prefWidth="511.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <GridPane fx:id="pane_settings" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" percentWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
                       <RowConstraints percentHeight="6.1" vgrow="SOMETIMES" />
@@ -153,10 +156,10 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </JFXButton>
-                        <GridPane fx:id="grid_Service" GridPane.rowIndex="2">
+                        <GridPane fx:id="grid_Service" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" GridPane.rowIndex="2">
                            <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="479.0" minWidth="10.0" prefWidth="455.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="10.0" prefWidth="60.0" />
+                              <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" percentWidth="85.0" />
+                              <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="60.0" minWidth="10.0" percentWidth="15.0" prefWidth="60.0" />
                            </columnConstraints>
                            <rowConstraints>
                               <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
@@ -173,9 +176,9 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </JFXButton>
-                              <JFXButton fx:id="btn_newService" ellipsisString="" onAction="#createNewService" onMouseEntered="#getNewService" onMouseExited="#hideNewService" prefHeight="66.0" prefWidth="59.0" style="-fx-background-color: transparent;" visible="false" GridPane.columnIndex="1">
+                              <JFXButton fx:id="btn_newService" ellipsisString="" minWidth="45.0" onAction="#createNewService" onMouseEntered="#getNewService" onMouseExited="#hideNewService" prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: transparent;" visible="false" GridPane.columnIndex="1">
                                  <graphic>
-                                    <ImageView fitHeight="46.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../icons/black/plus.png" />
                                        </image>
@@ -184,18 +187,45 @@
                               </JFXButton>
                            </children>
                         </GridPane>
-                        <JFXButton fx:id="btn_back" alignment="BOTTOM_LEFT" ellipsisString="" onAction="#goToHome" prefHeight="60.0" prefWidth="104.0" ripplerFill="#f7f7f7">
-                           <graphic>
-                              <ImageView fitHeight="40.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../icons/dark-blue/arrowleft.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </JFXButton>
+                        <GridPane prefHeight="66.0" prefWidth="511.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" percentWidth="80.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <JFXButton fx:id="btn_back" alignment="CENTER" contentDisplay="CENTER" ellipsisString="" maxHeight="45.0" maxWidth="45.0" minHeight="45.0" minWidth="45.0" onAction="#goToHome" prefHeight="45.0" prefWidth="45.0" ripplerFill="#f7f7f7">
+                                 <graphic>
+                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../icons/dark-blue/arrowleft.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <GridPane.margin>
+                                    <Insets left="11.0" />
+                                 </GridPane.margin>
+                              </JFXButton>
+                              <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="1">
+                                 <children>
+                                    <JFXButton fx:id="btn_background" onAction="#changebackground" prefHeight="45.0" prefWidth="45.0" styleClass="properties">
+                                       <graphic>
+                                          <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../icons/dark-blue/image.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </JFXButton>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </GridPane>
                         <ListView fx:id="list_services" onMouseClicked="#selectServices" prefHeight="694.0" prefWidth="489.0" style="-fx-background-color: null;" styleClass="properties_list" visible="false" GridPane.rowIndex="3" />
                         <GridPane fx:id="pane_List" prefHeight="99.0" prefWidth="489.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" GridPane.rowIndex="4">
                           <columnConstraints>
@@ -209,13 +239,14 @@
                               <JFXButton fx:id="btn_ServiceDelete" prefHeight="52.0" prefWidth="521.0" styleClass="properties" text="Löschen" GridPane.rowIndex="1">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
-                                 </cursor></JFXButton>
+                                 </cursor>
+                              </JFXButton>
                               <Label fx:id="lbl_Service" alignment="CENTER" prefHeight="136.0" prefWidth="489.0" styleClass="labelproperties" textAlignment="CENTER" />
                            </children>
                         </GridPane>
                      </children>
                   </GridPane>
-                  <AnchorPane GridPane.columnIndex="1">
+                  <AnchorPane fx:id="anchorpane" maxWidth="500.0" minWidth="500.0" prefHeight="500.0" GridPane.columnIndex="1">
                      <children>
                         <StackPane fx:id="stackpane_pw" visible="false" AnchorPane.topAnchor="63.0">
                            <children>
@@ -274,7 +305,7 @@
                         <StackPane fx:id="pane_createSettings" prefHeight="208.0" prefWidth="401.0" visible="false">
                            <children>
 
-                              <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0">
+                                    <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0">
                                  <children>
                                     <JFXTextField promptText="ServiceName">
                                        <font>
@@ -286,7 +317,7 @@
                                           <Font size="18.0" />
                                        </font>
                                     </JFXTextField>
-                                    <GridPane alignment="CENTER_RIGHT">
+                                    <GridPane alignment="CENTER_RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <columnConstraints>
                                           <ColumnConstraints hgrow="SOMETIMES" maxWidth="260.0" minWidth="10.0" prefWidth="260.0" />
                                           <ColumnConstraints hgrow="SOMETIMES" maxWidth="213.0" minWidth="10.0" prefWidth="141.0" />
@@ -306,23 +337,14 @@
                                  </children>
                               </VBox>
 
-                           </children>
+                                 </children>
                         </StackPane>
                      </children>
                   </AnchorPane>
-                  <FlowPane fx:id="pane_flowPane1" layoutX="499.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" visible="false">
-                     <children>
-                        <VBox prefHeight="200.0" prefWidth="401.0">
-                           <FlowPane.margin>
-                              <Insets left="12.0" top="50.0" />
-                           </FlowPane.margin>
-                        </VBox>
-                     </children>
-                  </FlowPane>
                </children>
             </GridPane>
          </children>
-      </StackPane>
+      </GridPane>
       <StackPane fx:id="pane_serviceChooser" prefHeight="104.0" prefWidth="234.0" styleClass="list_serviceBorder" visible="false">
          <children>
             <ListView fx:id="list_serviceChooser" prefHeight="118.0" prefWidth="234.0" style="-fx-background-color: null;" styleClass="properties_list" />
