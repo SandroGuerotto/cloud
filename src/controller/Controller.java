@@ -75,6 +75,7 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
 
     /**
      * Loads all supported Services into the application
+     * @throws LoadSupportedServicesException
      */
     public void getAllClouds() throws LoadSupportedServicesException {
         this.servconnection.getAllServices();
@@ -100,6 +101,8 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
      * Inserts a Service into the Database that allows the Connection between User and Service (Like Dropbox)
      * @param service is the ServiceType that we want to Save (Dropbox)
      * @param connection_name is the name of the connection ("My Connection-name")
+     * @throws AddServiceFailException
+     * @throws NoUserLoggedInException
      */
     public void saveCloudConnection(String connection_name, String usertoken) throws AddServiceFailException, NoUserLoggedInException {
         this.servconnection.addService(this.servconnection.getActualServiceType(), connection_name, usertoken);
@@ -109,6 +112,7 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
      * This method updates the name of a existing Service-connection
 	 * @param service is the Connection between User and Service that we want to update
 	 * @param newname is the new name/alias that we want to give this connection
+	 * @throws UpdateServiceErrorException
 	 */
     public void updateCloudConnection(CloudService service, String newname) throws UpdateServiceErrorException {
         this.servconnection.updateService(service, newname);
@@ -117,6 +121,7 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
     /**
      * Deletes a existing ServiceConnection of a User
      * @param service is the Service that we want to remove from db
+     * @throws DeleteServiceConnectionErrorException
      */
     public void deleteCloudConnection(CloudService service) throws DeleteServiceConnectionErrorException {
         this.servconnection.deleteService(service);
@@ -125,6 +130,7 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
     /**
      * Good practice for Checking if a user is logged in
      * @return User This returns the Logged In User as a Object
+     * @throws NoUserLoggedInException
      */
     public User getLoggedInUser() throws NoUserLoggedInException {
         return this.servconnection.getLoggedInUser();
@@ -134,12 +140,18 @@ public class Controller implements I_EventhandlerDataScreen, I_EventhandlerHomeS
      * This function updates the user password for our application
      * @param oldPassword Is the old password that we need to make this update
      * @param newPassword Is the password that we want to set as current pw
+     * @throws UpdateUserPwErrorException
      */
     public void setUserPw(String oldPassword, String newPassword) throws UpdateUserPwErrorException {
         this.servconnection.updateUserPw(oldPassword, newPassword);
     }//-setUserPW
 
-
+    /**
+     * Starts the Connection-Controller for the Databasedata
+     * @return void 
+     * @throws FailLoadingServicesException
+     * @throws ConnectionErrorException
+     */
     public void startServerConnecter() throws FailLoadingServicesException, ConnectionErrorException {
         this.servconnection = new ServerConnecter();
         this.servconnection.start_service();

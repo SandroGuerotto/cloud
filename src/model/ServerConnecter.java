@@ -1,18 +1,6 @@
-/**
- * @author :   Burim Cakolli
- * @Turns coffee & pizza into Software :)
- * @Created         :   02.10.2016
- * @Project         :   cloud
- * @Package         :   model
- * @version 		:   1.0
- * @LastUpdated     :   02.10.2016 / by Burim Cakolli
- * @Description     :	The Controller for all functions that includes the internal Database 
- * 
- */
 package model;
 
 import java.rmi.RemoteException;
-
 import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.CloudService;
 import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.ServiceType;
 import org.datacontract.schemas._2004._07.PrettySecureCloud_Model.User;
@@ -21,6 +9,16 @@ import javax.xml.rpc.ServiceException;
 import org.tempuri.*;
 import exception.*;
 
+/**
+ * @author 			:   Burim Cakolli
+ * @Created         :   02.10.2016
+ * @Project         :   cloud
+ * @Package         :   model
+ * @version 		:   1.0
+ * @LastUpdated     :   08.11.2016 / by Burim Cakolli
+ * @Description     :	The Controller for all functions that includes the internal Database 
+ * 
+ */
 public class ServerConnecter {
 	
 	private LoginServiceLocator serviceLocator;
@@ -54,6 +52,7 @@ public class ServerConnecter {
 	 * @param username the name that the users identify himself
 	 * @param password the password from the user in clear-text
 	 * @return User This returns a object of user if the login function had success
+	 * @throws LoginFailedException when the userinput dont fit with the database data
 	 */
 	public User loginApp(String username, String password) throws LoginFailedException{
 			try {
@@ -70,20 +69,33 @@ public class ServerConnecter {
 	 * @param email the email adress of a user to contact him
 	 * @param password the password from the user in clear-text
 	 * @return User This returns a object of user if the register and login functions had success
+	 * @throws UserExistException 
+	 * @throws EmailExistException 
+	 * @throws ConnectionErrorException
 	 */
-	public User registerApp(String username, String email, String password) throws UserExistException, RemoteException, EmailExistException {
-		if(this.service.usernameUnique(username) == true){
-			if(this.service.emailUnique(email) == true){
-				this.service.register(username, email, password);
-				this.user = this.service.login(username, password);
-				return this.user;
+	public User registerApp(String username, String email, String password) throws UserExistException, EmailExistException, ConnectionErrorException {
+		try {
+			if(this.service.usernameUnique(username) == true){
+				try {
+					if(this.service.emailUnique(email) == true){
+						this.service.register(username, email, password);
+						this.user = this.service.login(username, password);
+						return this.user;
+					}//-if
+					else{
+						throw new EmailExistException();
+					}
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					throw new ConnectionErrorException('e');
+				}//-else
 			}//-if
 			else{
-				throw new EmailExistException();
-			}//-else
-		}//-if
-		else{
-			throw new UserExistException();
+				throw new UserExistException();
+			}
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			throw new ConnectionErrorException('e');
 		}//-else
 	}//-registerApp
 	
@@ -92,6 +104,8 @@ public class ServerConnecter {
 	 * @param service is the ServiceType that we want to Save (Dropbox)
 	 * @param name is the name of the connection ("My Connection-name")
 	 * @return Void No Return
+	 * @throws AddServiceFailException
+	 * @throws NoUserLoggedInException
 	 */
 	public void addService(ServiceType service, String name, String usertoken) throws AddServiceFailException, NoUserLoggedInException{
 		try {
@@ -104,6 +118,7 @@ public class ServerConnecter {
 	/**
 	 * Loads all supported Services from the Server into the Application
 	 * @return void Because this only loads the Data into the ServerConnecter-Object
+	 * @throws LoadSupportedServicesException 
 	 */
 	public void loadServices() throws LoadSupportedServicesException{
 		try {
@@ -116,6 +131,7 @@ public class ServerConnecter {
 	/**
 	 * Loads all supported Services return them
 	 * @return ServiceType[] Returns ArrayList with Objects ServiceType in it
+	 * @throws LoadSupportedServicesException
 	 */
 	public ServiceType[] getAllServices() throws LoadSupportedServicesException{
 		this.loadServices();
@@ -126,6 +142,7 @@ public class ServerConnecter {
 	 * This method updates the name of a existing Service-connection
 	 * @param service is the Connection between User and Service that we want to update
 	 * @param name is the new name/alias that we want to give this connection 
+	 * @throws UpdateServiceErrorException
 	 */
 	public void updateService(CloudService service, String newname) throws UpdateServiceErrorException{
 		try {
@@ -139,6 +156,7 @@ public class ServerConnecter {
 	 * Deletes a existing ServiceConnection of a User
 	 * @param service is the Service that we want to remove from db
 	 * @return void 
+	 * @throws DeleteServiceConnectionErrorException
 	 */
 	public void deleteService(CloudService service) throws DeleteServiceConnectionErrorException{
 		try {
@@ -151,6 +169,7 @@ public class ServerConnecter {
 	/**
 	 * Good practice for Checking if a user is logged in 
 	 * @return User This returns the Logged In User as a Object
+	 * @throws NoUserLoggedInException
 	 */
 	public User getLoggedInUser() throws NoUserLoggedInException{
 		if(this.user != null){
@@ -166,6 +185,7 @@ public class ServerConnecter {
 	 * @param user Is the User that we want to update
 	 * @param oldPassword Is the old password that we need to make this update
 	 * @param newPassword Is the password that we want to set as current pw
+	 * @throws UpdateUserPwErrorException
 	 */
 	public void updateUserPw(String oldPassword, String newPassword) throws UpdateUserPwErrorException{
 		try {

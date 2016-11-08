@@ -42,7 +42,7 @@ public class ServerConnecterTest {
 	String email 		= "Test.User@hotmail4.com";
 	String password 	= "root1234"; 
 	
-	/*
+	/**
 	 * Gets object and returns it back as a String for Debugging
 	 * @param user is the User that we want informations in String
 	 * @return String This returns a String of user information
@@ -64,7 +64,7 @@ public class ServerConnecterTest {
     	return userinfos;
 	}//-printUser
 	
-	/*
+	/**
 	 * Gets object and returns it back as a String for Debugging
 	 * @param services is the ServiceType that we want informations in String
 	 * @return String This returns a String of Object information
@@ -92,7 +92,7 @@ public class ServerConnecterTest {
 	}//-startConnection
 	
 	@Test
-	public void registerApp() throws RemoteException, UserExistException, EmailExistException {
+	public void registerApp() throws RemoteException, UserExistException, EmailExistException, ConnectionErrorException {
 		User user = this.sc.registerApp(username, email, password);
 		assertNotNull(user);
 	}//-loginApp

@@ -1,12 +1,12 @@
 package exception;
 
 /**
- * @author       :   Sandro Guerotto
- * @created      :   20.09.2016
+ * @author       :   Burim Cakolli
+ * @created      :   08.11.2016
  * @project      :   cloud
  * @package      :   exception
  * @version      :   1.0
- * @lastUpdated  : 04.11.2016 / by Sandro Guerotto
+ * @lastUpdated  : 	 08.11.2016 / by Burim Cakolli
  * @description  :   Exception class for errors with the internet connection/ cloud services
  */
 public class ConnectionErrorException extends CloudException {

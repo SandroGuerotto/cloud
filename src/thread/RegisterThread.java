@@ -45,8 +45,6 @@ public class RegisterThread extends Thread {
             	throw new ConnectionErrorException();
             }
             
-        } catch (RemoteException e) {
-            eventhandlerLogin.onWorkError(new ConnectionErrorException());
         } catch (CloudException e) {
             eventhandlerLogin.onWorkError(e);
         }

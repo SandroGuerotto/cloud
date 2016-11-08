@@ -2,7 +2,6 @@ package exception;
 
 /**
  * @author :   Burim Cakolli
- * Turns coffee & pizza into Software
  * @Created          :   08.10.2016
  * @Project          :   cloud
  * @Package          :   exception
